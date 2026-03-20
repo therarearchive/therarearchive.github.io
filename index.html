@@ -1,0 +1,2303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Rare Archive</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Poppins:wght@300;400;500;600&display=swap');
+  </style>
+
+  <style>
+    /* ============================================================
+       CSS VARIABLES & RESET
+    ============================================================ */
+    :root {
+      --lavender-light: #f5eaf2;
+      --lavender-mid: #ead8e8;
+      --lavender-soft: #ddc8dd;
+      --purple-soft: #a484a4;
+      --purple-mid: #8f6d94;
+      --purple-deep: #6b4d70;
+      --white: #ffffff;
+      --off-white: #faf7f9;
+      --text-dark: #4a3045;
+      --text-mid: #6b4d6b;
+      --text-light: #9382a0;
+      --shadow-soft: 0 4px 24px rgba(107, 77, 112, 0.12);
+      --shadow-hover: 0 8px 36px rgba(107, 77, 112, 0.20);
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 32px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: var(--text-dark);
+      background: var(--off-white);
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+    /* ============================================================
+       UTILITY
+    ============================================================ */
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 96px 0; }
+    .section-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--purple-soft);
+      background: rgba(139, 111, 204, 0.10);
+      border-radius: 99px;
+      padding: 6px 16px;
+      margin-bottom: 18px;
+    }
+    .section-title {
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      color: var(--text-dark);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 1rem;
+      color: var(--text-light);
+      line-height: 1.75;
+      max-width: 580px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      border-radius: 99px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple-soft), var(--purple-deep));
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(92, 63, 160, 0.30);
+    }
+    .btn-primary:hover { transform: scale(1.04); box-shadow: 0 8px 28px rgba(92, 63, 160, 0.40); }
+    .btn-outline {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.55);
+      backdrop-filter: blur(8px);
+    }
+    .btn-outline:hover { background: rgba(255,255,255,0.28); transform: scale(1.04); }
+    .btn-light {
+      background: #fff;
+      color: var(--purple-deep);
+      box-shadow: var(--shadow-soft);
+    }
+    .btn-light:hover { transform: scale(1.04); box-shadow: var(--shadow-hover); }
+
+    /* fade-in animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+    .fade-in-delay-4 { transition-delay: 0.4s; }
+
+    /* ============================================================
+       NAVBAR
+    ============================================================ */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(107, 77, 112, 0.12);
+      transition: box-shadow var(--transition);
+    }
+    #navbar.scrolled { box-shadow: 0 2px 20px rgba(107, 77, 112, 0.12); }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--purple-deep);
+      white-space: nowrap;
+    }
+    .nav-logo img {
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 2px 12px rgba(92, 63, 128, 0.15);
+    }
+    .nav-logo span { color: var(--purple-soft); font-style: italic; }
+    
+    /* Nav Links and Dropdown Menu */
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+    .nav-item {
+      position: relative;
+      height: 68px;
+      display: flex;
+      align-items: center;
+    }
+    .nav-link {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-mid);
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: background var(--transition), color var(--transition);
+      display: block;
+      white-space: nowrap;
+    }
+    .nav-link:hover {
+      background: var(--lavender-light);
+      color: var(--purple-deep);
+    }
+    .dropdown-trigger::after {
+      content: '▼';
+      font-size: 0.6rem;
+      margin-left: 6px;
+      transition: transform var(--transition);
+      display: inline-block;
+    }
+    .nav-dropdown:hover .dropdown-trigger::after {
+      transform: translateY(2px);
+    }
+    
+    /* Dropdown Menu */
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #fff;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 8px 24px rgba(107, 77, 112, 0.15);
+      list-style: none;
+      padding: 8px 0;
+      min-width: 200px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: opacity var(--transition), visibility var(--transition), transform var(--transition);
+      z-index: 999;
+      margin: 0;
+    }
+    .nav-dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .dropdown-menu li {
+      display: block;
+    }
+    .dropdown-menu a {
+      display: block;
+      padding: 12px 20px;
+      color: var(--text-mid);
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: background var(--transition), color var(--transition);
+    }
+    .dropdown-menu a:hover:not(.disabled) {
+      background: var(--lavender-light);
+      color: var(--purple-deep);
+    }
+    .dropdown-menu a.disabled {
+      color: var(--text-light);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+    
+    /* Mobile Menu */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 68px; left: 0; right: 0;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(16px);
+      z-index: 999;
+      padding: 0;
+      border-bottom: 1px solid var(--lavender-mid);
+      max-height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu-item {
+      border-bottom: 1px solid var(--lavender-light);
+    }
+    .mobile-item-trigger {
+      width: 100%;
+      padding: 14px 16px;
+      text-align: left;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-mid);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      transition: background var(--transition);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .mobile-item-trigger:hover {
+      background: var(--lavender-light);
+    }
+    .mobile-item-trigger::after {
+      content: '▶';
+      font-size: 0.6rem;
+      transition: transform var(--transition);
+    }
+    .mobile-menu-item.open .mobile-item-trigger::after {
+      transform: rotate(90deg);
+    }
+    .mobile-submenu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--transition);
+      background: var(--lavender-light);
+    }
+    .mobile-menu-item.open .mobile-submenu {
+      max-height: 300px;
+    }
+    .mobile-submenu a {
+      display: block;
+      padding: 12px 32px;
+      color: var(--text-mid);
+      font-size: 0.85rem;
+      font-weight: 400;
+      transition: background var(--transition), color var(--transition);
+      border-left: 3px solid transparent;
+    }
+    .mobile-submenu a:hover:not(.disabled) {
+      background: var(--lavender-mid);
+      color: var(--purple-deep);
+      border-left-color: var(--purple-soft);
+    }
+    .mobile-submenu a.disabled {
+      color: var(--text-light);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+    
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .lang-toggle {
+      display: flex;
+      background: var(--lavender-light);
+      border-radius: 99px;
+      overflow: hidden;
+      border: 1.5px solid var(--lavender-mid);
+    }
+    .lang-btn {
+      padding: 5px 14px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--text-light);
+      transition: background var(--transition), color var(--transition);
+      font-family: 'Poppins', sans-serif;
+    }
+    .lang-btn.active { background: var(--purple-soft); color: #fff; border-radius: 99px; }
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      width: 22px; height: 2px;
+      background: var(--purple-deep);
+      border-radius: 99px;
+      transition: var(--transition);
+    }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 68px; left: 0; right: 0;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(16px);
+      z-index: 999;
+      padding: 24px;
+      border-bottom: 1px solid var(--lavender-mid);
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu a {
+      display: block;
+      padding: 12px 0;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-mid);
+      border-bottom: 1px solid var(--lavender-light);
+    }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    #home {
+      min-height: 100vh;
+      background: linear-gradient(145deg, #e8d5e0 0%, #d4bfd4 45%, #9a7499 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+    #home::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 20% 30%, rgba(255,255,255,0.14) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 50% at 80% 70%, rgba(92,63,160,0.28) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 7vw, 5rem);
+      color: #fff;
+      line-height: 1.12;
+      max-width: 820px;
+      margin: 0 auto 28px;
+    }
+    .hero-title em { font-style: italic; color: rgba(255,255,255,0.82); }
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: rgba(255,255,255,0.85);
+      max-width: 600px;
+      margin: 0 auto 44px;
+      line-height: 1.75;
+      font-weight: 300;
+    }
+    .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.55);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      animation: bounce 2s infinite;
+    }
+    .hero-scroll::after {
+      content: '↓';
+      font-size: 1.1rem;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* fundraiser strip */
+    .fundraiser-strip {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: var(--radius-md);
+      padding: 20px 32px;
+      margin-top: 56px;
+      max-width: 700px;
+      width: 100%;
+      text-align: center;
+    }
+    .fundraiser-strip p {
+      color: rgba(255,255,255,0.90);
+      font-size: 0.9rem;
+      font-weight: 400;
+      line-height: 1.65;
+    }
+    .fundraiser-strip strong { color: #fff; font-weight: 600; }
+
+    /* mission intro */
+    .mission-intro {
+      background: var(--white);
+      padding: 72px 0;
+    }
+    .mission-intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .mission-intro-visual {
+      background: linear-gradient(135deg, var(--lavender-light), var(--lavender-mid));
+      border-radius: var(--radius-lg);
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .mission-intro-visual::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 40%, rgba(255,255,255,0.5) 0%, transparent 65%);
+    }
+    .mission-intro-text .section-sub { max-width: 100%; }
+
+    /* ============================================================
+       ABOUT
+    ============================================================ */
+    #about { background: var(--off-white); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      margin-top: 56px;
+    }
+    .about-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 36px 32px;
+      box-shadow: var(--shadow-soft);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .about-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+    .about-card-icon {
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+    .about-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      color: var(--text-dark);
+    }
+    .about-card p {
+      font-size: 0.92rem;
+      color: var(--text-light);
+      line-height: 1.75;
+    }
+    .about-full {
+      margin-top: 56px;
+      background: linear-gradient(135deg, var(--purple-deep), var(--purple-mid));
+      border-radius: var(--radius-lg);
+      padding: 56px 48px;
+      color: #fff;
+    }
+    .about-full h3 {
+      font-size: 1.7rem;
+      margin-bottom: 16px;
+    }
+    .about-full p {
+      font-size: 0.97rem;
+      line-height: 1.85;
+      opacity: 0.88;
+    }
+
+    /* ============================================================
+       WHAT WE DO
+    ============================================================ */
+    #what-we-do { background: linear-gradient(135deg, #6b4d70 0%, #5a3f65 100%); }
+    #what-we-do .section-title { color: #fff; }
+    #what-we-do .section-sub { color: rgba(255, 255, 255, 0.8); }
+    #what-we-do .section-tag {
+      background: rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.9);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .wwd-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-top: 56px;
+    }
+    .wwd-card {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-md);
+      padding: 32px 28px;
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+    }
+    .wwd-card:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      transform: translateY(-4px);
+    }
+    .wwd-card-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 12px;
+      line-height: 1;
+    }
+    .wwd-card h3 { font-size: 1.1rem; margin-bottom: 10px; color: #fff; }
+    .wwd-card p { font-size: 0.88rem; color: rgba(255, 255, 255, 0.8); line-height: 1.7; }
+
+    .steps-section { margin-top: 72px; }
+    .steps-section h3 {
+      font-size: 1.6rem;
+      margin-bottom: 36px;
+      text-align: center;
+    }
+    #what-we-do .steps-section h3 {
+      color: #fff;
+    }
+    .steps-row {
+      display: flex;
+      gap: 0;
+      position: relative;
+    }
+    .steps-row::before {
+      content: '';
+      position: absolute;
+      top: 32px; left: 32px; right: 32px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--lavender-mid), var(--purple-soft));
+      z-index: 0;
+    }
+    .step {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+    .step-dot {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--lavender-mid), var(--purple-soft));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 16px rgba(139,111,204,0.25);
+    }
+    .step h4 { font-size: 0.95rem; margin-bottom: 8px; }
+    .step p { font-size: 0.82rem; color: var(--text-light); line-height: 1.65; }
+    
+    /* Steps in What We Do section */
+    #what-we-do .steps-row::before {
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
+    }
+    #what-we-do .step-dot {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+    #what-we-do .step h4 { color: #fff; }
+    #what-we-do .step p { color: rgba(255, 255, 255, 0.8); }
+
+    /* ============================================================
+       BOOK A SESSION
+    ============================================================ */
+    #book-a-session { background: var(--off-white); }
+    .book-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 56px;
+      margin-top: 56px;
+      align-items: start;
+    }
+    .book-info { }
+    .book-info p { font-size: 0.95rem; color: var(--text-light); line-height: 1.8; margin-bottom: 20px; }
+    .book-info ul { list-style: none; }
+    .book-info ul li {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      padding: 8px 0;
+      border-bottom: 1px solid var(--lavender-light);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .book-info ul li::before { content: '✦'; color: var(--purple-soft); flex-shrink: 0; }
+    .book-form-wrap {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 44px 40px;
+      box-shadow: var(--shadow-soft);
+    }
+    .book-form-wrap h3 { font-size: 1.4rem; margin-bottom: 28px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--text-mid);
+      margin-bottom: 7px;
+      text-transform: uppercase;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 13px 18px;
+      border: 1.5px solid var(--lavender-light);
+      border-radius: var(--radius-sm);
+      background: var(--off-white);
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-dark);
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--purple-soft);
+      box-shadow: 0 0 0 3px rgba(139,111,204,0.12);
+    }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* ============================================================
+       SUPPORT US
+    ============================================================ */
+    #support-us { background: var(--white); }
+    .support-tabs {
+      display: flex;
+      gap: 8px;
+      margin: 40px 0 48px;
+      flex-wrap: wrap;
+    }
+    .support-tab {
+      padding: 10px 22px;
+      border-radius: 99px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1.5px solid var(--lavender-mid);
+      background: transparent;
+      color: var(--text-mid);
+      font-family: 'Poppins', sans-serif;
+      transition: background var(--transition), color var(--transition), border-color var(--transition);
+    }
+    .support-tab.active,
+    .support-tab:hover {
+      background: var(--purple-deep);
+      color: #fff;
+      border-color: var(--purple-deep);
+    }
+    .support-panel { display: none; }
+    .support-panel.active { display: block; }
+    
+    /* Dark variant panels */
+    #panel-fundraiser, #panel-campaign {
+      background: linear-gradient(135deg, #6b4d70 0%, #5a3f65 100%);
+      padding: 56px 0;
+      margin: 0 -24px;
+      padding-left: 24px;
+      padding-right: 24px;
+      border-radius: var(--radius-md);
+    }
+    #panel-fundraiser .fundraiser-card,
+    #panel-campaign .fundraiser-card {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    #panel-fundraiser h3,
+    #panel-campaign h3 {
+      color: #fff;
+    }
+    #panel-fundraiser p,
+    #panel-campaign p {
+      color: rgba(255,255,255,0.85);
+    }
+    #panel-fundraiser .progress-label,
+    #panel-campaign .progress-label {
+      color: rgba(255,255,255,0.75);
+    }
+    #panel-fundraiser .progress-bar {
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* Shop */
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .shop-card {
+      background: var(--off-white);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .shop-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+    .shop-card-img {
+      height: 180px;
+      background: linear-gradient(135deg, var(--lavender-light), var(--lavender-mid));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+    .shop-card-body { padding: 22px; }
+    .shop-card-body h4 { font-size: 1rem; margin-bottom: 8px; }
+    .shop-card-body p { font-size: 0.84rem; color: var(--text-light); line-height: 1.65; margin-bottom: 16px; }
+
+    /* Donate tiers */
+    .donate-intro { font-size: 0.96rem; color: var(--text-light); line-height: 1.8; margin-bottom: 40px; max-width: 640px; }
+    .tiers-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .tier-card {
+      background: var(--off-white);
+      border-radius: var(--radius-md);
+      padding: 28px 22px;
+      text-align: center;
+      border: 1.5px solid var(--lavender-light);
+      transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+      cursor: pointer;
+    }
+    .tier-card:hover, .tier-card.featured {
+      border-color: var(--purple-soft);
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-4px);
+    }
+    .tier-card.featured { background: linear-gradient(135deg, #f0ebff, var(--lavender-light)); }
+    .tier-amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--purple-deep);
+      margin-bottom: 10px;
+    }
+    .tier-label { font-size: 0.88rem; font-weight: 600; color: var(--text-mid); margin-bottom: 10px; }
+    .tier-desc { font-size: 0.8rem; color: var(--text-light); line-height: 1.6; }
+
+    /* Campaign / fundraiser */
+    .fundraiser-card {
+      background: linear-gradient(135deg, var(--lavender-light), #e8e0ff);
+      border-radius: var(--radius-lg);
+      padding: 52px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .fundraiser-card h3 { font-size: 1.7rem; margin-bottom: 16px; }
+    .fundraiser-card p { font-size: 0.95rem; color: var(--text-mid); line-height: 1.8; margin-bottom: 24px; }
+    .progress-bar-wrap { margin-top: 24px; }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--text-mid);
+      margin-bottom: 8px;
+    }
+    .progress-bar {
+      height: 10px;
+      background: var(--lavender-mid);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--purple-soft), var(--purple-deep));
+      border-radius: 99px;
+      width: 42%;
+      transition: width 1.2s ease;
+    }
+
+    /* ============================================================
+       GET INVOLVED
+    ============================================================ */
+    #get-involved { background: linear-gradient(135deg, #5a3f65 0%, #6b4d70 100%); }
+    #get-involved .section-title { color: #fff; }
+    #get-involved .section-sub { color: rgba(255, 255, 255, 0.8); }
+    #get-involved .section-tag {
+      background: rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.9);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .involved-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-top: 56px;
+    }
+    .involved-card {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-md);
+      padding: 36px 28px;
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+    .involved-card:hover { transform: translateY(-5px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25); border-color: rgba(255, 255, 255, 0.3); }
+    .involved-icon { font-size: 2.4rem; margin-bottom: 16px; }
+    .involved-card h3 { font-size: 1.15rem; margin-bottom: 12px; color: #fff; }
+    .involved-card p { font-size: 0.88rem; color: rgba(255, 255, 255, 0.8); line-height: 1.72; margin-bottom: 20px; }
+
+    /* ============================================================
+       GALLERY
+    ============================================================ */
+    #gallery { background: var(--white); }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 220px;
+      gap: 16px;
+      margin-top: 56px;
+    }
+    .gallery-item {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+    .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+    .gallery-item:nth-child(5) { grid-column: span 2; }
+    .gallery-img {
+      width: 100%; height: 100%;
+      transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+    .gallery-item:hover .gallery-img { transform: scale(1.06); }
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(92,63,160,0.55), transparent 60%);
+      opacity: 0;
+      transition: opacity var(--transition);
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-overlay span {
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    /* gallery placeholder colors */
+    .gal-1 { background: linear-gradient(135deg, #c8b8f0, #a88de0); }
+    .gal-2 { background: linear-gradient(135deg, #d4c9f4, #b89ee8); }
+    .gal-3 { background: linear-gradient(135deg, #e0d6f8, #c4b0ec); }
+    .gal-4 { background: linear-gradient(135deg, #b8a4e0, #9070cc); }
+    .gal-5 { background: linear-gradient(135deg, #ecdff8, #d4c0f0); }
+    .gal-6 { background: linear-gradient(135deg, #a890d8, #7a58c0); }
+    .gal-7 { background: linear-gradient(135deg, #d8d0f0, #bcaae4); }
+
+    /* ============================================================
+       IMPACT
+    ============================================================ */
+    #impact { background: linear-gradient(145deg, #8a6a8a, #d4bfd4); }
+    .impact-inner { text-align: center; }
+    .impact-inner .section-title { color: #fff; }
+    .impact-inner .section-sub { color: rgba(255,255,255,0.78); margin: 0 auto 64px; }
+    .stats-row {
+      display: flex;
+      gap: 28px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 72px;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.14);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: var(--radius-md);
+      padding: 32px 36px;
+      min-width: 200px;
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-label { font-size: 0.88rem; color: rgba(255,255,255,0.72); font-weight: 400; }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .testimonial {
+      background: rgba(255,255,255,0.12);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      text-align: left;
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+    .testimonial-quote {
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.90);
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    .testimonial-author {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.60);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    /* ============================================================
+       FAQ
+    ============================================================ */
+    #faq { background: var(--off-white); }
+    .faq-list { margin-top: 56px; max-width: 780px; }
+    .faq-item {
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      margin-bottom: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      transition: box-shadow var(--transition);
+    }
+    .faq-item:hover { box-shadow: var(--shadow-hover); }
+    .faq-q {
+      width: 100%;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      transition: color var(--transition);
+    }
+    .faq-q:hover { color: var(--purple-deep); }
+    .faq-icon {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--lavender-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1rem;
+      color: var(--purple-soft);
+      transition: background var(--transition), transform var(--transition);
+    }
+    .faq-item.open .faq-icon { background: var(--purple-soft); color: #fff; transform: rotate(45deg); }
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), padding 0.4s ease;
+      padding: 0 24px;
+    }
+    .faq-item.open .faq-a { max-height: 300px; padding: 0 24px 20px; }
+    .faq-a p { font-size: 0.9rem; color: var(--text-light); line-height: 1.8; }
+
+    /* ============================================================
+       CONTACT
+    ============================================================ */
+    #contact { background: var(--white); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 64px;
+      margin-top: 56px;
+      align-items: start;
+    }
+    .contact-info h3 { font-size: 1.5rem; margin-bottom: 16px; }
+    .contact-info p { font-size: 0.92rem; color: var(--text-light); line-height: 1.8; margin-bottom: 32px; }
+    .social-links { display: flex; gap: 12px; flex-wrap: wrap; }
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 99px;
+      border: 1.5px solid var(--lavender-mid);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      transition: background var(--transition), color var(--transition), border-color var(--transition);
+    }
+    .social-link:hover { background: var(--purple-soft); color: #fff; border-color: var(--purple-soft); }
+    .contact-form-wrap {
+      background: var(--off-white);
+      border-radius: var(--radius-lg);
+      padding: 44px 40px;
+    }
+    .contact-form-wrap h3 { font-size: 1.3rem; margin-bottom: 28px; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: var(--text-dark);
+      color: rgba(255,255,255,0.65);
+      padding: 48px 0 32px;
+      text-align: left;
+    }
+    footer .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: flex-start;
+    }
+    .footer-content { flex: 1; }
+    .footer-social-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .footer-logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .footer-logo > div {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .footer-logo span { color: var(--lavender-mid); font-style: italic; }
+    footer p { font-size: 0.82rem; margin-bottom: 8px; }
+    .footer-links { display: flex; justify-content: flex-start; gap: 20px; flex-wrap: wrap; margin: 16px 0; }
+    .footer-links a { font-size: 0.8rem; color: rgba(255,255,255,0.45); transition: color var(--transition); }
+    .footer-links a:hover { color: var(--lavender-mid); }
+    
+    /* Social Links */
+    .footer-social {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 0;
+      align-items: center;
+      align-self: center;
+      justify-content: center;
+    }
+    .footer-social-label {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-right: 0;
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+      display: block;
+      white-space: nowrap;
+    }
+    .footer-social-icons {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 12px;
+    }
+    .footer-social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      flex-shrink: 0;
+      opacity: 1;
+      transition: transform var(--transition);
+    }
+    .footer-social-link:hover {
+      transform: scale(1.1);
+    }
+    .footer-social-link img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      opacity: 1;
+      filter: invert(61%) sepia(15%) saturate(547%) hue-rotate(248deg) brightness(100%) contrast(92%);
+    }
+    .footer-social-link[aria-label="X"] img {
+      transform: scale(0.82);
+      transform-origin: center;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .about-grid,
+      .book-grid,
+      .contact-grid,
+      .mission-intro-grid,
+      .fundraiser-card { grid-template-columns: 1fr; gap: 32px; }
+      .wwd-cards,
+      .involved-grid,
+      .testimonials-grid { grid-template-columns: 1fr 1fr; }
+      .tiers-grid { grid-template-columns: 1fr 1fr; }
+      .shop-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+      .gallery-item:nth-child(5) { grid-column: span 1; }
+      .steps-row { flex-direction: column; }
+      .steps-row::before { display: none; }
+    }
+    @media (max-width: 600px) {
+      .section { padding: 64px 0; }
+      .wwd-cards,
+      .involved-grid,
+      .testimonials-grid,
+      .tiers-grid,
+      .shop-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 200px; }
+      .gallery-item:nth-child(1) { grid-column: span 1; }
+      .fundraiser-card { padding: 32px 24px; }
+      .about-full { padding: 36px 28px; }
+      .book-form-wrap, .contact-form-wrap { padding: 28px 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVBAR
+============================================================ -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#home" class="nav-logo">
+        <img src="logo.png" alt="The Rare Archive Logo">
+        <span class="logo-text">The <span>Rare</span> Archive</span>
+      </a>
+      <ul class="nav-links">
+        <!-- About -->
+        <li class="nav-item nav-dropdown">
+          <a href="#about" class="nav-link dropdown-trigger" data-i18n="nav_about">About</a>
+          <ul class="dropdown-menu" aria-label="About Menu">
+            <li><a href="#faq" data-i18n="nav_faq">FAQ</a></li>
+            <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+          </ul>
+        </li>
+        <!-- What We Do -->
+        <li class="nav-item nav-dropdown">
+          <a href="#what-we-do" class="nav-link dropdown-trigger" data-i18n="nav_wwd">What We Do</a>
+          <ul class="dropdown-menu" aria-label="What We Do Menu">
+            <li><a href="#book-a-session" data-i18n="nav_book">Book a Session</a></li>
+          </ul>
+        </li>
+        <!-- Get Involved -->
+        <li class="nav-item nav-dropdown">
+          <a href="#get-involved" class="nav-link dropdown-trigger" data-i18n="nav_involved">Get Involved</a>
+          <ul class="dropdown-menu" aria-label="Get Involved Menu">
+            <li><a href="#support-us" data-i18n="nav_support">Support Us</a></li>
+          </ul>
+        </li>
+        <!-- Events -->
+        <li class="nav-item nav-dropdown">
+          <a href="#" class="nav-link dropdown-trigger" data-i18n="nav_events">Events</a>
+          <ul class="dropdown-menu" aria-label="Events Menu">
+            <li><a href="#fundraising-events" data-i18n="nav_fundraising">Fundraising Events</a></li>
+            <li><a href="#" data-i18n="nav_past_events" class="disabled">Past Events</a></li>
+          </ul>
+        </li>
+        <!-- Impact -->
+        <li class="nav-item nav-dropdown">
+          <a href="#impact" class="nav-link dropdown-trigger" data-i18n="nav_impact">Impact</a>
+          <ul class="dropdown-menu" aria-label="Impact Menu">
+            <li><a href="#gallery" data-i18n="nav_gallery">Gallery</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="nav-right">
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="es">ES</button>
+        </div>
+        <div class="nav-hamburger" id="hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-item">
+    <button class="mobile-item-trigger" data-i18n="nav_about">About</button>
+    <div class="mobile-submenu">
+      <a href="#faq" data-i18n="nav_faq">FAQ</a>
+      <a href="#contact" data-i18n="nav_contact">Contact</a>
+    </div>
+  </div>
+  <div class="mobile-menu-item">
+    <button class="mobile-item-trigger" data-i18n="nav_wwd">What We Do</button>
+    <div class="mobile-submenu">
+      <a href="#book-a-session" data-i18n="nav_book">Book a Session</a>
+    </div>
+  </div>
+  <div class="mobile-menu-item">
+    <button class="mobile-item-trigger" data-i18n="nav_involved">Get Involved</button>
+    <div class="mobile-submenu">
+      <a href="#support-us" data-i18n="nav_support">Support Us</a>
+    </div>
+  </div>
+  <div class="mobile-menu-item">
+    <button class="mobile-item-trigger" data-i18n="nav_events">Events</button>
+    <div class="mobile-submenu">
+      <a href="#fundraising-events" data-i18n="nav_fundraising">Fundraising Events</a>
+      <a href="#" data-i18n="nav_past_events" class="disabled">Past Events</a>
+    </div>
+  </div>
+  <div class="mobile-menu-item">
+    <button class="mobile-item-trigger" data-i18n="nav_impact">Impact</button>
+    <div class="mobile-submenu">
+      <a href="#gallery" data-i18n="nav_gallery">Gallery</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     HOME / HERO
+============================================================ -->
+<section id="home">
+  <p class="hero-eyebrow fade-in" data-i18n="hero_eyebrow">A student-led nonprofit · Bridging generations through art</p>
+  <h1 class="hero-title fade-in fade-in-delay-1" data-i18n="hero_title">Every elder carries a story the world <em>deserves to hear.</em></h1>
+  <p class="hero-sub fade-in fade-in-delay-2" data-i18n="hero_sub">The Rare Archive connects young artists with elderly residents in retirement communities — turning shared moments into illustrated picture books that preserve memories for generations.</p>
+  <div class="hero-btns fade-in fade-in-delay-3">
+    <a href="#support-us" class="btn btn-primary" data-i18n="hero_btn_support">Support Us</a>
+    <a href="#book-a-session" class="btn btn-outline" data-i18n="hero_btn_book">Book a Session</a>
+  </div>
+  <div class="fundraiser-strip fade-in fade-in-delay-4">
+    <p><strong data-i18n="fundraiser_title">📚 Current Fundraiser: ThriftBooks</strong><br>
+    <span data-i18n="fundraiser_desc">Use our ThriftBooks fundraiser link to purchase used books and a percentage supports The Rare Archive directly. Shop books you love while helping us fund our next round of art sessions.</span></p>
+  </div>
+  <div class="hero-scroll" aria-hidden="true"></div>
+</section>
+
+<!-- Mission Intro -->
+<div class="mission-intro">
+  <div class="container">
+    <div class="mission-intro-grid">
+      <div class="mission-intro-visual fade-in">🎨</div>
+      <div class="fade-in fade-in-delay-1">
+        <span class="section-tag" data-i18n="mission_tag">Our Mission</span>
+        <h2 class="section-title" data-i18n="mission_title">Art as a bridge between ages</h2>
+        <p class="section-sub" data-i18n="mission_sub">We believe that isolation is one of the greatest threats to elderly wellbeing — and that creativity is one of the most powerful antidotes. Our student volunteers bring watercolors, pencils, and open hearts into retirement homes, sitting side by side with residents to create, listen, and remember.<br><br>The stories that emerge are transformed into illustrated picture books — living proof that a life well-lived deserves to be recorded.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     ABOUT
+============================================================ -->
+<section class="section" id="about">
+  <div class="container">
+    <span class="section-tag fade-in" data-i18n="about_tag">About Us</span>
+    <h2 class="section-title fade-in fade-in-delay-1" data-i18n="about_title">We started with a single conversation.</h2>
+    <p class="section-sub fade-in fade-in-delay-2" data-i18n="about_sub">The Rare Archive was founded by a high school student who visited her grandmother's care home and noticed how many residents spent their days in silence — surrounded by staff, yet profoundly alone. She started bringing her sketchbook. Then her classmates. Then the stories began to flow.</p>
+
+    <div class="about-grid">
+      <div class="about-card fade-in">
+        <div class="about-card-icon">🏡</div>
+        <h3 data-i18n="about_c1_title">The Problem We Saw</h3>
+        <p data-i18n="about_c1_desc">Over 40% of elderly adults in care facilities report chronic loneliness. Visits from family decrease over time. Many residents have rich, extraordinary inner worlds — and no one to share them with. We saw this and refused to look away.</p>
+      </div>
+      <div class="about-card fade-in fade-in-delay-1">
+        <div class="about-card-icon">✏️</div>
+        <h3 data-i18n="about_c2_title">Why Art &amp; Storytelling</h3>
+        <p data-i18n="about_c2_desc">Creative expression unlocks memory, encourages communication, and builds genuine bonds. Art sessions reduce anxiety and depression in elderly adults. And storytelling gives residents something profound: the feeling that their life mattered enough to be recorded.</p>
+      </div>
+      <div class="about-card fade-in fade-in-delay-2">
+        <div class="about-card-icon">📖</div>
+        <h3 data-i18n="about_c3_title">The Picture Book Model</h3>
+        <p data-i18n="about_c3_desc">After each session series, student artists collaborate to illustrate the stories they've heard — turning transcribed memories into beautifully illustrated books that families and facilities can keep forever.</p>
+      </div>
+      <div class="about-card fade-in fade-in-delay-3">
+        <div class="about-card-icon">🌱</div>
+        <h3 data-i18n="about_c4_title">Student-Led &amp; Growing</h3>
+        <p data-i18n="about_c4_desc">Every person involved in The Rare Archive is a young person learning empathy in the most direct way possible: by showing up, listening, and creating. This is community service at its most human.</p>
+      </div>
+    </div>
+
+    <div class="about-full fade-in">
+      <h3 data-i18n="about_vision_title">Our Vision for the Future</h3>
+      <p data-i18n="about_vision_desc">We envision a world where every retirement home has a chapter of The Rare Archive — a steady presence of young artists and listeners, creating a living archive of humanity's most precious resource: the wisdom and wonder carried by those who've lived the longest. Our goal is to expand to multiple cities, publish collected books, and build a model that any school or youth group can replicate.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     WHAT WE DO
+============================================================ -->
+<section class="section" id="what-we-do">
+  <div class="container">
+    <span class="section-tag fade-in" data-i18n="wwd_tag">What We Do</span>
+    <h2 class="section-title fade-in fade-in-delay-1" data-i18n="wwd_title">Creating together, one session at a time</h2>
+    <p class="section-sub fade-in fade-in-delay-2" data-i18n="wwd_sub">Each visit is thoughtfully structured to be accessible, joyful, and meaningful — for both the resident and the student artist.</p>
+
+    <div class="wwd-cards">
+      <div class="wwd-card fade-in">
+        <div class="wwd-card-num">01</div>
+        <h3 data-i18n="wwd_c1_title">Mini Art Lessons</h3>
+        <p data-i18n="wwd_c1_desc">Students lead gentle, low-pressure art activities — watercolor washes, simple portraiture, collage — designed to be accessible for all mobility levels. No experience needed. The goal is engagement, not perfection.</p>
+      </div>
+      <div class="wwd-card fade-in fade-in-delay-1">
+        <div class="wwd-card-num">02</div>
+        <h3 data-i18n="wwd_c2_title">Story Conversations</h3>
+        <p data-i18n="wwd_c2_desc">While creating, students ask open, curious questions — about childhood homes, first loves, life lessons, moments of joy or courage. These conversations are gently recorded with the resident's permission.</p>
+      </div>
+      <div class="wwd-card fade-in fade-in-delay-2">
+        <div class="wwd-card-num">03</div>
+        <h3 data-i18n="wwd_c3_title">Illustrated Books</h3>
+        <p data-i18n="wwd_c3_desc">The collected stories are transcribed and illustrated by student artists, then bound into physical picture books gifted to the resident, their family, and kept in the facility's library. Each book is one-of-a-kind.</p>
+      </div>
+      <div class="wwd-card fade-in">
+        <div class="wwd-card-num">04</div>
+        <h3 data-i18n="wwd_c4_title">Materials &amp; Accessibility</h3>
+        <p data-i18n="wwd_c4_desc">We provide all supplies — no burden on the facility or resident. Materials are chosen for comfort: large-grip brushes, smooth paper, water-based paints. Adaptable for residents with limited mobility or vision.</p>
+      </div>
+      <div class="wwd-card fade-in fade-in-delay-1">
+        <div class="wwd-card-num">05</div>
+        <h3 data-i18n="wwd_c5_title">Emotional Benefits</h3>
+        <p data-i18n="wwd_c5_desc">Research shows art activities reduce depression and anxiety in elderly adults. Our sessions also decrease cognitive decline and create measurable improvements in residents' reported sense of belonging and purpose.</p>
+      </div>
+      <div class="wwd-card fade-in fade-in-delay-2">
+        <div class="wwd-card-num">06</div>
+        <h3 data-i18n="wwd_c6_title">Ongoing Relationship</h3>
+        <p data-i18n="wwd_c6_desc">We don't do one-time visits. Students return regularly to the same residents, building real relationships over weeks and months. Familiarity is the foundation for trust — and trust is where the real stories live.</p>
+      </div>
+    </div>
+
+    <!-- Step-by-step -->
+    <div class="steps-section fade-in">
+      <h3 data-i18n="steps_title">How a session unfolds</h3>
+      <div class="steps-row">
+        <div class="step">
+          <div class="step-dot">👋</div>
+          <h4 data-i18n="step1_title">Welcome & Warmth</h4>
+          <p data-i18n="step1_desc">Students arrive with supplies and warm introductions, sitting alongside residents at shared tables.</p>
+        </div>
+        <div class="step">
+          <div class="step-dot">🎨</div>
+          <h4 data-i18n="step2_title">Create Together</h4>
+          <p data-i18n="step2_desc">A short, guided art activity gets hands moving and minds relaxed — reducing anxiety and opening up.</p>
+        </div>
+        <div class="step">
+          <div class="step-dot">💬</div>
+          <h4 data-i18n="step3_title">Share Stories</h4>
+          <p data-i18n="step3_desc">Natural conversation flows. Students listen with genuine curiosity and take soft, unobtrusive notes.</p>
+        </div>
+        <div class="step">
+          <div class="step-dot">📝</div>
+          <h4 data-i18n="step4_title">Document & Illustrate</h4>
+          <p data-i18n="step4_desc">After sessions, students transform stories into illustrated narratives for the Archive books.</p>
+        </div>
+        <div class="step">
+          <div class="step-dot">📚</div>
+          <h4 data-i18n="step5_title">Gift the Book</h4>
+          <p data-i18n="step5_desc">The finished book is presented to the resident — often with family present — in a small celebration.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BOOK A SESSION
+============================================================ -->
+<section class="section" id="book-a-session">
+  <div class="container">
+    <span class="section-tag fade-in" data-i18n="book_tag">Book a Session</span>
+    <h2 class="section-title fade-in fade-in-delay-1" data-i18n="book_title">Invite The Rare Archive to your community</h2>
+    <div class="book-grid">
+      <div class="book-info fade-in">
+        <p data-i18n="book_info1">We partner with retirement communities, assisted living facilities, senior centers, and memory care units. If you serve elderly residents and believe in the power of creative connection, we'd love to work with you.</p>
+        <p data-i18n="book_info2">Sessions are offered free of charge to facilities. All materials are provided by our organization. We ask only for consistent access and a committed point of contact on your team.</p>
+        <ul>
+          <li data-i18n="book_li1">Open to facilities within our current service area</li>
+          <li data-i18n="book_li2">Minimum of 4 sessions per session series</li>
+          <li data-i18n="book_li3">All residents participate voluntarily</li>
+          <li data-i18n="book_li4">No cost to the facility or residents</li>
+          <li data-i18n="book_li5">Students are trained, background-checked volunteers</li>
+          <li data-i18n="book_li6">Session schedules are flexible to your calendar</li>
+        </ul>
+      </div>
+      <div class="book-form-wrap fade-in fade-in-delay-1">
+        <h3 data-i18n="book_form_title">Request a Visit</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label data-i18n="form_name">Contact Name</label>
+            <input type="text" placeholder="Your full name" />
+          </div>
+          <div class="form-group">
+            <label data-i18n="form_org">Organization</label>
+            <input type="text" placeholder="Facility or organization name" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label data-i18n="form_email">Email Address</label>
+          <input type="email" placeholder="you@organization.com" />
+        </div>
+        <div class="form-group">
+          <label data-i18n="form_date">Preferred Start Date</label>
+          <input type="date" />
+        </div>
+        <div class="form-group">
+          <label data-i18n="form_msg">Tell Us About Your Community</label>
+          <textarea placeholder="How many residents? Any accessibility needs? What drew you to The Rare Archive?"></textarea>
+        </div>
+        <button class="btn btn-primary" style="width:100%; justify-content:center;" data-i18n="form_submit">Send Request →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SUPPORT US
+============================================================ -->
+<section class="section" id="support-us">
+  <div class="container">
+    <span class="section-tag fade-in" data-i18n="support_tag">Support Us</span>
+    <h2 class="section-title fade-in fade-in-delay-1" data-i18n="support_title">Help us bridge more generations</h2>
+    <p class="section-sub fade-in fade-in-delay-2" data-i18n="support_sub">Every form of support — a purchase, a donation, a shared link — directly funds art supplies, book printing, and the expansion of our program to more communities.</p>
+
+    <div class="support-tabs fade-in">
+      <button class="support-tab active" data-tab="shop" data-i18n="tab_shop">🛍️ Shop</button>
+      <button class="support-tab" data-tab="fundraiser" data-i18n="tab_fundraiser">📚 Fundraisers</button>
+      <button class="support-tab" data-tab="donate" data-i18n="tab_donate">💸 Donate</button>
+      <button class="support-tab" data-tab="campaign" data-i18n="tab_campaign">🚀 Campaign</button>
+    </div>
+
+    <!-- Shop -->
+    <div class="support-panel active" id="panel-shop">
+      <div class="shop-grid">
+        <div class="shop-card fade-in">
+          <div class="shop-card-img">📘</div>
+          <div class="shop-card-body">
+            <h4 data-i18n="shop_c1_title">Archive Picture Books</h4>
+            <p data-i18n="shop_c1_desc">Purchase a copy of one of our illustrated Archive books. Each book is an authentic collection of stories from real residents, illustrated by our student artists. Available on Etsy now, Amazon coming soon.</p>
+            <a href="#" class="btn btn-primary" style="font-size:0.82rem;" data-i18n="shop_c1_btn">Shop on Etsy →</a>
+          </div>
+        </div>
+        <div class="shop-card fade-in fade-in-delay-1">
+          <div class="shop-card-img">🖼️</div>
+          <div class="shop-card-body">
+            <h4 data-i18n="shop_c2_title">Student Artwork Prints</h4>
+            <p data-i18n="shop_c2_desc">Bring original student-created artwork into your home. Giclée prints of illustrations made during our sessions — each piece is authentic, meaningful, and helps fund the next chapter of our work.</p>
+            <a href="#" class="btn btn-primary" style="font-size:0.82rem;" data-i18n="shop_c2_btn">Browse Prints →</a>
+          </div>
+        </div>
+        <div class="shop-card fade-in fade-in-delay-2">
+          <div class="shop-card-img">🎁</div>
+          <div class="shop-card-body">
+            <h4 data-i18n="shop_c3_title">Gift a Book</h4>
+            <p data-i18n="shop_c3_desc">Sponsor an Archive book to be gifted directly to a retirement home in your area. The facility receives the book free of charge. This is one of the most direct ways to support our mission.</p>
+            <a href="#contact" class="btn btn-primary" style="font-size:0.82rem;" data-i18n="shop_c3_btn">Inquire →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fundraiser -->
+    <div class="support-panel" id="panel-fundraiser">
+      <div class="fundraiser-card fade-in">
+        <div>
+          <h3 data-i18n="tf_title">ThriftBooks Fundraiser</h3>
+          <p data-i18n="tf_desc">Our current ongoing fundraiser is through ThriftBooks, one of the largest online used bookstores. When you use our special link to purchase books — novels, children's books, textbooks, anything — a percentage of your purchase is donated directly to The Rare Archive. You get books you love. We get the funds to keep going. It's that simple.</p>
+          <p data-i18n="tf_desc2">ThriftBooks already has millions of titles at deeply discounted prices. Think of your next book purchase as a two-for-one: you invest in your own reading life and in the storytelling lives of elderly residents near you.</p>
+          <a href="#" class="btn btn-primary" data-i18n="tf_btn">Shop ThriftBooks for Us →</a>
+        </div>
+        <div>
+          <p style="font-size:0.8rem;color:var(--text-mid);margin-bottom:12px;" data-i18n="tf_prog_label">Fundraiser Progress</p>
+          <div class="progress-bar-wrap">
+            <div class="progress-label">
+              <span data-i18n="tf_raised">$840 raised</span>
+              <span data-i18n="tf_goal">Goal: $2,000</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+          </div>
+          <p style="font-size:0.82rem;color:var(--text-light);margin-top:20px;line-height:1.7;" data-i18n="tf_note">100% of raised funds go toward art supplies, book printing, and transportation for student volunteers.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Donate -->
+    <div class="support-panel" id="panel-donate">
+      <p class="donate-intro fade-in" data-i18n="donate_intro">Your donation goes directly to the work: art supplies for sessions, professional printing for Archive books, and modest support for student volunteers' transportation. We are a student-run organization with minimal overhead — your dollar works hard here.</p>
+      <div class="tiers-grid">
+        <div class="tier-card fade-in">
+          <div class="tier-amount">$10</div>
+          <div class="tier-label" data-i18n="tier1_label">Storyteller</div>
+          <p class="tier-desc" data-i18n="tier1_desc">Covers a full set of watercolor supplies for one resident's session series.</p>
+        </div>
+        <div class="tier-card featured fade-in fade-in-delay-1">
+          <div class="tier-amount">$25</div>
+          <div class="tier-label" data-i18n="tier2_label">Illustrator</div>
+          <p class="tier-desc" data-i18n="tier2_desc">Funds printing and binding of a single illustrated Archive book for a resident to keep.</p>
+        </div>
+        <div class="tier-card fade-in fade-in-delay-2">
+          <div class="tier-amount">$50</div>
+          <div class="tier-label" data-i18n="tier3_label">Archivist</div>
+          <p class="tier-desc" data-i18n="tier3_desc">Covers all supplies and documentation for one complete session at a retirement community.</p>
+        </div>
+        <div class="tier-card fade-in fade-in-delay-3">
+          <div class="tier-amount">$100</div>
+          <div class="tier-label" data-i18n="tier4_label">Chapter Founder</div>
+          <p class="tier-desc" data-i18n="tier4_desc">Helps launch a new session series at a facility — paying for the first full month of visits.</p>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:36px;">
+        <a href="#" class="btn btn-primary fade-in" data-i18n="donate_btn">Donate Now →</a>
+      </div>
+    </div>
+
+    <!-- Campaign -->
+    <div class="support-panel" id="panel-campaign">
+      <div class="fundraiser-card fade-in">
+        <div>
+          <h3 data-i18n="camp_title">Help Us Reach 50 Residents</h3>
+          <p data-i18n="camp_desc">Our current campaign goal is to expand The Rare Archive to three new retirement communities and complete Archive books for 50 residents by the end of this year. This will require new supplies, more printing capacity, and reliable transportation for our student volunteers.</p>
+          <p data-i18n="camp_desc2">We're raising $5,000 to make this happen. Every contribution — large or small — brings us one step closer to 50 new books, 50 preserved stories, and 50 residents who know their life mattered enough to be written down.</p>
+          <a href="#" class="btn btn-primary" data-i18n="camp_btn">Support the Campaign →</a>
+        </div>
+        <div>
+          <div class="progress-bar-wrap" style="margin-top:0">
+            <div class="progress-label">
+              <span data-i18n="camp_raised">$2,100 raised</span>
+              <span data-i18n="camp_goal">Goal: $5,000</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width:42%"></div></div>
+          </div>
+          <p style="font-size:0.82rem;color:var(--text-mid);margin-top:20px;line-height:1.7;" data-i18n="camp_breakdown">Budget breakdown: 40% supplies · 35% printing · 25% volunteer transport</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     GET INVOLVED
+============================================================ -->
+<section class="section" id="get-involved">
+  <div class="container">
+    <span class="section-tag fade-in" data-i18n="inv_tag">Get Involved</span>
+    <h2 class="section-title fade-in fade-in-delay-1" data-i18n="inv_title">There's a role for everyone</h2>
+    <p class="section-sub fade-in fade-in-delay-2" data-i18n="inv_sub">Whether you're a student, educator, community partner, or an organization that shares our values — there's a meaningful way to be part of The Rare Archive.</p>
+
+    <div class="involved-grid">
+      <div class="involved-card fade-in">
+        <div class="involved-icon">🎓</div>
+        <h3 data-i18n="inv_c1_title">Volunteer as a Student Artist</h3>
+        <p data-i18n="inv_c1_desc">No professional art experience required — just a willingness to listen and create alongside someone who has lived more life than you can imagine. We train all volunteers before their first session. Open to students aged 14+.</p>
+        <a href="#contact" class="btn btn-light" style="font-size:0.82rem;" data-i18n="inv_c1_btn">Apply to Volunteer →</a>
+      </div>
+      <div class="involved-card fade-in fade-in-delay-1">
+        <div class="involved-icon">🏠</div>
+        <h3 data-i18n="inv_c2_title">Partner as a Facility</h3>
+        <p data-i18n="inv_c2_desc">Retirement homes, assisted living centers, and senior day programs can partner with us to bring regular creative sessions to their residents. We handle everything — you simply provide space and consistent access.</p>
+        <a href="#book-a-session" class="btn btn-light" style="font-size:0.82rem;" data-i18n="inv_c2_btn">Book a Partnership →</a>
+      </div>
+      <div class="involved-card fade-in fade-in-delay-2">
+        <div class="involved-icon">🌎</div>
+        <h3 data-i18n="inv_c3_title">Start a Chapter at Your School</h3>
+        <p data-i18n="inv_c3_desc">We're building a replicable model that any school or youth group can adopt. If you're an educator or student leader who wants to bring The Rare Archive to your community, reach out. We'll support you every step of the way.</p>
+        <a href="#contact" class="btn btn-light" style="font-size:0.82rem;" data-i18n="inv_c3_btn">Start a Chapter →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     GALLERY
+============================================================ -->
+<section class="section" id="gallery">
+  <div class="container">
+    <span class="section-tag fade-in" data-i18n="gallery_tag">Gallery</span>
+    <h2 class="section-title fade-in fade-in-delay-1" data-i18n="gallery_title">Moments from our sessions</h2>
+    <p class="section-sub fade-in fade-in-delay-2" data-i18n="gallery_sub">A glimpse into the art, the connection, and the stories that live inside The Rare Archive.</p>
+
+    <div class="gallery-grid fade-in">
+      <div class="gallery-item">
+        <div class="gallery-img gal-1" style="width:100%;height:100%;"></div>
+        <div class="gallery-overlay"><span data-i18n="gal1">Watercolor session, Spring 2024</span></div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-img gal-2" style="width:100%;height:100%;"></div>
+        <div class="gallery-overlay"><span data-i18n="gal2">Margaret's story illustration</span></div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-img gal-3" style="width:100%;height:100%;"></div>
+        <div class="gallery-overlay"><span data-i18n="gal3">Reading the finished Archive book</span></div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-img gal-4" style="width:100%;height:100%;"></div>
+        <div class="gallery-overlay"><span data-i18n="gal4">Student artist at work</span></div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-img gal-5" style="width:100%;height:100%;"></div>
+        <div class="gallery-overlay"><span data-i18n="gal5">Collage afternoon, Fall 2024</span></div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-img gal-6" style="width:100%;height:100%;"></div>
+        <div class="gallery-overlay"><span data-i18n="gal6">Henry's portrait series</span></div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-img gal-7" style="width:100%;height:100%;"></div>
+        <div class="gallery-overlay"><span data-i18n="gal7">Book gifting ceremony</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     IMPACT
+============================================================ -->
+<section class="section" id="impact">
+  <div class="container impact-inner">
+    <span class="section-tag" style="background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.85);" data-i18n="impact_tag">Our Impact</span>
+    <h2 class="section-title fade-in" data-i18n="impact_title">Real numbers. Real people.</h2>
+    <p class="section-sub fade-in fade-in-delay-1" data-i18n="impact_sub">Every stat below represents a human connection that didn't exist before The Rare Archive showed up.</p>
+
+    <div class="stats-row">
+      <div class="stat-card fade-in">
+        <div class="stat-num" data-i18n="stat1_num">47+</div>
+        <div class="stat-label" data-i18n="stat1_label">Sessions completed</div>
+      </div>
+      <div class="stat-card fade-in fade-in-delay-1">
+        <div class="stat-num" data-i18n="stat2_num">38</div>
+        <div class="stat-label" data-i18n="stat2_label">Residents served</div>
+      </div>
+      <div class="stat-card fade-in fade-in-delay-2">
+        <div class="stat-num" data-i18n="stat3_num">22</div>
+        <div class="stat-label" data-i18n="stat3_label">Student volunteers</div>
+      </div>
+      <div class="stat-card fade-in fade-in-delay-3">
+        <div class="stat-num" data-i18n="stat4_num">12</div>
+        <div class="stat-label" data-i18n="stat4_label">Archive books created</div>
+      </div>
+    </div>
+
+    <div class="testimonials-grid">
+      <div class="testimonial fade-in">
+        <p class="testimonial-quote" data-i18n="t1_quote">"I thought I'd forgotten what it felt like to have someone really listen to me. These students — they sat there with their sketchbooks and their eyes wide open and I talked for two hours. I haven't talked like that in years."</p>
+        <span class="testimonial-author" data-i18n="t1_author">— Eleanor, 84, Resident</span>
+      </div>
+      <div class="testimonial fade-in fade-in-delay-1">
+        <p class="testimonial-quote" data-i18n="t2_quote">"We've had activity programs for years, but nothing has brought our residents to life the way these sessions have. The book they made for Miriam — she cried when she saw it. Her family did too."</p>
+        <span class="testimonial-author" data-i18n="t2_author">— James, Activity Director</span>
+      </div>
+      <div class="testimonial fade-in fade-in-delay-2">
+        <p class="testimonial-quote" data-i18n="t3_quote">"I came in thinking I was volunteering. I left having received something I can't quite name. Arthur told me about meeting his wife on a train in 1962 and I drew it in pencil and he wept a little, happily. I'll never forget it."</p>
+        <span class="testimonial-author" data-i18n="t3_author">— Sofia, 16, Volunteer</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ
+============================================================ -->
+<section class="section" id="faq">
+  <div class="container">
+    <span class="section-tag fade-in" data-i18n="faq_tag">FAQ</span>
+    <h2 class="section-title fade-in fade-in-delay-1" data-i18n="faq_title">Questions we hear most often</h2>
+
+    <div class="faq-list fade-in">
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="faq_q1">Do the students need prior art experience?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><p data-i18n="faq_a1">Not at all. We welcome students at every skill level. What matters most is genuine curiosity and the willingness to listen. All volunteers receive orientation training before their first session, and activities are designed to be guided by the process, not the product.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="faq_q2">Is there a cost to facilities or residents?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><p data-i18n="faq_a2">No. Sessions are offered completely free of charge to partner facilities and their residents. All art supplies, printing materials, and bound Archive books are funded through our fundraising efforts and donations. Facilities simply provide the space and welcome us in.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="faq_q3">How long is a typical session?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><p data-i18n="faq_a3">Sessions typically run between 60 and 90 minutes, depending on resident energy and engagement. We're flexible — if a resident is having a particularly meaningful day and wants to keep going, we stay. If they tire early, we wrap with warmth and plan for next time.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="faq_q4">What happens to the stories that are collected?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><p data-i18n="faq_a4">Stories are collected with explicit consent from the resident. They are transcribed, illustrated, and compiled into physical Archive books. Residents and their families receive copies, and the facility keeps one in their library. Stories are never shared publicly without written permission.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="faq_q5">What age are the student volunteers?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><p data-i18n="faq_a5">Our student volunteers range in age from 14 to 18. All are vetted through an application process and complete a volunteer orientation. For younger volunteers, parental consent and supervision guidelines apply. We also welcome college students and young adults seeking service hours.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="faq_q6">How do I start a chapter at my school?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><p data-i18n="faq_a6">We'd love to help you start a chapter! Reach out through our contact form with a note about your school and community. We'll walk you through our replication model, provide training materials, and connect you with a nearby retirement facility. We aim to have your first session scheduled within six weeks of your inquiry.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="faq_q7">Can residents with dementia participate?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><p data-i18n="faq_a7">Yes. Art therapy and storytelling activities have shown strong benefits for residents with mild to moderate dementia. Our activities are designed to be non-stressful and to meet residents wherever they are cognitively. We work closely with facility staff to ensure each resident's experience is safe, comfortable, and meaningful.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="faq_q8">Where does the money go?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><p data-i18n="faq_a8">Every dollar raised goes directly into the program: art supplies (40%), book printing and binding (35%), and volunteer transportation support (25%). We maintain full transparency with our financials and publish an annual report available to any supporter who requests it.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT
+============================================================ -->
+<section class="section" id="contact">
+  <div class="container">
+    <span class="section-tag fade-in" data-i18n="contact_tag">Contact</span>
+    <h2 class="section-title fade-in fade-in-delay-1" data-i18n="contact_title">Let's build something together</h2>
+
+    <div class="contact-grid">
+      <div class="contact-info fade-in">
+        <h3 data-i18n="contact_h3">We'd love to hear from you.</h3>
+        <p data-i18n="contact_p">Whether you want to volunteer, partner, donate, or simply learn more about what we do — drop us a message. We respond to every inquiry personally, usually within 48 hours.</p>
+        <div class="social-links">
+          <a href="#" class="social-link">📸 Instagram</a>
+          <a href="#" class="social-link">📘 Facebook</a>
+          <a href="#" class="social-link">🎵 TikTok</a>
+          <a href="#" class="social-link">✉️ Email Us</a>
+        </div>
+      </div>
+      <div class="contact-form-wrap fade-in fade-in-delay-1">
+        <h3 data-i18n="contact_form_title">Send a Message</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label data-i18n="form_name">Your Name</label>
+            <input type="text" placeholder="Full name" />
+          </div>
+          <div class="form-group">
+            <label data-i18n="form_email">Email Address</label>
+            <input type="email" placeholder="you@email.com" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label data-i18n="form_msg">Message</label>
+          <textarea placeholder="What's on your mind?"></textarea>
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;" data-i18n="form_submit">Send Message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="logo.png" alt="The Rare Archive Logo">
+        <div>The <span>Rare</span> Archive</div>
+      </div>
+      <p data-i18n="footer_tagline">Preserving stories. Bridging generations. One session at a time.</p>
+      <div class="footer-links">
+        <a href="#about" data-i18n="nav_about">About</a>
+        <a href="#support-us" data-i18n="nav_support">Support Us</a>
+        <a href="#get-involved" data-i18n="nav_involved">Get Involved</a>
+        <a href="#contact" data-i18n="nav_contact">Contact</a>
+      </div>
+    </div>
+    <div class="footer-social-column">
+      <div class="footer-social">
+        <span class="footer-social-label" data-i18n="footer_connect">Connect With Us</span>
+        <div class="footer-social-icons">
+          <a href="https://www.instagram.com/the_rare_archive" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Instagram">
+            <img src="insta.png" alt="Instagram">
+          </a>
+          <a href="https://www.tiktok.com/@the.rare.archive?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="TikTok">
+            <img src="tiktok.png" alt="TikTok">
+          </a>
+          <a href="https://x.com/therarearchive" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="X">
+            <img src="x.png" alt="X">
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container" style="margin-top: 32px;">
+    <p style="font-size:0.75rem;opacity:0.4;grid-column:1/-1;" data-i18n="footer_copy">© 2025 The Rare Archive. A student-led nonprofit organization.</p>
+  </div>
+</footer>
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+/* ============================================================
+   TRANSLATIONS
+============================================================ */
+const translations = {
+  en: {
+    nav_home: "Home", nav_about: "About", nav_wwd: "What We Do",
+    nav_book: "Book a Session", nav_support: "Support Us", nav_fundraising: "Fundraising Events",
+    nav_involved: "Get Involved", nav_gallery: "Gallery",
+    nav_impact: "Impact", nav_faq: "FAQ", nav_contact: "Contact",
+    nav_events: "Events", nav_past_events: "Past Events",
+
+    hero_eyebrow: "A student-led nonprofit · Bridging generations through art",
+    hero_title: "Every elder carries a story the world <em>deserves to hear.</em>",
+    hero_sub: "The Rare Archive connects young artists with elderly residents in retirement communities — turning shared moments into illustrated picture books that preserve memories for generations.",
+    hero_btn_support: "Support Us",
+    hero_btn_book: "Book a Session",
+
+    fundraiser_title: "📚 Current Fundraiser: ThriftBooks",
+    fundraiser_desc: "Use our ThriftBooks fundraiser link to purchase used books and a percentage supports The Rare Archive directly. Shop books you love while helping us fund our next round of art sessions.",
+
+    mission_tag: "Our Mission",
+    mission_title: "Art as a bridge between ages",
+    mission_sub: "We believe that isolation is one of the greatest threats to elderly wellbeing — and that creativity is one of the most powerful antidotes. Our student volunteers bring watercolors, pencils, and open hearts into retirement homes, sitting side by side with residents to create, listen, and remember.<br><br>The stories that emerge are transformed into illustrated picture books — living proof that a life well-lived deserves to be recorded.",
+
+    about_tag: "About Us",
+    about_title: "We started with a single conversation.",
+    about_sub: "The Rare Archive was founded by a high school student who visited her grandmother's care home and noticed how many residents spent their days in silence — surrounded by staff, yet profoundly alone. She started bringing her sketchbook. Then her classmates. Then the stories began to flow.",
+    about_c1_title: "The Problem We Saw",
+    about_c1_desc: "Over 40% of elderly adults in care facilities report chronic loneliness. Visits from family decrease over time. Many residents have rich, extraordinary inner worlds — and no one to share them with. We saw this and refused to look away.",
+    about_c2_title: "Why Art & Storytelling",
+    about_c2_desc: "Creative expression unlocks memory, encourages communication, and builds genuine bonds. Art sessions reduce anxiety and depression in elderly adults. And storytelling gives residents something profound: the feeling that their life mattered enough to be recorded.",
+    about_c3_title: "The Picture Book Model",
+    about_c3_desc: "After each session series, student artists collaborate to illustrate the stories they've heard — turning transcribed memories into beautifully illustrated books that families and facilities can keep forever.",
+    about_c4_title: "Student-Led & Growing",
+    about_c4_desc: "Every person involved in The Rare Archive is a young person learning empathy in the most direct way possible: by showing up, listening, and creating. This is community service at its most human.",
+    about_vision_title: "Our Vision for the Future",
+    about_vision_desc: "We envision a world where every retirement home has a chapter of The Rare Archive — a steady presence of young artists and listeners, creating a living archive of humanity's most precious resource: the wisdom and wonder carried by those who've lived the longest. Our goal is to expand to multiple cities, publish collected books, and build a model that any school or youth group can replicate.",
+
+    wwd_tag: "What We Do",
+    wwd_title: "Creating together, one session at a time",
+    wwd_sub: "Each visit is thoughtfully structured to be accessible, joyful, and meaningful — for both the resident and the student artist.",
+    wwd_c1_title: "Mini Art Lessons", wwd_c1_desc: "Students lead gentle, low-pressure art activities — watercolor washes, simple portraiture, collage — designed to be accessible for all mobility levels. No experience needed.",
+    wwd_c2_title: "Story Conversations", wwd_c2_desc: "While creating, students ask open, curious questions about childhood homes, first loves, and life lessons. These conversations are gently recorded with the resident's permission.",
+    wwd_c3_title: "Illustrated Books", wwd_c3_desc: "Collected stories are transcribed and illustrated by student artists, then bound into physical picture books gifted to the resident and their family. Each book is one-of-a-kind.",
+    wwd_c4_title: "Materials & Accessibility", wwd_c4_desc: "We provide all supplies — no burden on the facility or resident. Materials are chosen for comfort and adaptability for residents with limited mobility or vision.",
+    wwd_c5_title: "Emotional Benefits", wwd_c5_desc: "Art activities reduce depression and anxiety in elderly adults. Our sessions also create measurable improvements in residents' reported sense of belonging and purpose.",
+    wwd_c6_title: "Ongoing Relationship", wwd_c6_desc: "Students return regularly to the same residents, building real relationships over weeks and months. Familiarity is the foundation for trust — and trust is where the real stories live.",
+    steps_title: "How a session unfolds",
+    step1_title: "Welcome & Warmth", step1_desc: "Students arrive with supplies and warm introductions, sitting alongside residents at shared tables.",
+    step2_title: "Create Together", step2_desc: "A short, guided art activity gets hands moving and minds relaxed — reducing anxiety and opening up.",
+    step3_title: "Share Stories", step3_desc: "Natural conversation flows. Students listen with genuine curiosity and take soft, unobtrusive notes.",
+    step4_title: "Document & Illustrate", step4_desc: "After sessions, students transform stories into illustrated narratives for the Archive books.",
+    step5_title: "Gift the Book", step5_desc: "The finished book is presented to the resident — often with family present — in a small celebration.",
+
+    book_tag: "Book a Session",
+    book_title: "Invite The Rare Archive to your community",
+    book_info1: "We partner with retirement communities, assisted living facilities, senior centers, and memory care units. If you serve elderly residents and believe in the power of creative connection, we'd love to work with you.",
+    book_info2: "Sessions are offered free of charge to facilities. All materials are provided by our organization. We ask only for consistent access and a committed point of contact on your team.",
+    book_li1: "Open to facilities within our current service area",
+    book_li2: "Minimum of 4 sessions per session series",
+    book_li3: "All residents participate voluntarily",
+    book_li4: "No cost to the facility or residents",
+    book_li5: "Students are trained, background-checked volunteers",
+    book_li6: "Session schedules are flexible to your calendar",
+    book_form_title: "Request a Visit",
+    form_name: "Contact Name", form_org: "Organization",
+    form_email: "Email Address", form_date: "Preferred Start Date",
+    form_msg: "Tell Us About Your Community", form_submit: "Send Request →",
+
+    support_tag: "Support Us",
+    support_title: "Help us bridge more generations",
+    support_sub: "Every form of support — a purchase, a donation, a shared link — directly funds art supplies, book printing, and the expansion of our program to more communities.",
+    tab_shop: "🛍️ Shop", tab_fundraiser: "📚 Fundraisers", tab_donate: "💸 Donate", tab_campaign: "🚀 Campaign",
+    shop_c1_title: "Archive Picture Books", shop_c1_desc: "Purchase a copy of one of our illustrated Archive books. Each book is an authentic collection of stories from real residents, illustrated by our student artists. Available on Etsy now, Amazon coming soon.", shop_c1_btn: "Shop on Etsy →",
+    shop_c2_title: "Student Artwork Prints", shop_c2_desc: "Bring original student-created artwork into your home. Giclée prints of illustrations made during our sessions — each piece is authentic, meaningful, and helps fund the next chapter of our work.", shop_c2_btn: "Browse Prints →",
+    shop_c3_title: "Gift a Book", shop_c3_desc: "Sponsor an Archive book to be gifted directly to a retirement home in your area. The facility receives the book free of charge.", shop_c3_btn: "Inquire →",
+    tf_title: "ThriftBooks Fundraiser", tf_desc: "Our current ongoing fundraiser is through ThriftBooks. When you use our special link to purchase books — novels, children's books, textbooks, anything — a percentage is donated directly to The Rare Archive.", tf_desc2: "ThriftBooks has millions of titles at deeply discounted prices. Think of your next book purchase as a two-for-one: you invest in your own reading life and in the storytelling lives of elderly residents near you.",
+    tf_btn: "Shop ThriftBooks for Us →", tf_prog_label: "Fundraiser Progress", tf_raised: "$840 raised", tf_goal: "Goal: $2,000",
+    tf_note: "100% of raised funds go toward art supplies, book printing, and transportation for student volunteers.",
+    donate_intro: "Your donation goes directly to the work: art supplies for sessions, professional printing for Archive books, and modest support for student volunteers' transportation. We are a student-run organization with minimal overhead — your dollar works hard here.",
+    tier1_label: "Storyteller", tier1_desc: "Covers a full set of watercolor supplies for one resident's session series.",
+    tier2_label: "Illustrator", tier2_desc: "Funds printing and binding of a single illustrated Archive book for a resident to keep.",
+    tier3_label: "Archivist", tier3_desc: "Covers all supplies and documentation for one complete session at a retirement community.",
+    tier4_label: "Chapter Founder", tier4_desc: "Helps launch a new session series at a facility — paying for the first full month of visits.",
+    donate_btn: "Donate Now →",
+    camp_title: "Help Us Reach 50 Residents", camp_desc: "Our current campaign goal is to expand The Rare Archive to three new retirement communities and complete Archive books for 50 residents by the end of this year.", camp_desc2: "We're raising $5,000 to make this happen. Every contribution brings us one step closer to 50 new books, 50 preserved stories, and 50 residents who know their life mattered enough to be written down.", camp_btn: "Support the Campaign →", camp_raised: "$2,100 raised", camp_goal: "Goal: $5,000", camp_breakdown: "Budget breakdown: 40% supplies · 35% printing · 25% volunteer transport",
+
+    inv_tag: "Get Involved", inv_title: "There's a role for everyone",
+    inv_sub: "Whether you're a student, educator, community partner, or an organization that shares our values — there's a meaningful way to be part of The Rare Archive.",
+    inv_c1_title: "Volunteer as a Student Artist", inv_c1_desc: "No professional art experience required — just a willingness to listen and create alongside someone who has lived more life than you can imagine. We train all volunteers. Open to students aged 14+.", inv_c1_btn: "Apply to Volunteer →",
+    inv_c2_title: "Partner as a Facility", inv_c2_desc: "Retirement homes, assisted living centers, and senior day programs can partner with us to bring regular creative sessions to their residents. We handle everything — you simply provide space and consistent access.", inv_c2_btn: "Book a Partnership →",
+    inv_c3_title: "Start a Chapter at Your School", inv_c3_desc: "We're building a replicable model that any school or youth group can adopt. Reach out if you want to bring The Rare Archive to your community. We'll support you every step of the way.", inv_c3_btn: "Start a Chapter →",
+
+    gallery_tag: "Gallery", gallery_title: "Moments from our sessions",
+    gallery_sub: "A glimpse into the art, the connection, and the stories that live inside The Rare Archive.",
+    gal1: "Watercolor session, Spring 2024", gal2: "Margaret's story illustration",
+    gal3: "Reading the finished Archive book", gal4: "Student artist at work",
+    gal5: "Collage afternoon, Fall 2024", gal6: "Henry's portrait series", gal7: "Book gifting ceremony",
+
+    impact_tag: "Our Impact", impact_title: "Real numbers. Real people.",
+    impact_sub: "Every stat below represents a human connection that didn't exist before The Rare Archive showed up.",
+    stat1_num: "47+", stat1_label: "Sessions completed",
+    stat2_num: "38", stat2_label: "Residents served",
+    stat3_num: "22", stat3_label: "Student volunteers",
+    stat4_num: "12", stat4_label: "Archive books created",
+    t1_quote: '"I thought I'd forgotten what it felt like to have someone really listen to me. These students sat there with their sketchbooks and their eyes wide open and I talked for two hours. I haven't talked like that in years."',
+    t1_author: "— Eleanor, 84, Resident",
+    t2_quote: '"We've had activity programs for years, but nothing has brought our residents to life the way these sessions have. The book they made for Miriam — she cried when she saw it. Her family did too."',
+    t2_author: "— James, Activity Director",
+    t3_quote: '"I came in thinking I was volunteering. Arthur told me about meeting his wife on a train in 1962 and I drew it in pencil and he wept a little, happily. I\'ll never forget it."',
+    t3_author: "— Sofia, 16, Volunteer",
+
+    faq_tag: "FAQ", faq_title: "Questions we hear most often",
+    faq_q1: "Do the students need prior art experience?", faq_a1: "Not at all. We welcome students at every skill level. What matters most is genuine curiosity and the willingness to listen. All volunteers receive orientation training before their first session.",
+    faq_q2: "Is there a cost to facilities or residents?", faq_a2: "No. Sessions are offered completely free of charge to partner facilities and their residents. All art supplies, printing materials, and bound Archive books are funded through our fundraising efforts and donations.",
+    faq_q3: "How long is a typical session?", faq_a3: "Sessions typically run between 60 and 90 minutes, depending on resident energy and engagement. We're flexible — if a resident wants to keep going, we stay.",
+    faq_q4: "What happens to the stories that are collected?", faq_a4: "Stories are collected with explicit consent. They are transcribed, illustrated, and compiled into physical Archive books. Residents and families receive copies. Stories are never shared publicly without written permission.",
+    faq_q5: "What age are the student volunteers?", faq_a5: "Our student volunteers range from 14 to 18. All are vetted through an application process and complete a volunteer orientation. We also welcome college students and young adults seeking service hours.",
+    faq_q6: "How do I start a chapter at my school?", faq_a6: "Reach out through our contact form. We'll walk you through our replication model, provide training materials, and connect you with a nearby retirement facility. We aim to have your first session scheduled within six weeks.",
+    faq_q7: "Can residents with dementia participate?", faq_a7: "Yes. Art and storytelling activities have shown strong benefits for residents with mild to moderate dementia. Our activities are designed to meet residents wherever they are cognitively, and we work closely with facility staff.",
+    faq_q8: "Where does the money go?", faq_a8: "Every dollar raised goes directly into the program: art supplies (40%), book printing and binding (35%), and volunteer transportation support (25%). We publish an annual report available to any supporter who requests it.",
+
+    contact_tag: "Contact", contact_title: "Let's build something together",
+    contact_h3: "We'd love to hear from you.",
+    contact_p: "Whether you want to volunteer, partner, donate, or simply learn more — drop us a message. We respond to every inquiry personally, usually within 48 hours.",
+    contact_form_title: "Send a Message",
+
+    footer_tagline: "Preserving stories. Bridging generations. One session at a time.",
+    footer_connect: "Connect With Us",
+    footer_copy: "© 2025 The Rare Archive. A student-led nonprofit organization.",
+  },
+
+  es: {
+    nav_home: "Inicio", nav_about: "Nosotros", nav_wwd: "Qué Hacemos",
+    nav_book: "Reservar Sesión", nav_support: "Apóyanos", nav_fundraising: "Eventos de Recaudación",
+    nav_involved: "Involúcrate", nav_gallery: "Galería",
+    nav_impact: "Impacto", nav_faq: "Preguntas", nav_contact: "Contacto",
+    nav_events: "Eventos", nav_past_events: "Eventos Pasados",
+
+    hero_eyebrow: "Una organización estudiantil · Uniendo generaciones a través del arte",
+    hero_title: "Cada persona mayor lleva una historia que el mundo <em>merece escuchar.</em>",
+    hero_sub: "The Rare Archive conecta a jóvenes artistas con residentes mayores en comunidades de retiro — transformando momentos compartidos en libros ilustrados que preservan memorias para siempre.",
+    hero_btn_support: "Apóyanos",
+    hero_btn_book: "Reservar Sesión",
+
+    fundraiser_title: "📚 Recaudación Actual: ThriftBooks",
+    fundraiser_desc: "Usa nuestro enlace de ThriftBooks para comprar libros usados y un porcentaje apoya directamente a The Rare Archive. Compra los libros que amas mientras nos ayudas a financiar nuestras próximas sesiones.",
+
+    mission_tag: "Nuestra Misión",
+    mission_title: "El arte como puente entre generaciones",
+    mission_sub: "Creemos que el aislamiento es una de las mayores amenazas para el bienestar de los mayores — y que la creatividad es uno de los antídotos más poderosos. Nuestros voluntarios llevan acuarelas, lápices y corazones abiertos a los hogares de retiro, sentándose junto a los residentes para crear, escuchar y recordar.<br><br>Las historias que emergen se transforman en libros ilustrados — prueba viviente de que una vida bien vivida merece ser registrada.",
+
+    about_tag: "Nosotros",
+    about_title: "Empezamos con una sola conversación.",
+    about_sub: "The Rare Archive fue fundada por una estudiante de preparatoria que visitó el hogar de cuidados de su abuela y notó cuántos residentes pasaban sus días en silencio — rodeados de personal, pero profundamente solos. Empezó llevando su cuaderno de bocetos. Luego sus compañeros. Luego las historias comenzaron a fluir.",
+    about_c1_title: "El Problema Que Vimos",
+    about_c1_desc: "Más del 40% de los adultos mayores en instalaciones de cuidado reportan soledad crónica. Las visitas familiares disminuyen con el tiempo. Muchos residentes tienen mundos interiores ricos y extraordinarios — y nadie con quien compartirlos.",
+    about_c2_title: "Por Qué Arte y Narrativa",
+    about_c2_desc: "La expresión creativa desbloquea la memoria, fomenta la comunicación y crea vínculos genuinos. Las sesiones de arte reducen la ansiedad y la depresión en adultos mayores. Y la narrativa les da a los residentes algo profundo: la sensación de que su vida valió la pena ser registrada.",
+    about_c3_title: "El Modelo de Libro Ilustrado",
+    about_c3_desc: "Después de cada serie de sesiones, los artistas estudiantes colaboran para ilustrar las historias que han escuchado — convirtiendo memorias transcritas en hermosos libros ilustrados que las familias pueden conservar para siempre.",
+    about_c4_title: "Liderado por Estudiantes",
+    about_c4_desc: "Cada persona involucrada en The Rare Archive es un joven que aprende empatía de la manera más directa posible: presentándose, escuchando y creando. Esto es servicio comunitario en su forma más humana.",
+    about_vision_title: "Nuestra Visión de Futuro",
+    about_vision_desc: "Imaginamos un mundo donde cada hogar de retiro tenga un capítulo de The Rare Archive — una presencia constante de jóvenes artistas y oyentes, creando un archivo vivo del recurso más preciado de la humanidad: la sabiduría de quienes más han vivido.",
+
+    wwd_tag: "Qué Hacemos",
+    wwd_title: "Creando juntos, una sesión a la vez",
+    wwd_sub: "Cada visita está cuidadosamente estructurada para ser accesible, alegre y significativa — tanto para el residente como para el artista estudiante.",
+    wwd_c1_title: "Mini Lecciones de Arte", wwd_c1_desc: "Los estudiantes lideran actividades artísticas suaves y sin presión — acuarelas, retrato simple, collage — diseñadas para todos los niveles de movilidad. No se necesita experiencia.",
+    wwd_c2_title: "Conversaciones de Historias", wwd_c2_desc: "Mientras crean, los estudiantes hacen preguntas abiertas sobre hogares de infancia, primeros amores y lecciones de vida. Estas conversaciones se registran con el permiso del residente.",
+    wwd_c3_title: "Libros Ilustrados", wwd_c3_desc: "Las historias recopiladas se transcriben e ilustran por artistas estudiantes, luego se encuadernan en libros físicos entregados al residente y su familia. Cada libro es único.",
+    wwd_c4_title: "Materiales y Accesibilidad", wwd_c4_desc: "Proveemos todos los materiales — sin carga para la instalación o el residente. Los materiales se eligen por comodidad y adaptabilidad para residentes con movilidad o visión limitada.",
+    wwd_c5_title: "Beneficios Emocionales", wwd_c5_desc: "Las actividades artísticas reducen la depresión y la ansiedad en adultos mayores. Nuestras sesiones también crean mejoras medibles en el sentido de pertenencia y propósito de los residentes.",
+    wwd_c6_title: "Relación Continua", wwd_c6_desc: "Los estudiantes regresan regularmente con los mismos residentes, construyendo relaciones reales durante semanas y meses. La familiaridad es la base de la confianza — y la confianza es donde viven las verdaderas historias.",
+    steps_title: "Cómo se desarrolla una sesión",
+    step1_title: "Bienvenida y Calidez", step1_desc: "Los estudiantes llegan con materiales y presentaciones cálidas, sentándose junto a los residentes.",
+    step2_title: "Crear Juntos", step2_desc: "Una breve actividad artística guiada pone las manos en movimiento y relaja la mente.",
+    step3_title: "Compartir Historias", step3_desc: "La conversación fluye naturalmente. Los estudiantes escuchan con curiosidad genuina.",
+    step4_title: "Documentar e Ilustrar", step4_desc: "Después de las sesiones, los estudiantes transforman historias en narrativas ilustradas.",
+    step5_title: "Regalar el Libro", step5_desc: "El libro terminado se presenta al residente — a menudo con la familia presente — en una pequeña celebración.",
+
+    book_tag: "Reservar Sesión",
+    book_title: "Invita a The Rare Archive a tu comunidad",
+    book_info1: "Nos asociamos con comunidades de retiro, instalaciones de vida asistida, centros para personas mayores y unidades de cuidado de la memoria. Si sirves a residentes mayores, nos encantaría trabajar contigo.",
+    book_info2: "Las sesiones se ofrecen sin cargo a las instalaciones. Todos los materiales son proporcionados por nuestra organización. Solo pedimos acceso consistente y un punto de contacto comprometido.",
+    book_li1: "Abierto a instalaciones dentro de nuestra área de servicio",
+    book_li2: "Mínimo de 4 sesiones por serie",
+    book_li3: "Todos los residentes participan voluntariamente",
+    book_li4: "Sin costo para la instalación o los residentes",
+    book_li5: "Estudiantes son voluntarios capacitados con verificación de antecedentes",
+    book_li6: "Los horarios de sesión son flexibles a su calendario",
+    book_form_title: "Solicitar una Visita",
+    form_name: "Nombre de Contacto", form_org: "Organización",
+    form_email: "Correo Electrónico", form_date: "Fecha de Inicio Preferida",
+    form_msg: "Cuéntenos Sobre Su Comunidad", form_submit: "Enviar Solicitud →",
+
+    support_tag: "Apóyanos",
+    support_title: "Ayúdanos a unir más generaciones",
+    support_sub: "Cada forma de apoyo — una compra, una donación, un enlace compartido — financia directamente materiales de arte, impresión de libros y la expansión de nuestro programa.",
+    tab_shop: "🛍️ Tienda", tab_fundraiser: "📚 Recaudación", tab_donate: "💸 Donar", tab_campaign: "🚀 Campaña",
+    shop_c1_title: "Libros del Archivo", shop_c1_desc: "Compra una copia de uno de nuestros libros ilustrados del Archivo. Cada libro es una colección auténtica de historias de residentes reales, ilustrada por nuestros artistas estudiantes.", shop_c1_btn: "Comprar en Etsy →",
+    shop_c2_title: "Impresiones de Arte Estudiantil", shop_c2_desc: "Trae arte original creado por estudiantes a tu hogar. Impresiones giclée de ilustraciones hechas durante nuestras sesiones — cada pieza es auténtica y significativa.", shop_c2_btn: "Ver Impresiones →",
+    shop_c3_title: "Regalar un Libro", shop_c3_desc: "Patrocina un libro del Archivo para ser regalado directamente a un hogar de retiro en tu área. La instalación recibe el libro sin cargo.", shop_c3_btn: "Consultar →",
+    tf_title: "Recaudación ThriftBooks", tf_desc: "Nuestra recaudación actual es a través de ThriftBooks. Cuando usas nuestro enlace especial para comprar libros, un porcentaje se dona directamente a The Rare Archive.", tf_desc2: "ThriftBooks tiene millones de títulos a precios con grandes descuentos. Tu próxima compra de libros es doble: inviertes en tu vida lectora y en las historias de los residentes mayores cerca de ti.",
+    tf_btn: "Comprar en ThriftBooks para Nosotros →", tf_prog_label: "Progreso de la Recaudación", tf_raised: "$840 recaudados", tf_goal: "Meta: $2,000",
+    tf_note: "El 100% de los fondos recaudados va hacia materiales de arte, impresión de libros y transporte para voluntarios.",
+    donate_intro: "Tu donación va directamente al trabajo: materiales de arte para sesiones, impresión profesional de libros del Archivo y apoyo modesto para el transporte de voluntarios. Somos una organización estudiantil con gastos mínimos — tu dólar trabaja duro aquí.",
+    tier1_label: "Narrador", tier1_desc: "Cubre un conjunto completo de materiales de acuarela para la serie de sesiones de un residente.",
+    tier2_label: "Ilustrador", tier2_desc: "Financia la impresión y encuadernación de un libro ilustrado del Archivo para que un residente conserve.",
+    tier3_label: "Archivista", tier3_desc: "Cubre todos los materiales y documentación para una sesión completa en una comunidad de retiro.",
+    tier4_label: "Fundador de Capítulo", tier4_desc: "Ayuda a lanzar una nueva serie de sesiones en una instalación — pagando por el primer mes completo de visitas.",
+    donate_btn: "Donar Ahora →",
+    camp_title: "Ayúdanos a Llegar a 50 Residentes", camp_desc: "Nuestra meta actual es expandir The Rare Archive a tres nuevas comunidades de retiro y completar libros del Archivo para 50 residentes este año.", camp_desc2: "Estamos recaudando $5,000 para lograrlo. Cada contribución nos acerca a 50 nuevos libros, 50 historias preservadas y 50 residentes que saben que su vida valió la pena ser escrita.", camp_btn: "Apoyar la Campaña →", camp_raised: "$2,100 recaudados", camp_goal: "Meta: $5,000", camp_breakdown: "Presupuesto: 40% materiales · 35% impresión · 25% transporte",
+
+    inv_tag: "Involúcrate", inv_title: "Hay un rol para todos",
+    inv_sub: "Ya seas estudiante, educador, socio comunitario u organización que comparte nuestros valores — hay una forma significativa de ser parte de The Rare Archive.",
+    inv_c1_title: "Voluntario como Artista Estudiante", inv_c1_desc: "No se requiere experiencia artística profesional — solo disposición para escuchar y crear junto a alguien que ha vivido más de lo que puedes imaginar. Capacitamos a todos los voluntarios. Abierto a estudiantes de 14 años en adelante.", inv_c1_btn: "Aplicar como Voluntario →",
+    inv_c2_title: "Sociedad como Instalación", inv_c2_desc: "Hogares de retiro, centros de vida asistida y programas diurnos para mayores pueden asociarse con nosotros. Nos encargamos de todo — solo proporciona espacio y acceso consistente.", inv_c2_btn: "Reservar una Sociedad →",
+    inv_c3_title: "Inicia un Capítulo en Tu Escuela", inv_c3_desc: "Estamos construyendo un modelo replicable que cualquier escuela puede adoptar. Si quieres llevar The Rare Archive a tu comunidad, contáctanos. Te apoyaremos en cada paso.", inv_c3_btn: "Iniciar un Capítulo →",
+
+    gallery_tag: "Galería", gallery_title: "Momentos de nuestras sesiones",
+    gallery_sub: "Un vistazo al arte, la conexión y las historias que viven dentro de The Rare Archive.",
+    gal1: "Sesión de acuarela, Primavera 2024", gal2: "Ilustración de la historia de Margarita",
+    gal3: "Leyendo el libro del Archivo terminado", gal4: "Artista estudiante en acción",
+    gal5: "Tarde de collage, Otoño 2024", gal6: "Serie de retratos de Enrique", gal7: "Ceremonia de entrega del libro",
+
+    impact_tag: "Nuestro Impacto", impact_title: "Números reales. Personas reales.",
+    impact_sub: "Cada estadística a continuación representa una conexión humana que no existía antes de que The Rare Archive llegara.",
+    stat1_num: "47+", stat1_label: "Sesiones completadas",
+    stat2_num: "38", stat2_label: "Residentes atendidos",
+    stat3_num: "22", stat3_label: "Voluntarios estudiantes",
+    stat4_num: "12", stat4_label: "Libros del Archivo creados",
+    t1_quote: '"Pensé que había olvidado lo que se sentía que alguien realmente me escuchara. Estos estudiantes se sentaron con sus cuadernos y los ojos bien abiertos y hablé por dos horas. No había hablado así en años."',
+    t1_author: "— Elena, 84, Residente",
+    t2_quote: '"Hemos tenido programas de actividades durante años, pero nada ha dado vida a nuestros residentes como estas sesiones. El libro que hicieron para Miriam — ella lloró cuando lo vio. Su familia también."',
+    t2_author: "— Jaime, Director de Actividades",
+    t3_quote: '"Llegué pensando que estaba haciendo voluntariado. Arturo me contó sobre conocer a su esposa en un tren en 1962 y lo dibujé a lápiz y él lloró un poco, de alegría. Nunca lo olvidaré."',
+    t3_author: "— Sofía, 16, Voluntaria",
+
+    faq_tag: "Preguntas Frecuentes", faq_title: "Preguntas que escuchamos más frecuentemente",
+    faq_q1: "¿Los estudiantes necesitan experiencia artística previa?", faq_a1: "Para nada. Damos la bienvenida a estudiantes de todos los niveles. Lo que más importa es la curiosidad genuina y la disposición para escuchar. Todos los voluntarios reciben capacitación de orientación antes de su primera sesión.",
+    faq_q2: "¿Hay algún costo para las instalaciones o residentes?", faq_a2: "No. Las sesiones se ofrecen completamente gratis a las instalaciones asociadas y a sus residentes. Todos los materiales de arte, materiales de impresión y libros encuadernados son financiados a través de nuestros esfuerzos de recaudación y donaciones.",
+    faq_q3: "¿Cuánto dura una sesión típica?", faq_a3: "Las sesiones generalmente duran entre 60 y 90 minutos, dependiendo de la energía y el compromiso del residente. Somos flexibles — si un residente quiere continuar, nos quedamos.",
+    faq_q4: "¿Qué pasa con las historias recopiladas?", faq_a4: "Las historias se recopilan con consentimiento explícito. Se transcriben, ilustran y compilan en libros físicos del Archivo. Los residentes y familias reciben copias. Las historias nunca se comparten públicamente sin permiso escrito.",
+    faq_q5: "¿Qué edad tienen los voluntarios estudiantes?", faq_a5: "Nuestros voluntarios van de 14 a 18 años. Todos son evaluados mediante un proceso de solicitud y completan una orientación. También damos la bienvenida a universitarios y adultos jóvenes que buscan horas de servicio.",
+    faq_q6: "¿Cómo puedo iniciar un capítulo en mi escuela?", faq_a6: "Contáctanos a través de nuestro formulario. Te guiaremos por nuestro modelo de replicación, proporcionaremos materiales de capacitación y te conectaremos con una instalación de retiro cercana. Nuestro objetivo es tener tu primera sesión programada dentro de seis semanas.",
+    faq_q7: "¿Pueden participar residentes con demencia?", faq_a7: "Sí. Las actividades de arte y narrativa han mostrado beneficios sólidos para residentes con demencia leve a moderada. Nuestras actividades están diseñadas para adaptarse a cada residente cognitivamente, y trabajamos estrechamente con el personal de las instalaciones.",
+    faq_q8: "¿A dónde va el dinero?", faq_a8: "Cada dólar recaudado va directamente al programa: materiales de arte (40%), impresión y encuadernación de libros (35%) y apoyo de transporte para voluntarios (25%). Publicamos un informe anual disponible para cualquier patrocinador que lo solicite.",
+
+    contact_tag: "Contacto", contact_title: "Construyamos algo juntos",
+    contact_h3: "Nos encantaría escucharte.",
+    contact_p: "Ya sea que quieras ser voluntario, asociarte, donar o simplemente aprender más — envíanos un mensaje. Respondemos a cada consulta personalmente, generalmente dentro de 48 horas.",
+    contact_form_title: "Enviar un Mensaje",
+
+    footer_tagline: "Preservando historias. Uniendo generaciones. Una sesión a la vez.",
+    footer_connect: "Conéctate Con Nosotros",
+    footer_copy: "© 2025 The Rare Archive. Una organización sin fines de lucro liderada por estudiantes.",
+  }
+};
+
+/* ============================================================
+   LANGUAGE TOGGLE
+============================================================ */
+let currentLang = 'en';
+
+function applyTranslations(lang) {
+  const t = translations[lang];
+  // Keys whose values intentionally contain HTML (em, br, strong, etc.)
+  const htmlKeys = new Set(['hero_title', 'mission_sub']);
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] === undefined) return;
+    if (htmlKeys.has(key)) {
+      el.innerHTML = t[key];
+    } else {
+      el.textContent = t[key];
+    }
+  });
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const lang = btn.getAttribute('data-lang');
+    if (!translations[lang]) return;
+    currentLang = lang;
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyTranslations(lang);
+    document.documentElement.lang = lang;
+  });
+});
+
+/* ============================================================
+   NAVBAR SCROLL + HAMBURGER
+============================================================ */
+const navbar = document.getElementById('navbar');
+if (navbar) {
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
+  });
+}
+
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+if (hamburger && mobileMenu) {
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+  });
+}
+
+// Mobile dropdown menu expansion/collapse
+document.querySelectorAll('.mobile-item-trigger').forEach(trigger => {
+  trigger.addEventListener('click', (e) => {
+    e.preventDefault();
+    const parent = trigger.closest('.mobile-menu-item');
+    parent.classList.toggle('open');
+  });
+});
+
+// Close mobile menu when clicking a link (but not expandable items)
+if (mobileMenu) {
+  mobileMenu.querySelectorAll('.mobile-submenu a').forEach(a => {
+    a.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  });
+}
+
+/* ============================================================
+   SMOOTH SCROLL for anchors
+============================================================ */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const href = a.getAttribute('href');
+    if (!href || href === '#') return;
+    const target = document.querySelector(href);
+    if (target) {
+      e.preventDefault();
+      const offset = 68;
+      window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
+      if (mobileMenu) {
+        mobileMenu.classList.remove('open');
+      }
+    }
+  });
+});
+
+/* ============================================================
+   SCROLL FADE-IN
+============================================================ */
+const faders = document.querySelectorAll('.fade-in');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+faders.forEach(f => observer.observe(f));
+
+/* ============================================================
+   SUPPORT TABS
+============================================================ */
+document.querySelectorAll('.support-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.getAttribute('data-tab');
+    const panel = document.getElementById('panel-' + target);
+    if (!panel) return;
+    document.querySelectorAll('.support-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.support-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    panel.classList.add('active');
+  });
+});
+
+/* ============================================================
+   FAQ ACCORDION
+============================================================ */
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+/* ============================================================
+   PROGRESS BAR ANIMATION ON SCROLL
+============================================================ */
+const progressFill = document.getElementById('progressFill');
+if (progressFill) {
+  const progObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        progressFill.style.width = '42%';
+        progObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  progObserver.observe(progressFill);
+}
+
+/* initial translate */
+applyTranslations('en');
+document.documentElement.lang = currentLang;
+</script>
+</body>
+</html>
