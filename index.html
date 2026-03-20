@@ -1495,16 +1495,16 @@
         <div class="form-row">
           <div class="form-group">
             <label data-i18n="form_name">Contact Name</label>
-            <input type="text" placeholder="Your full name" />
+            <input type="text" placeholder="Your full name" data-i18n-placeholder="book_placeholder_name" />
           </div>
           <div class="form-group">
             <label data-i18n="form_org">Organization</label>
-            <input type="text" placeholder="Facility or organization name" />
+            <input type="text" placeholder="Facility or organization name" data-i18n-placeholder="book_placeholder_org" />
           </div>
         </div>
         <div class="form-group">
           <label data-i18n="form_email">Email Address</label>
-          <input type="email" placeholder="you@organization.com" />
+          <input type="email" placeholder="you@organization.com" data-i18n-placeholder="book_placeholder_email" />
         </div>
         <div class="form-group">
           <label data-i18n="form_date">Preferred Start Date</label>
@@ -1512,7 +1512,7 @@
         </div>
         <div class="form-group">
           <label data-i18n="form_msg">Tell Us About Your Community</label>
-          <textarea placeholder="How many residents? Any accessibility needs? What drew you to The Rare Archive?"></textarea>
+          <textarea placeholder="How many residents? Any accessibility needs? What drew you to The Rare Archive?" data-i18n-placeholder="book_placeholder_msg"></textarea>
         </div>
         <button class="btn btn-primary" style="width:100%; justify-content:center;" data-i18n="form_submit">Send Request →</button>
       </div>
@@ -1831,16 +1831,16 @@
         <div class="form-row">
           <div class="form-group">
             <label data-i18n="form_name">Your Name</label>
-            <input type="text" placeholder="Full name" />
+            <input type="text" placeholder="Full name" data-i18n-placeholder="contact_placeholder_name" />
           </div>
           <div class="form-group">
             <label data-i18n="form_email">Email Address</label>
-            <input type="email" placeholder="you@email.com" />
+            <input type="email" placeholder="you@email.com" data-i18n-placeholder="contact_placeholder_email" />
           </div>
         </div>
         <div class="form-group">
           <label data-i18n="form_msg">Message</label>
-          <textarea placeholder="What's on your mind?"></textarea>
+          <textarea placeholder="What's on your mind?" data-i18n-placeholder="contact_placeholder_msg"></textarea>
         </div>
         <button class="btn btn-primary" style="width:100%;justify-content:center;" data-i18n="form_submit">Send Message →</button>
       </div>
@@ -1960,6 +1960,10 @@ const translations = {
     form_name: "Contact Name", form_org: "Organization",
     form_email: "Email Address", form_date: "Preferred Start Date",
     form_msg: "Tell Us About Your Community", form_submit: "Send Request →",
+    book_placeholder_name: "Your full name",
+    book_placeholder_org: "Facility or organization name",
+    book_placeholder_email: "you@organization.com",
+    book_placeholder_msg: "How many residents? Any accessibility needs? What drew you to The Rare Archive?",
 
     support_tag: "Support Us",
     support_title: "Help us bridge more generations",
@@ -1997,9 +2001,9 @@ const translations = {
     stat2_num: "38", stat2_label: "Residents served",
     stat3_num: "22", stat3_label: "Student volunteers",
     stat4_num: "12", stat4_label: "Archive books created",
-    t1_quote: '"I thought I'd forgotten what it felt like to have someone really listen to me. These students sat there with their sketchbooks and their eyes wide open and I talked for two hours. I haven't talked like that in years."',
+    t1_quote: "\"I thought I'd forgotten what it felt like to have someone really listen to me. These students sat there with their sketchbooks and their eyes wide open and I talked for two hours. I haven't talked like that in years.\"",
     t1_author: "— Eleanor, 84, Resident",
-    t2_quote: '"We've had activity programs for years, but nothing has brought our residents to life the way these sessions have. The book they made for Miriam — she cried when she saw it. Her family did too."',
+    t2_quote: "\"We've had activity programs for years, but nothing has brought our residents to life the way these sessions have. The book they made for Miriam — she cried when she saw it. Her family did too.\"",
     t2_author: "— James, Activity Director",
     t3_quote: '"I came in thinking I was volunteering. Arthur told me about meeting his wife on a train in 1962 and I drew it in pencil and he wept a little, happily. I\'ll never forget it."',
     t3_author: "— Sofia, 16, Volunteer",
@@ -2018,6 +2022,9 @@ const translations = {
     contact_h3: "We'd love to hear from you.",
     contact_p: "Whether you want to volunteer, partner, donate, or simply learn more — drop us a message. We respond to every inquiry personally, usually within 48 hours.",
     contact_form_title: "Send a Message",
+    contact_placeholder_name: "Full name",
+    contact_placeholder_email: "you@email.com",
+    contact_placeholder_msg: "What's on your mind?",
 
     footer_tagline: "Preserving stories. Bridging generations. One session at a time.",
     footer_connect: "Connect With Us",
@@ -2088,6 +2095,10 @@ const translations = {
     form_name: "Nombre de Contacto", form_org: "Organización",
     form_email: "Correo Electrónico", form_date: "Fecha de Inicio Preferida",
     form_msg: "Cuéntenos Sobre Su Comunidad", form_submit: "Enviar Solicitud →",
+    book_placeholder_name: "Su nombre completo",
+    book_placeholder_org: "Nombre de la instalación u organización",
+    book_placeholder_email: "usted@organizacion.com",
+    book_placeholder_msg: "¿Cuántos residentes? ¿Alguna necesidad de accesibilidad? ¿Qué le atrajo de The Rare Archive?",
 
     support_tag: "Apóyanos",
     support_title: "Ayúdanos a unir más generaciones",
@@ -2146,6 +2157,9 @@ const translations = {
     contact_h3: "Nos encantaría escucharte.",
     contact_p: "Ya sea que quieras ser voluntario, asociarte, donar o simplemente aprender más — envíanos un mensaje. Respondemos a cada consulta personalmente, generalmente dentro de 48 horas.",
     contact_form_title: "Enviar un Mensaje",
+    contact_placeholder_name: "Nombre completo",
+    contact_placeholder_email: "usted@correo.com",
+    contact_placeholder_msg: "¿Qué tiene en mente?",
 
     footer_tagline: "Preservando historias. Uniendo generaciones. Una sesión a la vez.",
     footer_connect: "Conéctate Con Nosotros",
@@ -2160,8 +2174,11 @@ let currentLang = 'en';
 
 function applyTranslations(lang) {
   const t = translations[lang];
+  if (!t) return;
+
   // Keys whose values intentionally contain HTML (em, br, strong, etc.)
   const htmlKeys = new Set(['hero_title', 'mission_sub']);
+
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (t[key] === undefined) return;
@@ -2171,17 +2188,34 @@ function applyTranslations(lang) {
       el.textContent = t[key];
     }
   });
+
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (t[key] === undefined) return;
+    el.placeholder = t[key];
+  });
+}
+
+function setLanguage(lang) {
+  if (!translations[lang]) return;
+
+  currentLang = lang;
+  applyTranslations(lang);
+  document.documentElement.lang = lang;
+
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
 }
 
 document.querySelectorAll('.lang-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    const lang = btn.getAttribute('data-lang');
-    if (!translations[lang]) return;
-    currentLang = lang;
-    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    applyTranslations(lang);
-    document.documentElement.lang = lang;
+    const selectedLang = btn.getAttribute('data-lang');
+    const nextLang = selectedLang === currentLang
+      ? (currentLang === 'en' ? 'es' : 'en')
+      : selectedLang;
+
+    setLanguage(nextLang);
   });
 });
 
@@ -2296,8 +2330,7 @@ if (progressFill) {
 }
 
 /* initial translate */
-applyTranslations('en');
-document.documentElement.lang = currentLang;
+setLanguage(currentLang);
 </script>
 </body>
 </html>
