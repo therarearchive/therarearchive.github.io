@@ -867,6 +867,265 @@
     }
 
     /* ============================================================
+       EVENTS
+    ============================================================ */
+    #events {
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.95), transparent 34%),
+        linear-gradient(135deg, #efe2ec 0%, #dbc7da 100%);
+    }
+    #events .container {
+      position: relative;
+    }
+    #events .section-tag {
+      background: rgba(255, 255, 255, 0.68);
+      color: var(--purple-deep);
+    }
+    .events-tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 40px 0 32px;
+    }
+    .events-tab {
+      padding: 10px 20px;
+      border-radius: 99px;
+      border: 1.5px solid rgba(107, 77, 112, 0.16);
+      background: rgba(255, 255, 255, 0.52);
+      color: var(--text-mid);
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition), border-color var(--transition), transform var(--transition);
+    }
+    .events-tab:hover,
+    .events-tab.active {
+      background: var(--purple-deep);
+      color: #fff;
+      border-color: var(--purple-deep);
+      transform: translateY(-1px);
+    }
+    .events-panel {
+      display: none;
+    }
+    .events-panel.active {
+      display: block;
+    }
+    .events-segment {
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(107, 77, 112, 0.12);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(8px);
+    }
+    .events-segment-head {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: start;
+      margin-bottom: 28px;
+    }
+    .events-segment-note {
+      font-size: 0.92rem;
+      color: var(--text-mid);
+      line-height: 1.75;
+    }
+    .events-mini-card {
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(107, 77, 112, 0.12);
+      border-radius: var(--radius-md);
+      padding: 20px 22px;
+    }
+    .events-mini-card h4 {
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+      color: var(--purple-deep);
+    }
+    .events-mini-card p {
+      font-size: 0.84rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
+    .events-calendar {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+      gap: 24px;
+      align-items: start;
+    }
+    .calendar-card,
+    .events-list,
+    .past-events-grid .events-mini-card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(107, 77, 112, 0.12);
+      border-radius: var(--radius-md);
+      padding: 24px;
+    }
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      gap: 16px;
+    }
+    .calendar-header h3 {
+      font-size: 1.15rem;
+      color: var(--text-dark);
+    }
+    .calendar-pill {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--purple-deep);
+      background: var(--lavender-light);
+      border-radius: 99px;
+      padding: 7px 12px;
+    }
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+    }
+    .calendar-dayname,
+    .calendar-day {
+      text-align: center;
+      border-radius: 14px;
+    }
+    .calendar-dayname {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-light);
+      padding-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .calendar-day {
+      min-height: 72px;
+      background: var(--off-white);
+      border: 1px solid rgba(107, 77, 112, 0.08);
+      padding: 10px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--text-mid);
+    }
+    .calendar-day.muted {
+      opacity: 0.38;
+    }
+    .calendar-day.event-day {
+      background: linear-gradient(135deg, rgba(164, 132, 164, 0.18), rgba(107, 77, 112, 0.14));
+      border-color: rgba(107, 77, 112, 0.18);
+      color: var(--purple-deep);
+      font-weight: 600;
+    }
+    .calendar-marker {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--purple-deep);
+      box-shadow: 0 0 0 4px rgba(107, 77, 112, 0.12);
+    }
+    .calendar-event-label {
+      font-size: 0.7rem;
+      line-height: 1.2;
+    }
+    .events-list h4 {
+      font-size: 1rem;
+      margin-bottom: 14px;
+      color: var(--text-dark);
+    }
+    .events-list-item + .events-list-item {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(107, 77, 112, 0.1);
+    }
+    .events-list-date {
+      display: inline-block;
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--purple-deep);
+      margin-bottom: 6px;
+    }
+    .events-list-item p {
+      font-size: 0.84rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
+    .events-fundraiser-card {
+      background: linear-gradient(135deg, #6b4d70 0%, #5a3f65 100%);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: start;
+      box-shadow: var(--shadow-soft);
+    }
+    .events-fundraiser-card h3,
+    .events-fundraiser-card p,
+    .events-fundraiser-card .progress-label {
+      color: rgba(255, 255, 255, 0.88);
+    }
+    .events-fundraiser-card h3 {
+      color: #fff;
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+    }
+    .events-fundraiser-card .progress-bar {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .events-fundraiser-meta {
+      display: grid;
+      gap: 16px;
+    }
+    .events-highlight-list {
+      display: grid;
+      gap: 12px;
+    }
+    .events-highlight-item {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+    }
+    .events-highlight-item strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.88rem;
+      color: #fff;
+    }
+    .events-highlight-item span {
+      font-size: 0.82rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.78);
+    }
+    .past-events-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+    .past-events-grid .events-mini-card h4 {
+      margin-bottom: 10px;
+    }
+    .past-event-date {
+      display: inline-block;
+      margin-bottom: 10px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--purple-deep);
+    }
+
+    /* ============================================================
        GET INVOLVED
     ============================================================ */
     #get-involved { background: linear-gradient(135deg, #5a3f65 0%, #6b4d70 100%); }
@@ -1209,9 +1468,13 @@
       .contact-grid,
       .mission-intro-grid,
       .fundraiser-card { grid-template-columns: 1fr; gap: 32px; }
+      .events-segment-head,
+      .events-calendar,
+      .events-fundraiser-card { grid-template-columns: 1fr; }
       .wwd-cards,
       .involved-grid,
-      .testimonials-grid { grid-template-columns: 1fr 1fr; }
+      .testimonials-grid,
+      .past-events-grid { grid-template-columns: 1fr 1fr; }
       .tiers-grid { grid-template-columns: 1fr 1fr; }
       .shop-grid { grid-template-columns: 1fr 1fr; }
       .gallery-grid { grid-template-columns: 1fr 1fr; }
@@ -1226,11 +1489,16 @@
       .involved-grid,
       .testimonials-grid,
       .tiers-grid,
-      .shop-grid { grid-template-columns: 1fr; }
+      .shop-grid,
+      .past-events-grid { grid-template-columns: 1fr; }
       .form-row { grid-template-columns: 1fr; }
       .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 200px; }
       .gallery-item:nth-child(1) { grid-column: span 1; }
       .fundraiser-card { padding: 32px 24px; }
+      .events-segment,
+      .events-fundraiser-card { padding: 32px 24px; }
+      .calendar-grid { gap: 8px; }
+      .calendar-day { min-height: 64px; }
       .about-full { padding: 36px 28px; }
       .book-form-wrap, .contact-form-wrap { padding: 28px 22px; }
     }
@@ -1268,16 +1536,16 @@
         <li class="nav-item nav-dropdown">
           <a href="#get-involved" class="nav-link dropdown-trigger" data-i18n="nav_involved">Get Involved</a>
           <ul class="dropdown-menu" aria-label="Get Involved Menu">
-            <li><a href="#get-involved" data-i18n="nav_involved">Get Involved</a></li>
             <li><a href="#support-us" data-i18n="nav_support">Support Us</a></li>
           </ul>
         </li>
         <!-- Events -->
         <li class="nav-item nav-dropdown">
-          <a href="#" class="nav-link dropdown-trigger" data-i18n="nav_events">Events</a>
+          <a href="#events" class="nav-link dropdown-trigger" data-i18n="nav_events">Events</a>
           <ul class="dropdown-menu" aria-label="Events Menu">
-            <li><a href="#fundraising-events" data-i18n="nav_fundraising">Fundraising Events</a></li>
-            <li><a href="#" data-i18n="nav_past_events" class="disabled">Past Events</a></li>
+            <li><a href="#events-upcoming" data-events-target="upcoming" data-i18n="nav_upcoming_events">Upcoming Events</a></li>
+            <li><a href="#events-fundraisers" data-events-target="fundraisers" data-i18n="nav_current_fundraisers">Current Fundraisers</a></li>
+            <li><a href="#events-past" data-events-target="past" data-i18n="nav_past_events">Past Events</a></li>
           </ul>
         </li>
         <!-- Impact -->
@@ -1319,15 +1587,15 @@
   <div class="mobile-menu-item">
     <button class="mobile-item-trigger" data-i18n="nav_involved">Get Involved</button>
     <div class="mobile-submenu">
-      <a href="#get-involved" data-i18n="nav_involved">Get Involved</a>
       <a href="#support-us" data-i18n="nav_support">Support Us</a>
     </div>
   </div>
   <div class="mobile-menu-item">
     <button class="mobile-item-trigger" data-i18n="nav_events">Events</button>
     <div class="mobile-submenu">
-      <a href="#fundraising-events" data-i18n="nav_fundraising">Fundraising Events</a>
-      <a href="#" data-i18n="nav_past_events" class="disabled">Past Events</a>
+      <a href="#events-upcoming" data-events-target="upcoming" data-i18n="nav_upcoming_events">Upcoming Events</a>
+      <a href="#events-fundraisers" data-events-target="fundraisers" data-i18n="nav_current_fundraisers">Current Fundraisers</a>
+      <a href="#events-past" data-events-target="past" data-i18n="nav_past_events">Past Events</a>
     </div>
   </div>
   <div class="mobile-menu-item">
@@ -1350,8 +1618,8 @@
     <a href="#book-a-session" class="btn btn-outline" data-i18n="hero_btn_book">Book a Session</a>
   </div>
   <div class="fundraiser-strip fade-in fade-in-delay-4">
-    <p><strong data-i18n="fundraiser_title">📚 Current Fundraiser: ThriftBooks</strong><br>
-    <span data-i18n="fundraiser_desc">Use our ThriftBooks fundraiser link to purchase used books and a percentage supports The Rare Archive directly. Shop books you love while helping us fund our next round of art sessions.</span></p>
+    <p><strong data-i18n="fundraiser_title">📚 Current Fundraiser: 50 ThriftBooks Bundles</strong><br>
+    <span data-i18n="fundraiser_desc">Our goal is to raise $2,000 by selling 50 ThriftBooks bundles at $40 each. Every bundle purchased through our fundraiser helps support The Rare Archive.</span></p>
     <div class="fundraiser-strip-actions">
       <a
         href="https://u2095113.ct.sendgrid.net/ls/click?upn=u001.BUqyo2weqiL4lvKqltSx0CoOHMub-2BBVzs2Xfd3UVQWq8azIglerBOK12ZHNX1pzF7C81CLK66zkhSZ-2FsT2wun1nqKostOWGelYCzXVSqJLwlBHp74PfGLfyMw8giguBtPHmvUwQuAmH8kjAHgLzTnFu1K9Q1LtoYMnZOnEDuUImIGsn7nZ6qhHSJS6gEtXmoUxmk_e4TKKxHfedI-2F9Bil15s2LgVz7uqiEvlwL2fOh1YgOurwNuUiUXUTqMjNe-2FVdrHhdoitLBpIYc-2B2-2B-2BrArXzaXxyxGzZ6rdww-2FScv5wGZAuWSvpMwiGu8rV412DY4vorUcVl4vtAlit00gsYhG1tzddMbZ7XTKKEiNh24Pg2z914JFGizLmrYkFeu7Mx5S9-2Fwf4-2FgY9KJqa7G1LgslEqHqfOBGk8jF4WvriyVOKFAJNG5qeL-2B9-2BMNjAplkew0AqGdUD4EaEtADGOwdwkV9SLs8s4W4dAWj4HlFiYpwxR8V9gGw9-2FF6B-2BVx0DwEmKe-2B6ZtGm7dMAnLAUml6O4gOU-2BC1BD0sj7y1zl0jwjUxRC93Ci-2FK7LyITepL6OBnmw3Prhc-2F4uQEYeKPpcfWpqY0U36UKOFoQSBT8ERYzHzDP6OvlDiGG5MHuvb2K2JlhkXS7-2FBH"
@@ -1711,27 +1979,27 @@
     <div class="support-panel" id="panel-fundraiser">
       <div class="fundraiser-card fade-in">
         <div>
-          <h3 data-i18n="tf_title">ThriftBooks Fundraiser</h3>
-          <p data-i18n="tf_desc">Our current ongoing fundraiser is through ThriftBooks, one of the largest online used bookstores. When you use our special link to purchase books — novels, children's books, textbooks, anything — a percentage of your purchase is donated directly to The Rare Archive. You get books you love. We get the funds to keep going. It's that simple.</p>
-          <p data-i18n="tf_desc2">ThriftBooks already has millions of titles at deeply discounted prices. Think of your next book purchase as a two-for-one: you invest in your own reading life and in the storytelling lives of elderly residents near you.</p>
+          <h3 data-i18n="tf_title">ThriftBooks Bundle Fundraiser</h3>
+          <p data-i18n="tf_desc">Our current fundraiser is centered on ThriftBooks book bundles. We're aiming to sell 50 bundles priced at $40 each through our GroupRaise campaign link.</p>
+          <p data-i18n="tf_desc2">Right now we've sold 0 bundles, so every purchase makes a visible difference. Reaching the full goal would mean $2,000 in support for The Rare Archive.</p>
           <a
-            href="https://u2095113.ct.sendgrid.net/ls/click?upn=u001.BUqyo2weqiL4lvKqltSx0CoOHMub-2BBVzs2Xfd3UVQWq8azIglerBOK12ZHNX1pzF7C81CLK66zkhSZ-2FsT2wun1nqKostOWGelYCzXVSqJLwlBHp74PfGLfyMw8giguBtPHmvUwQuAmH8kjAHgLzTnFu1K9Q1LtoYMnZOnEDuUImIGsn7nZ6qhHSJS6gEtXmoUxmk_e4TKKxHfedI-2F9Bil15s2LgVz7uqiEvlwL2fOh1YgOurwNuUiUXUTqMjNe-2FVdrHhdoitLBpIYc-2B2-2B-2BrArXzaXxyxGzZ6rdww-2FScv5wGZAuWSvpMwiGu8rV412DY4vorUcVl4vtAlit00gsYhG1tzddMbZ7XTKKEiNh24Pg2z914JFGizLmrYkFeu7Mx5S9-2Fwf4-2FgY9KJqa7G1LgslEqHqfOBGk8jF4WvriyVOKFAJNG5qeL-2B9-2BMNjAplkew0AqGdUD4EaEtADGOwdwkV9SLs8s4W4dAWj4HlFiYpwxR8V9gGw9-2FF6B-2BVx0DwEmKe-2B6ZtGm7dMAnLAUml6O4gOU-2BC1BD0sj7y1zl0jwjUxRC93Ci-2FK7LyITepL6OBnmw3Prhc-2F4uQEYeKPpcfWpqY0U36UKOFoQSBT8ERYzHzDP6OvlDiGG5MHuvb2K2JlhkXS7-2FBH"
+            href="https://www.groupraise.com/oc/73884-thriftbooks?utm_campaign=offers_promo_campaign_weekly&utm_medium=email&utm_source=sendgrid"
             class="btn btn-primary"
             target="_blank"
             rel="noopener noreferrer"
             data-i18n="tf_btn"
-          >Shop ThriftBooks for Us →</a>
+          >Shop the Fundraiser →</a>
         </div>
         <div>
           <p style="font-size:0.8rem;color:var(--text-mid);margin-bottom:12px;" data-i18n="tf_prog_label">Fundraiser Progress</p>
           <div class="progress-bar-wrap">
             <div class="progress-label">
-              <span data-i18n="tf_raised">$840 raised</span>
-              <span data-i18n="tf_goal">Goal: $2,000</span>
+              <span data-i18n="tf_raised">0 bundles sold</span>
+              <span data-i18n="tf_goal">Goal: 50 bundles ($40 each)</span>
             </div>
             <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
           </div>
-          <p style="font-size:0.82rem;color:var(--text-light);margin-top:20px;line-height:1.7;" data-i18n="tf_note">100% of raised funds go toward art supplies, book printing, and transportation for student volunteers.</p>
+          <p style="font-size:0.82rem;color:var(--text-light);margin-top:20px;line-height:1.7;" data-i18n="tf_note">At full participation, this fundraiser would generate $2,000 to help cover supplies, printing, and program growth.</p>
         </div>
       </div>
     </div>
@@ -1782,6 +2050,198 @@
             <div class="progress-bar"><div class="progress-fill" style="width:42%"></div></div>
           </div>
           <p style="font-size:0.82rem;color:var(--text-mid);margin-top:20px;line-height:1.7;" data-i18n="camp_breakdown">Budget breakdown: 40% supplies · 35% printing · 25% volunteer transport</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EVENTS
+============================================================ -->
+<section class="section" id="events">
+  <div class="container">
+    <span class="section-tag fade-in" data-i18n="events_tag">Events</span>
+    <h2 class="section-title fade-in fade-in-delay-1" data-i18n="events_title">See what's coming up and what we've already shared</h2>
+    <p class="section-sub fade-in fade-in-delay-2" data-i18n="events_sub">Browse our upcoming calendar, follow the fundraiser we're actively running, and look back at community moments that helped shape The Rare Archive.</p>
+
+    <div class="events-tabs fade-in">
+      <button class="events-tab active" data-events-tab="upcoming" data-i18n="events_tab_upcoming">Upcoming Events</button>
+      <button class="events-tab" data-events-tab="fundraisers" data-i18n="events_tab_fundraisers">Current Fundraisers</button>
+      <button class="events-tab" data-events-tab="past" data-i18n="events_tab_past">Past Events</button>
+    </div>
+
+    <div class="events-panel active" id="events-panel-upcoming">
+      <div class="events-segment fade-in" id="events-upcoming">
+        <div class="events-segment-head">
+          <div>
+            <h3 data-i18n="events_upcoming_title">Upcoming Events</h3>
+            <p class="events-segment-note" data-i18n="events_upcoming_note">This calendar highlights upcoming community moments, fundraiser pushes, and workshop-related dates. As new partnerships and activations are confirmed, we'll keep this space updated so supporters can plan ahead.</p>
+          </div>
+          <div class="events-mini-card">
+            <h4 data-i18n="events_upcoming_card_title">What this includes</h4>
+            <p data-i18n="events_upcoming_card_desc">You’ll see planning calls, launch windows, pop-up workshop days, and campaign pushes that are open to supporters, school partners, and community collaborators.</p>
+          </div>
+        </div>
+
+        <div class="events-calendar">
+          <div class="calendar-card">
+            <div class="calendar-header">
+              <h3 data-i18n="events_calendar_title">April 2026</h3>
+              <span class="calendar-pill" data-i18n="events_calendar_pill">Calendar Preview</span>
+            </div>
+            <div class="calendar-grid">
+              <div class="calendar-dayname" data-i18n="cal_sun">Sun</div>
+              <div class="calendar-dayname" data-i18n="cal_mon">Mon</div>
+              <div class="calendar-dayname" data-i18n="cal_tue">Tue</div>
+              <div class="calendar-dayname" data-i18n="cal_wed">Wed</div>
+              <div class="calendar-dayname" data-i18n="cal_thu">Thu</div>
+              <div class="calendar-dayname" data-i18n="cal_fri">Fri</div>
+              <div class="calendar-dayname" data-i18n="cal_sat">Sat</div>
+
+              <div class="calendar-day muted">29</div>
+              <div class="calendar-day muted">30</div>
+              <div class="calendar-day muted">31</div>
+              <div class="calendar-day">1</div>
+              <div class="calendar-day">2</div>
+              <div class="calendar-day">3</div>
+              <div class="calendar-day event-day">
+                <span>4</span>
+                <span class="calendar-marker"></span>
+                <span class="calendar-event-label" data-i18n="events_marker_1">Planning</span>
+              </div>
+
+              <div class="calendar-day">5</div>
+              <div class="calendar-day">6</div>
+              <div class="calendar-day">7</div>
+              <div class="calendar-day">8</div>
+              <div class="calendar-day">9</div>
+              <div class="calendar-day event-day">
+                <span>10</span>
+                <span class="calendar-marker"></span>
+                <span class="calendar-event-label" data-i18n="events_marker_2">Launch</span>
+              </div>
+              <div class="calendar-day">11</div>
+
+              <div class="calendar-day">12</div>
+              <div class="calendar-day">13</div>
+              <div class="calendar-day">14</div>
+              <div class="calendar-day">15</div>
+              <div class="calendar-day">16</div>
+              <div class="calendar-day">17</div>
+              <div class="calendar-day event-day">
+                <span>18</span>
+                <span class="calendar-marker"></span>
+                <span class="calendar-event-label" data-i18n="events_marker_3">Pop-Up</span>
+              </div>
+
+              <div class="calendar-day">19</div>
+              <div class="calendar-day">20</div>
+              <div class="calendar-day">21</div>
+              <div class="calendar-day">22</div>
+              <div class="calendar-day">23</div>
+              <div class="calendar-day">24</div>
+              <div class="calendar-day">25</div>
+
+              <div class="calendar-day">26</div>
+              <div class="calendar-day">27</div>
+              <div class="calendar-day">28</div>
+              <div class="calendar-day">29</div>
+              <div class="calendar-day">30</div>
+              <div class="calendar-day muted">1</div>
+              <div class="calendar-day muted">2</div>
+            </div>
+          </div>
+
+          <div class="events-list">
+            <h4 data-i18n="events_list_title">At a glance</h4>
+            <div class="events-list-item">
+              <span class="events-list-date" data-i18n="events_date_1">April 4</span>
+              <p data-i18n="events_desc_1">Volunteer planning call for the next round of retirement community workshops and supply prep.</p>
+            </div>
+            <div class="events-list-item">
+              <span class="events-list-date" data-i18n="events_date_2">April 10</span>
+              <p data-i18n="events_desc_2">Public launch push for the current fundraiser, including social sharing and outreach to supporters.</p>
+            </div>
+            <div class="events-list-item">
+              <span class="events-list-date" data-i18n="events_date_3">April 18</span>
+              <p data-i18n="events_desc_3">Community pop-up art table designed to introduce new partners to The Rare Archive model.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="events-panel" id="events-panel-fundraisers">
+      <div class="events-fundraiser-card fade-in" id="events-fundraisers">
+        <div>
+          <h3 data-i18n="events_fundraiser_title">Current Fundraisers</h3>
+          <p data-i18n="events_fundraiser_desc">Our active fundraiser is a direct shopping campaign through ThriftBooks. Supporters can use our dedicated link, shop as usual, and a portion of qualifying purchases helps fund upcoming workshops, supplies, and printed archive books.</p>
+          <p data-i18n="events_fundraiser_desc2">This subtab is where we’ll feature whichever fundraiser is currently live so visitors can immediately see how to help and what the campaign is supporting right now.</p>
+          <a
+            href="https://www.groupraise.com/oc/73884-thriftbooks?utm_campaign=offers_promo_campaign_weekly&utm_medium=email&utm_source=sendgrid"
+            class="btn btn-light"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-i18n="tf_btn"
+          >Shop Through Our Fundraiser →</a>
+        </div>
+        <div class="events-fundraiser-meta">
+          <div class="progress-bar-wrap" style="margin-top:0">
+            <p style="font-size:0.8rem;margin-bottom:12px;" data-i18n="tf_prog_label">Fundraiser Impact</p>
+            <div class="progress-label">
+              <span data-i18n="tf_raised">Every qualifying order helps</span>
+              <span data-i18n="tf_goal">Goal: fund more workshops and books</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width:42%"></div></div>
+          </div>
+          <div class="events-highlight-list">
+            <div class="events-highlight-item">
+              <strong data-i18n="events_fundraiser_highlight_1_title">What it funds</strong>
+              <span data-i18n="events_fundraiser_highlight_1_desc">Art materials, adaptive tools, printing, and workshop setup for elderly residents.</span>
+            </div>
+            <div class="events-highlight-item">
+              <strong data-i18n="events_fundraiser_highlight_2_title">Why it matters now</strong>
+              <span data-i18n="events_fundraiser_highlight_2_desc">Current fundraising helps us move upcoming calendar plans into real sessions and community outreach.</span>
+            </div>
+            <div class="events-highlight-item">
+              <strong data-i18n="events_fundraiser_highlight_3_title">Where to contribute</strong>
+              <span data-i18n="events_fundraiser_highlight_3_desc">Use the fundraiser link above to support the live campaign in one step.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="events-panel" id="events-panel-past">
+      <div class="events-segment fade-in" id="events-past">
+        <div class="events-segment-head">
+          <div>
+            <h3 data-i18n="events_past_title">Past Events</h3>
+            <p class="events-segment-note" data-i18n="events_past_note">This archive captures earlier workshop moments, outreach pop-ups, and milestone gatherings that helped us test and grow the program.</p>
+          </div>
+          <div class="events-mini-card">
+            <h4 data-i18n="events_past_card_title">Why keep an archive</h4>
+            <p data-i18n="events_past_card_desc">Past events help new partners understand how we show up in the community and what kinds of programs we’ve already led.</p>
+          </div>
+        </div>
+
+        <div class="past-events-grid">
+          <div class="events-mini-card">
+            <span class="past-event-date" data-i18n="past_event_1_date">December 2025</span>
+            <h4 data-i18n="past_event_1_title">Holiday Card-Making Workshop</h4>
+            <p data-i18n="past_event_1_desc">Students and residents created hand-painted winter cards together, focusing on relaxed conversation and memory-sharing through art.</p>
+          </div>
+          <div class="events-mini-card">
+            <span class="past-event-date" data-i18n="past_event_2_date">October 2025</span>
+            <h4 data-i18n="past_event_2_title">Community Awareness Table</h4>
+            <p data-i18n="past_event_2_desc">We introduced The Rare Archive at a local community event, shared sample materials, and invited new school and facility partnerships.</p>
+          </div>
+          <div class="events-mini-card">
+            <span class="past-event-date" data-i18n="past_event_3_date">August 2025</span>
+            <h4 data-i18n="past_event_3_title">Pilot Storybook Session</h4>
+            <p data-i18n="past_event_3_desc">An early small-group workshop helped shape our picture-book model by pairing guided art with personal storytelling and reflection.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -1929,7 +2389,7 @@ const translations = {
     nav_book: "Request a Workshop", nav_support: "Support Us", nav_fundraising: "Fundraising Events",
     nav_involved: "Get Involved", nav_gallery: "Gallery",
     nav_impact: "Impact", nav_faq: "FAQ", nav_contact: "Contact",
-    nav_events: "Events", nav_past_events: "Past Events",
+    nav_events: "Events", nav_upcoming_events: "Upcoming Events", nav_current_fundraisers: "Current Fundraisers", nav_past_events: "Past Events",
 
     hero_eyebrow: "A student-led initiative in the DMV · Art for memory, connection, and care",
     hero_title: "Creative workshops that help older adults feel <em>seen, heard, and remembered.</em>",
@@ -1937,7 +2397,7 @@ const translations = {
     hero_btn_support: "Support Us",
     hero_btn_book: "Request a Workshop",
 
-    fundraiser_title: "📚 Current Fundraiser: Shop Through Our Book Campaign",
+    fundraiser_title: "📚 Current Fundraiser: Shop Through our Fundraiser with ThriftBooks!",
     fundraiser_desc: "Use our current fundraiser link when you shop for books online and a portion of qualifying purchases will help support The Rare Archive's art sessions, printing, and program growth.",
     fundraiser_btn: "Open Fundraiser →",
     fundraiser_note: "The fundraiser opens in a new tab so supporters can shop directly through our current campaign link.",
@@ -2013,6 +2473,31 @@ const translations = {
     donate_btn: "Donate Now →",
     camp_title: "Help Us Grow Across the DMV", camp_desc: "Our current goal is to bring recurring art workshops to more retirement and assisted living communities while building a stronger system for creating permission-based picture books from resident artwork.", camp_desc2: "We are raising support for supplies, adaptive materials, volunteer coordination, and outreach so this can become a reliable program that also spreads awareness about early cognitive decline in the elderly.", camp_btn: "Support the Campaign →", camp_raised: "Early community momentum", camp_goal: "Goal: sustainable DMV growth", camp_breakdown: "Focus areas: supplies · accessibility · picture books · workshop growth",
 
+    events_tag: "Events",
+    events_title: "See what's coming up and what we've already shared",
+    events_sub: "Browse our upcoming calendar, follow the fundraiser we're actively running, and look back at community moments that helped shape The Rare Archive.",
+    events_tab_upcoming: "Upcoming Events", events_tab_fundraisers: "Current Fundraisers", events_tab_past: "Past Events",
+    events_upcoming_title: "Upcoming Events", events_upcoming_note: "This calendar highlights upcoming community moments, fundraiser pushes, and workshop-related dates. As new partnerships and activations are confirmed, we'll keep this space updated so supporters can plan ahead.",
+    events_upcoming_card_title: "What this includes", events_upcoming_card_desc: "You’ll see planning calls, launch windows, pop-up workshop days, and campaign pushes that are open to supporters, school partners, and community collaborators.",
+    events_calendar_title: "April 2026", events_calendar_pill: "Calendar Preview",
+    cal_sun: "Sun", cal_mon: "Mon", cal_tue: "Tue", cal_wed: "Wed", cal_thu: "Thu", cal_fri: "Fri", cal_sat: "Sat",
+    events_marker_1: "Planning", events_marker_2: "Launch", events_marker_3: "Pop-Up",
+    events_list_title: "At a glance",
+    events_date_1: "April 4", events_desc_1: "Volunteer planning call for the next round of retirement community workshops and supply prep.",
+    events_date_2: "April 10", events_desc_2: "Public launch push for the current fundraiser, including social sharing and outreach to supporters.",
+    events_date_3: "April 18", events_desc_3: "Community pop-up art table designed to introduce new partners to The Rare Archive model.",
+    events_fundraiser_title: "Current Fundraisers",
+    events_fundraiser_desc: "Our active fundraiser is a direct shopping campaign through ThriftBooks. Supporters can use our dedicated link, shop as usual, and a portion of qualifying purchases helps fund upcoming workshops, supplies, and printed archive books.",
+    events_fundraiser_desc2: "This subtab is where we’ll feature whichever fundraiser is currently live so visitors can immediately see how to help and what the campaign is supporting right now.",
+    events_fundraiser_highlight_1_title: "What it funds", events_fundraiser_highlight_1_desc: "Art materials, adaptive tools, printing, and workshop setup for elderly residents.",
+    events_fundraiser_highlight_2_title: "Why it matters now", events_fundraiser_highlight_2_desc: "Current fundraising helps us move upcoming calendar plans into real sessions and community outreach.",
+    events_fundraiser_highlight_3_title: "Where to contribute", events_fundraiser_highlight_3_desc: "Use the fundraiser link above to support the live campaign in one step.",
+    events_past_title: "Past Events", events_past_note: "This archive captures earlier workshop moments, outreach pop-ups, and milestone gatherings that helped us test and grow the program.",
+    events_past_card_title: "Why keep an archive", events_past_card_desc: "Past events help new partners understand how we show up in the community and what kinds of programs we’ve already led.",
+    past_event_1_date: "December 2025", past_event_1_title: "Holiday Card-Making Workshop", past_event_1_desc: "Students and residents created hand-painted winter cards together, focusing on relaxed conversation and memory-sharing through art.",
+    past_event_2_date: "October 2025", past_event_2_title: "Community Awareness Table", past_event_2_desc: "We introduced The Rare Archive at a local community event, shared sample materials, and invited new school and facility partnerships.",
+    past_event_3_date: "August 2025", past_event_3_title: "Pilot Storybook Session", past_event_3_desc: "An early small-group workshop helped shape our picture-book model by pairing guided art with personal storytelling and reflection.",
+
     inv_tag: "Get Involved", inv_title: "There's a role for everyone",
     inv_sub: "Whether you're a student volunteer, school partner, facility leader, or supporter of elder mental wellness, there is a real way to help this work grow.",
     inv_c1_title: "Volunteer in Workshops", inv_c1_desc: "Volunteers sit and create alongside residents, help guide art activities, offer encouragement, and make sure each participant feels comfortable and included. No professional art background is required.", inv_c1_btn: "Apply to Volunteer →",
@@ -2066,7 +2551,7 @@ const translations = {
     nav_book: "Solicitar Taller", nav_support: "Apóyanos", nav_fundraising: "Recaudación",
     nav_involved: "Involúcrate", nav_gallery: "Galería",
     nav_impact: "Impacto", nav_faq: "Preguntas", nav_contact: "Contacto",
-    nav_events: "Eventos", nav_past_events: "Eventos Pasados",
+    nav_events: "Eventos", nav_upcoming_events: "Próximos Eventos", nav_current_fundraisers: "Recaudaciones Actuales", nav_past_events: "Eventos Pasados",
 
     hero_eyebrow: "Una iniciativa estudiantil en el DMV · Arte para memoria, conexión y cuidado",
     hero_title: "Talleres creativos que ayudan a las personas mayores a sentirse <em>vistas, escuchadas y recordadas.</em>",
@@ -2149,6 +2634,31 @@ const translations = {
     tier4_label: "Expansión DMV", tier4_desc: "Nos ayuda a llevar el programa a más comunidades de retiro y vida asistida en el área del DMV.",
     donate_btn: "Donar Ahora →",
     camp_title: "Ayúdanos a Crecer en el DMV", camp_desc: "Nuestra meta actual es llevar talleres de arte recurrentes a más comunidades de retiro y vida asistida mientras fortalecemos nuestro sistema para crear libros ilustrados con permiso a partir del arte de los residentes.", camp_desc2: "Estamos reuniendo apoyo para materiales, herramientas adaptadas, coordinación de voluntarios y alcance comunitario para convertir esto en un programa confiable que también genere conciencia sobre el deterioro cognitivo temprano en las personas mayores.", camp_btn: "Apoyar la Campaña →", camp_raised: "Impulso comunitario inicial", camp_goal: "Meta: crecimiento sostenible en el DMV", camp_breakdown: "Áreas clave: materiales · accesibilidad · libros ilustrados · crecimiento",
+
+    events_tag: "Eventos",
+    events_title: "Mira lo que viene y lo que ya hemos compartido",
+    events_sub: "Explora nuestro calendario próximo, sigue la recaudación que está activa ahora mismo y revisa momentos comunitarios que ayudaron a formar The Rare Archive.",
+    events_tab_upcoming: "Próximos Eventos", events_tab_fundraisers: "Recaudaciones Actuales", events_tab_past: "Eventos Pasados",
+    events_upcoming_title: "Próximos Eventos", events_upcoming_note: "Este calendario destaca próximos momentos comunitarios, impulsos de recaudación y fechas relacionadas con talleres. A medida que confirmemos nuevas alianzas y actividades, mantendremos este espacio actualizado para que los seguidores puedan planificar con tiempo.",
+    events_upcoming_card_title: "Qué incluye", events_upcoming_card_desc: "Aquí verás llamadas de planificación, ventanas de lanzamiento, días de talleres emergentes e impulsos de campaña abiertos para seguidores, aliados escolares y colaboradores comunitarios.",
+    events_calendar_title: "Abril 2026", events_calendar_pill: "Vista Previa del Calendario",
+    cal_sun: "Dom", cal_mon: "Lun", cal_tue: "Mar", cal_wed: "Mié", cal_thu: "Jue", cal_fri: "Vie", cal_sat: "Sáb",
+    events_marker_1: "Plan", events_marker_2: "Lanz.", events_marker_3: "Pop-Up",
+    events_list_title: "Resumen rápido",
+    events_date_1: "4 de abril", events_desc_1: "Llamada de planificación para la próxima ronda de talleres en comunidades de retiro y preparación de materiales.",
+    events_date_2: "10 de abril", events_desc_2: "Impulso público de lanzamiento para la recaudación actual, incluyendo difusión y alcance a seguidores.",
+    events_date_3: "18 de abril", events_desc_3: "Mesa comunitaria de arte tipo pop-up para presentar el modelo de The Rare Archive a nuevos aliados.",
+    events_fundraiser_title: "Recaudaciones Actuales",
+    events_fundraiser_desc: "Nuestra recaudación activa es una campaña de compra directa a través de ThriftBooks. Los seguidores pueden usar nuestro enlace especial, comprar normalmente y una parte de las compras elegibles ayuda a financiar próximos talleres, materiales y libros impresos del archivo.",
+    events_fundraiser_desc2: "Esta subpestaña mostrará la recaudación que esté activa para que los visitantes vean de inmediato cómo ayudar y qué está apoyando la campaña en este momento.",
+    events_fundraiser_highlight_1_title: "Qué financia", events_fundraiser_highlight_1_desc: "Materiales de arte, herramientas adaptadas, impresión y preparación de talleres para residentes mayores.",
+    events_fundraiser_highlight_2_title: "Por qué importa ahora", events_fundraiser_highlight_2_desc: "La recaudación actual nos ayuda a convertir los planes del calendario en sesiones reales y mayor alcance comunitario.",
+    events_fundraiser_highlight_3_title: "Dónde contribuir", events_fundraiser_highlight_3_desc: "Usa el enlace de arriba para apoyar la campaña activa en un solo paso.",
+    events_past_title: "Eventos Pasados", events_past_note: "Este archivo reúne momentos previos de talleres, mesas comunitarias y encuentros importantes que nos ayudaron a probar y hacer crecer el programa.",
+    events_past_card_title: "Por qué guardar un archivo", events_past_card_desc: "Los eventos pasados ayudan a nuevos aliados a entender cómo trabajamos en la comunidad y qué tipo de programas ya hemos realizado.",
+    past_event_1_date: "Diciembre 2025", past_event_1_title: "Taller de Tarjetas Navideñas", past_event_1_desc: "Estudiantes y residentes crearon tarjetas de invierno pintadas a mano, con conversación relajada y recuerdos compartidos a través del arte.",
+    past_event_2_date: "Octubre 2025", past_event_2_title: "Mesa Comunitaria de Concientización", past_event_2_desc: "Presentamos The Rare Archive en un evento comunitario local, compartimos materiales de muestra e invitamos a nuevas alianzas escolares y comunitarias.",
+    past_event_3_date: "Agosto 2025", past_event_3_title: "Sesión Piloto de Libro Ilustrado", past_event_3_desc: "Un taller inicial en grupo pequeño ayudó a definir nuestro modelo de libro ilustrado al combinar arte guiado con narración personal y reflexión.",
 
     inv_tag: "Involúcrate", inv_title: "Hay un rol para todos",
     inv_sub: "Ya seas voluntario estudiantil, socio escolar, líder comunitario o apoyo del bienestar mental de las personas mayores, hay una forma real de ayudar a que este trabajo crezca.",
@@ -2292,6 +2802,10 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const href = a.getAttribute('href');
     if (!href || href === '#') return;
+    const eventsTarget = a.getAttribute('data-events-target');
+    if (eventsTarget) {
+      activateEventsTab(eventsTarget);
+    }
     const target = document.querySelector(href);
     if (target) {
       e.preventDefault();
@@ -2332,6 +2846,41 @@ document.querySelectorAll('.support-tab').forEach(tab => {
     panel.classList.add('active');
   });
 });
+
+/* ============================================================
+   EVENTS TABS
+============================================================ */
+function activateEventsTab(target) {
+  if (!target) return;
+  const panel = document.getElementById('events-panel-' + target);
+  if (!panel) return;
+
+  document.querySelectorAll('.events-tab').forEach(tab => {
+    tab.classList.toggle('active', tab.getAttribute('data-events-tab') === target);
+  });
+  document.querySelectorAll('.events-panel').forEach(p => {
+    p.classList.toggle('active', p.id === 'events-panel-' + target);
+  });
+}
+
+document.querySelectorAll('.events-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    activateEventsTab(tab.getAttribute('data-events-tab'));
+  });
+});
+
+document.querySelectorAll('[data-events-target]').forEach(link => {
+  link.addEventListener('click', () => {
+    activateEventsTab(link.getAttribute('data-events-target'));
+  });
+});
+
+const initialEventsMap = {
+  '#events-upcoming': 'upcoming',
+  '#events-fundraisers': 'fundraisers',
+  '#events-past': 'past'
+};
+activateEventsTab(initialEventsMap[window.location.hash] || 'upcoming');
 
 /* ============================================================
    FAQ ACCORDION
