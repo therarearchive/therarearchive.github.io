@@ -3353,13 +3353,6 @@ function openCalendarModal(button) {
   const eventType = button.getAttribute('data-calendar-event');
   const dateText = button.getAttribute('data-calendar-date') || '';
   const rect = button.getBoundingClientRect();
-  const bubbleWidth = Math.min(340, window.innerWidth - 24);
-  const top = Math.max(16, rect.top + window.scrollY - 150);
-  const preferredLeft = rect.left + window.scrollX - 12;
-  const left = Math.min(
-    window.scrollX + window.innerWidth - bubbleWidth - 12,
-    Math.max(window.scrollX + 12, preferredLeft)
-  );
 
   calendarModalDate.textContent = dateText;
   if (eventType === 'fundraiser-end') {
@@ -3370,10 +3363,23 @@ function openCalendarModal(button) {
     calendarModalBody.textContent = t.calendar_popup_empty_body;
   }
 
-  calendarModal.style.top = `${top}px`;
-  calendarModal.style.left = `${left}px`;
   calendarModal.classList.add('open');
   calendarModal.setAttribute('aria-hidden', 'false');
+
+  const modalRect = calendarModal.getBoundingClientRect();
+  const bubbleWidth = Math.min(modalRect.width || 340, window.innerWidth - 24);
+  const bubbleHeight = modalRect.height || 200;
+  const top = Math.min(
+    window.innerHeight - bubbleHeight - 16,
+    Math.max(16, rect.top - bubbleHeight - 14)
+  );
+  const left = Math.min(
+    window.innerWidth - bubbleWidth - 12,
+    Math.max(12, rect.left + (rect.width / 2) - (bubbleWidth / 2))
+  );
+
+  calendarModal.style.top = `${top}px`;
+  calendarModal.style.left = `${left}px`;
 }
 
 document.querySelectorAll('.calendar-day[data-calendar-date]').forEach(button => {
