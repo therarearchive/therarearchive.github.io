@@ -315,13 +315,17 @@
     .nav-right { display: flex; align-items: center; gap: 12px; }
     .lang-toggle {
       display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
       background: var(--lavender-light);
       border-radius: 99px;
-      overflow: hidden;
       border: 1.5px solid var(--lavender-mid);
+      box-shadow: 0 8px 24px rgba(103, 78, 167, 0.08);
     }
     .lang-btn {
-      padding: 5px 14px;
+      min-width: 48px;
+      padding: 7px 12px;
       font-size: 0.75rem;
       font-weight: 600;
       cursor: pointer;
@@ -330,6 +334,8 @@
       color: var(--text-light);
       transition: background var(--transition), color var(--transition);
       font-family: 'Poppins', sans-serif;
+      border-radius: 99px;
+      white-space: nowrap;
     }
     .lang-btn.active { background: var(--purple-soft); color: #fff; border-radius: 99px; }
     .nav-hamburger {
@@ -505,6 +511,12 @@
        ABOUT
     ============================================================ */
     #about { background: var(--off-white); }
+    #about .section-sub {
+      max-width: 760px;
+      margin-left: 0;
+      margin-right: 0;
+      text-align: left;
+    }
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -881,37 +893,6 @@
       background: rgba(255, 255, 255, 0.68);
       color: var(--purple-deep);
     }
-    .events-tabs {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin: 40px 0 32px;
-    }
-    .events-tab {
-      padding: 10px 20px;
-      border-radius: 99px;
-      border: 1.5px solid rgba(107, 77, 112, 0.16);
-      background: rgba(255, 255, 255, 0.52);
-      color: var(--text-mid);
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.84rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background var(--transition), color var(--transition), border-color var(--transition), transform var(--transition);
-    }
-    .events-tab:hover,
-    .events-tab.active {
-      background: var(--purple-deep);
-      color: #fff;
-      border-color: var(--purple-deep);
-      transform: translateY(-1px);
-    }
-    .events-panel {
-      display: none;
-    }
-    .events-panel.active {
-      display: block;
-    }
     .events-segment {
       background: rgba(255, 255, 255, 0.58);
       border: 1px solid rgba(107, 77, 112, 0.12);
@@ -973,16 +954,6 @@
       font-size: 1.15rem;
       color: var(--text-dark);
     }
-    .calendar-pill {
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--purple-deep);
-      background: var(--lavender-light);
-      border-radius: 99px;
-      padding: 7px 12px;
-    }
     .calendar-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
@@ -1013,15 +984,35 @@
       gap: 8px;
       font-size: 0.88rem;
       color: var(--text-mid);
+      width: 100%;
+      appearance: none;
+      font-family: inherit;
+      cursor: pointer;
+      transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition), background var(--transition);
+    }
+    .calendar-day:hover {
+      transform: translateY(-2px);
+      border-color: rgba(107, 77, 112, 0.2);
+      box-shadow: 0 12px 24px rgba(107, 77, 112, 0.08);
+    }
+    .calendar-day:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(107, 77, 112, 0.18);
     }
     .calendar-day.muted {
       opacity: 0.38;
+      cursor: default;
     }
     .calendar-day.event-day {
       background: linear-gradient(135deg, rgba(164, 132, 164, 0.18), rgba(107, 77, 112, 0.14));
       border-color: rgba(107, 77, 112, 0.18);
       color: var(--purple-deep);
       font-weight: 600;
+    }
+    .calendar-day.muted:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: rgba(107, 77, 112, 0.08);
     }
     .calendar-marker {
       width: 9px;
@@ -1123,6 +1114,73 @@
       letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--purple-deep);
+    }
+    .calendar-modal {
+      position: fixed;
+      display: none;
+      z-index: 1200;
+      width: min(340px, calc(100vw - 24px));
+      pointer-events: none;
+    }
+    .calendar-modal.open {
+      display: block;
+    }
+    .calendar-modal-dialog {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid rgba(107, 77, 112, 0.14);
+      border-radius: 26px;
+      box-shadow: 0 20px 45px rgba(54, 36, 61, 0.18);
+      padding: 22px 22px 20px;
+      position: relative;
+      pointer-events: auto;
+    }
+    .calendar-modal-dialog::after {
+      content: "";
+      position: absolute;
+      left: 28px;
+      bottom: -10px;
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.96);
+      border-right: 1px solid rgba(107, 77, 112, 0.14);
+      border-bottom: 1px solid rgba(107, 77, 112, 0.14);
+      transform: rotate(45deg);
+    }
+    .calendar-modal-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 30px;
+      height: 30px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(107, 77, 112, 0.08);
+      color: var(--purple-deep);
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .calendar-modal-date {
+      display: inline-block;
+      margin-bottom: 10px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--purple-deep);
+    }
+    .calendar-modal h4 {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      color: var(--text-dark);
+    }
+    .calendar-modal p {
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: var(--text-mid);
+    }
+    #events-past {
+      background: linear-gradient(180deg, #fff 0%, #f7f1f5 100%);
     }
 
     /* ============================================================
@@ -1482,6 +1540,10 @@
       .gallery-item:nth-child(5) { grid-column: span 1; }
       .steps-row { flex-direction: column; }
       .steps-row::before { display: none; }
+      .lang-toggle {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
     }
     @media (max-width: 600px) {
       .section { padding: 64px 0; }
@@ -1499,8 +1561,21 @@
       .events-fundraiser-card { padding: 32px 24px; }
       .calendar-grid { gap: 8px; }
       .calendar-day { min-height: 64px; }
+      .calendar-modal {
+        width: min(300px, calc(100vw - 20px));
+      }
       .about-full { padding: 36px 28px; }
       .book-form-wrap, .contact-form-wrap { padding: 28px 22px; }
+      .nav-right {
+        align-items: flex-start;
+      }
+      .lang-toggle {
+        max-width: 220px;
+      }
+      .lang-btn {
+        min-width: 44px;
+        padding: 6px 10px;
+      }
     }
   </style>
 </head>
@@ -1544,7 +1619,6 @@
           <a href="#events" class="nav-link dropdown-trigger" data-i18n="nav_events">Events</a>
           <ul class="dropdown-menu" aria-label="Events Menu">
             <li><a href="#events-upcoming" data-events-target="upcoming" data-i18n="nav_upcoming_events">Upcoming Events</a></li>
-            <li><a href="#events-fundraisers" data-events-target="fundraisers" data-i18n="nav_current_fundraisers">Current Fundraisers</a></li>
             <li><a href="#events-past" data-events-target="past" data-i18n="nav_past_events">Past Events</a></li>
           </ul>
         </li>
@@ -1557,9 +1631,12 @@
         </li>
       </ul>
       <div class="nav-right">
-        <div class="lang-toggle">
-          <button class="lang-btn active" data-lang="en">EN</button>
-          <button class="lang-btn" data-lang="es">ES</button>
+        <div class="lang-toggle" role="group" aria-label="Language selector">
+          <button class="lang-btn active" type="button" data-lang="en" aria-pressed="true" title="English">EN</button>
+          <button class="lang-btn" type="button" data-lang="es" aria-pressed="false" title="Español">ES</button>
+          <button class="lang-btn" type="button" data-lang="zh" aria-pressed="false" title="简体中文">中文</button>
+          <button class="lang-btn" type="button" data-lang="fr" aria-pressed="false" title="Français">FR</button>
+          <button class="lang-btn" type="button" data-lang="hi" aria-pressed="false" title="हिन्दी">हि</button>
         </div>
         <div class="nav-hamburger" id="hamburger" aria-label="Open menu">
           <span></span><span></span><span></span>
@@ -1594,7 +1671,6 @@
     <button class="mobile-item-trigger" data-i18n="nav_events">Events</button>
     <div class="mobile-submenu">
       <a href="#events-upcoming" data-events-target="upcoming" data-i18n="nav_upcoming_events">Upcoming Events</a>
-      <a href="#events-fundraisers" data-events-target="fundraisers" data-i18n="nav_current_fundraisers">Current Fundraisers</a>
       <a href="#events-past" data-events-target="past" data-i18n="nav_past_events">Past Events</a>
     </div>
   </div>
@@ -1618,11 +1694,11 @@
     <a href="#book-a-session" class="btn btn-outline" data-i18n="hero_btn_book">Book a Session</a>
   </div>
   <div class="fundraiser-strip fade-in fade-in-delay-4">
-    <p><strong data-i18n="fundraiser_title">📚 Current Fundraiser: 50 ThriftBooks Bundles</strong><br>
-    <span data-i18n="fundraiser_desc">Our goal is to raise $2,000 by selling 50 ThriftBooks bundles at $40 each. Every bundle purchased through our fundraiser helps support The Rare Archive.</span></p>
+    <p><strong data-i18n="fundraiser_title">📚 Current Fundraiser: ThriftBooks Bundle Campaign</strong><br>
+    <span data-i18n="fundraiser_desc">We're raising $2,000 by selling 50 ThriftBooks bundles at $40 each. Proceeds support our student-led Ashburn, Virginia initiative, which brings mini art workshops and creative engagement sessions to elderly residents in retirement and assisted living communities.</span></p>
     <div class="fundraiser-strip-actions">
       <a
-        href="https://u2095113.ct.sendgrid.net/ls/click?upn=u001.BUqyo2weqiL4lvKqltSx0CoOHMub-2BBVzs2Xfd3UVQWq8azIglerBOK12ZHNX1pzF7C81CLK66zkhSZ-2FsT2wun1nqKostOWGelYCzXVSqJLwlBHp74PfGLfyMw8giguBtPHmvUwQuAmH8kjAHgLzTnFu1K9Q1LtoYMnZOnEDuUImIGsn7nZ6qhHSJS6gEtXmoUxmk_e4TKKxHfedI-2F9Bil15s2LgVz7uqiEvlwL2fOh1YgOurwNuUiUXUTqMjNe-2FVdrHhdoitLBpIYc-2B2-2B-2BrArXzaXxyxGzZ6rdww-2FScv5wGZAuWSvpMwiGu8rV412DY4vorUcVl4vtAlit00gsYhG1tzddMbZ7XTKKEiNh24Pg2z914JFGizLmrYkFeu7Mx5S9-2Fwf4-2FgY9KJqa7G1LgslEqHqfOBGk8jF4WvriyVOKFAJNG5qeL-2B9-2BMNjAplkew0AqGdUD4EaEtADGOwdwkV9SLs8s4W4dAWj4HlFiYpwxR8V9gGw9-2FF6B-2BVx0DwEmKe-2B6ZtGm7dMAnLAUml6O4gOU-2BC1BD0sj7y1zl0jwjUxRC93Ci-2FK7LyITepL6OBnmw3Prhc-2F4uQEYeKPpcfWpqY0U36UKOFoQSBT8ERYzHzDP6OvlDiGG5MHuvb2K2JlhkXS7-2FBH"
+        href="https://www.groupraise.com/oc/73884-thriftbooks?utm_campaign=offers_promo_campaign_weekly&utm_medium=email&utm_source=sendgrid"
         class="btn btn-light"
         target="_blank"
         rel="noopener noreferrer"
@@ -1655,7 +1731,7 @@
   <div class="container">
     <span class="section-tag fade-in" data-i18n="about_tag">About Us</span>
     <h2 class="section-title fade-in fade-in-delay-1" data-i18n="about_title">We started with a single conversation.</h2>
-    <p class="section-sub fade-in fade-in-delay-2" data-i18n="about_sub">The Rare Archive was founded by a high school student who visited her grandmother's care home and noticed how many residents spent their days in silence — surrounded by staff, yet profoundly alone. She started bringing her sketchbook. Then her classmates. Then the stories began to flow.</p>
+    <p class="section-sub fade-in fade-in-delay-2" data-i18n="about_sub">The Rare Archive began from a deeply personal realization: as children of immigrant families with grandparents overseas, we know how fragile time and connection can feel. That distance helped us recognize a larger truth — many older adults, even those with family nearby, go long stretches without being deeply heard. We created this initiative to meet that silence with art, attention, and care.</p>
 
     <div class="about-grid">
       <div class="about-card fade-in">
@@ -1683,92 +1759,6 @@
     <div class="about-full fade-in">
       <h3 data-i18n="about_vision_title">Our Vision for the Future</h3>
       <p data-i18n="about_vision_desc">We envision a world where every retirement home has a chapter of The Rare Archive — a steady presence of young artists and listeners, creating a living archive of humanity's most precious resource: the wisdom and wonder carried by those who've lived the longest. Our goal is to expand to multiple cities, publish collected books, and build a model that any school or youth group can replicate.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     FAQ
-============================================================ -->
-<section class="section" id="faq">
-  <div class="container">
-    <span class="section-tag fade-in" data-i18n="faq_tag">FAQ</span>
-    <h2 class="section-title fade-in fade-in-delay-1" data-i18n="faq_title">Questions we hear most often</h2>
-
-    <div class="faq-list fade-in">
-      <div class="faq-item">
-        <button class="faq-q"><span data-i18n="faq_q1">Do the students need prior art experience?</span><span class="faq-icon">+</span></button>
-        <div class="faq-a"><p data-i18n="faq_a1">Not at all. We welcome students at every skill level. What matters most is genuine curiosity and the willingness to listen. All volunteers receive orientation training before their first session, and activities are designed to be guided by the process, not the product.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q"><span data-i18n="faq_q2">Is there a cost to facilities or residents?</span><span class="faq-icon">+</span></button>
-        <div class="faq-a"><p data-i18n="faq_a2">No. Sessions are offered completely free of charge to partner facilities and their residents. All art supplies, printing materials, and bound Archive books are funded through our fundraising efforts and donations. Facilities simply provide the space and welcome us in.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q"><span data-i18n="faq_q3">How long is a typical session?</span><span class="faq-icon">+</span></button>
-        <div class="faq-a"><p data-i18n="faq_a3">Sessions typically run between 60 and 90 minutes, depending on resident energy and engagement. We're flexible — if a resident is having a particularly meaningful day and wants to keep going, we stay. If they tire early, we wrap with warmth and plan for next time.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q"><span data-i18n="faq_q4">What happens to the stories that are collected?</span><span class="faq-icon">+</span></button>
-        <div class="faq-a"><p data-i18n="faq_a4">Stories are collected with explicit consent from the resident. They are transcribed, illustrated, and compiled into physical Archive books. Residents and their families receive copies, and the facility keeps one in their library. Stories are never shared publicly without written permission.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q"><span data-i18n="faq_q5">What age are the student volunteers?</span><span class="faq-icon">+</span></button>
-        <div class="faq-a"><p data-i18n="faq_a5">Our student volunteers range in age from 14 to 18. All are vetted through an application process and complete a volunteer orientation. For younger volunteers, parental consent and supervision guidelines apply. We also welcome college students and young adults seeking service hours.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q"><span data-i18n="faq_q6">How do I start a chapter at my school?</span><span class="faq-icon">+</span></button>
-        <div class="faq-a"><p data-i18n="faq_a6">We'd love to help you start a chapter! Reach out through our contact form with a note about your school and community. We'll walk you through our replication model, provide training materials, and connect you with a nearby retirement facility. We aim to have your first session scheduled within six weeks of your inquiry.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q"><span data-i18n="faq_q7">Can residents with dementia participate?</span><span class="faq-icon">+</span></button>
-        <div class="faq-a"><p data-i18n="faq_a7">Yes. Art therapy and storytelling activities have shown strong benefits for residents with mild to moderate dementia. Our activities are designed to be non-stressful and to meet residents wherever they are cognitively. We work closely with facility staff to ensure each resident's experience is safe, comfortable, and meaningful.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q"><span data-i18n="faq_q8">Where does the money go?</span><span class="faq-icon">+</span></button>
-        <div class="faq-a"><p data-i18n="faq_a8">Every dollar raised goes directly into the program: art supplies (40%), book printing and binding (35%), and volunteer transportation support (25%). We maintain full transparency with our financials and publish an annual report available to any supporter who requests it.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     CONTACT
-============================================================ -->
-<section class="section" id="contact">
-  <div class="container">
-    <span class="section-tag fade-in" data-i18n="contact_tag">Contact</span>
-    <h2 class="section-title fade-in fade-in-delay-1" data-i18n="contact_title">Let's build something together</h2>
-
-    <div class="contact-grid">
-      <div class="contact-info fade-in">
-        <h3 data-i18n="contact_h3">We'd love to hear from you.</h3>
-        <p data-i18n="contact_p">Whether you want to volunteer, partner, donate, or simply learn more about what we do — drop us a message. We respond to every inquiry personally, usually within 48 hours.</p>
-        <div class="social-links">
-          <a href="#" class="social-link">📸 Instagram</a>
-          <a href="#" class="social-link">📘 Facebook</a>
-          <a href="#" class="social-link">🎵 TikTok</a>
-          <a href="#" class="social-link">✉️ Email Us</a>
-        </div>
-      </div>
-      <div class="contact-form-wrap fade-in fade-in-delay-1">
-        <h3 data-i18n="contact_form_title">Send a Message</h3>
-        <div class="form-row">
-          <div class="form-group">
-            <label data-i18n="form_name">Your Name</label>
-            <input type="text" placeholder="Full name" data-i18n-placeholder="contact_placeholder_name" />
-          </div>
-          <div class="form-group">
-            <label data-i18n="form_email">Email Address</label>
-            <input type="email" placeholder="you@email.com" data-i18n-placeholder="contact_placeholder_email" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label data-i18n="form_msg">Message</label>
-          <textarea placeholder="What's on your mind?" data-i18n-placeholder="contact_placeholder_msg"></textarea>
-        </div>
-        <button class="btn btn-primary" style="width:100%;justify-content:center;" data-i18n="form_submit">Send Message →</button>
-      </div>
     </div>
   </div>
 </section>
@@ -1979,9 +1969,9 @@
     <div class="support-panel" id="panel-fundraiser">
       <div class="fundraiser-card fade-in">
         <div>
-          <h3 data-i18n="tf_title">ThriftBooks Bundle Fundraiser</h3>
-          <p data-i18n="tf_desc">Our current fundraiser is centered on ThriftBooks book bundles. We're aiming to sell 50 bundles priced at $40 each through our GroupRaise campaign link.</p>
-          <p data-i18n="tf_desc2">Right now we've sold 0 bundles, so every purchase makes a visible difference. Reaching the full goal would mean $2,000 in support for The Rare Archive.</p>
+          <h3 data-i18n="tf_title">ThriftBooks Fundraiser</h3>
+          <p data-i18n="tf_desc">The Rare Archive is a student-led nonprofit initiative founded in January 2026. Based in Ashburn, Virginia, we provide mini art workshops and creative engagement sessions for elderly residents in local retirement and assisted living communities to reduce loneliness, support cognitive engagement, and create meaningful connection.</p>
+          <p data-i18n="tf_desc2">Our current goal is to raise $2,000 by selling 50 ThriftBooks bundles at $40 each through our GroupRaise link. Every qualifying order helps us buy materials, supplies, and expand into additional areas while keeping workshops accessible and hands-on.</p>
           <a
             href="https://www.groupraise.com/oc/73884-thriftbooks?utm_campaign=offers_promo_campaign_weekly&utm_medium=email&utm_source=sendgrid"
             class="btn btn-primary"
@@ -1994,12 +1984,12 @@
           <p style="font-size:0.8rem;color:var(--text-mid);margin-bottom:12px;" data-i18n="tf_prog_label">Fundraiser Progress</p>
           <div class="progress-bar-wrap">
             <div class="progress-label">
-              <span data-i18n="tf_raised">0 bundles sold</span>
-              <span data-i18n="tf_goal">Goal: 50 bundles ($40 each)</span>
+              <span data-i18n="tf_raised">Every bundle sold helps</span>
+              <span data-i18n="tf_goal">Goal: 50 bundles · $2,000</span>
             </div>
             <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
           </div>
-          <p style="font-size:0.82rem;color:var(--text-light);margin-top:20px;line-height:1.7;" data-i18n="tf_note">At full participation, this fundraiser would generate $2,000 to help cover supplies, printing, and program growth.</p>
+          <p style="font-size:0.82rem;color:var(--text-light);margin-top:20px;line-height:1.7;" data-i18n="tf_note">Support from this fundraiser helps fund guided painting sessions, seasonal crafts, collaborative art activities, materials, supplies, and future expansion into more communities.</p>
         </div>
       </div>
     </div>
@@ -2065,183 +2055,127 @@
     <h2 class="section-title fade-in fade-in-delay-1" data-i18n="events_title">See what's coming up and what we've already shared</h2>
     <p class="section-sub fade-in fade-in-delay-2" data-i18n="events_sub">Browse our upcoming calendar, follow the fundraiser we're actively running, and look back at community moments that helped shape The Rare Archive.</p>
 
-    <div class="events-tabs fade-in">
-      <button class="events-tab active" data-events-tab="upcoming" data-i18n="events_tab_upcoming">Upcoming Events</button>
-      <button class="events-tab" data-events-tab="fundraisers" data-i18n="events_tab_fundraisers">Current Fundraisers</button>
-      <button class="events-tab" data-events-tab="past" data-i18n="events_tab_past">Past Events</button>
-    </div>
-
-    <div class="events-panel active" id="events-panel-upcoming">
-      <div class="events-segment fade-in" id="events-upcoming">
-        <div class="events-segment-head">
-          <div>
-            <h3 data-i18n="events_upcoming_title">Upcoming Events</h3>
-            <p class="events-segment-note" data-i18n="events_upcoming_note">This calendar highlights upcoming community moments, fundraiser pushes, and workshop-related dates. As new partnerships and activations are confirmed, we'll keep this space updated so supporters can plan ahead.</p>
-          </div>
-          <div class="events-mini-card">
-            <h4 data-i18n="events_upcoming_card_title">What this includes</h4>
-            <p data-i18n="events_upcoming_card_desc">You’ll see planning calls, launch windows, pop-up workshop days, and campaign pushes that are open to supporters, school partners, and community collaborators.</p>
-          </div>
-        </div>
-
-        <div class="events-calendar">
-          <div class="calendar-card">
-            <div class="calendar-header">
-              <h3 data-i18n="events_calendar_title">April 2026</h3>
-              <span class="calendar-pill" data-i18n="events_calendar_pill">Calendar Preview</span>
-            </div>
-            <div class="calendar-grid">
-              <div class="calendar-dayname" data-i18n="cal_sun">Sun</div>
-              <div class="calendar-dayname" data-i18n="cal_mon">Mon</div>
-              <div class="calendar-dayname" data-i18n="cal_tue">Tue</div>
-              <div class="calendar-dayname" data-i18n="cal_wed">Wed</div>
-              <div class="calendar-dayname" data-i18n="cal_thu">Thu</div>
-              <div class="calendar-dayname" data-i18n="cal_fri">Fri</div>
-              <div class="calendar-dayname" data-i18n="cal_sat">Sat</div>
-
-              <div class="calendar-day muted">29</div>
-              <div class="calendar-day muted">30</div>
-              <div class="calendar-day muted">31</div>
-              <div class="calendar-day">1</div>
-              <div class="calendar-day">2</div>
-              <div class="calendar-day">3</div>
-              <div class="calendar-day event-day">
-                <span>4</span>
-                <span class="calendar-marker"></span>
-                <span class="calendar-event-label" data-i18n="events_marker_1">Planning</span>
-              </div>
-
-              <div class="calendar-day">5</div>
-              <div class="calendar-day">6</div>
-              <div class="calendar-day">7</div>
-              <div class="calendar-day">8</div>
-              <div class="calendar-day">9</div>
-              <div class="calendar-day event-day">
-                <span>10</span>
-                <span class="calendar-marker"></span>
-                <span class="calendar-event-label" data-i18n="events_marker_2">Launch</span>
-              </div>
-              <div class="calendar-day">11</div>
-
-              <div class="calendar-day">12</div>
-              <div class="calendar-day">13</div>
-              <div class="calendar-day">14</div>
-              <div class="calendar-day">15</div>
-              <div class="calendar-day">16</div>
-              <div class="calendar-day">17</div>
-              <div class="calendar-day event-day">
-                <span>18</span>
-                <span class="calendar-marker"></span>
-                <span class="calendar-event-label" data-i18n="events_marker_3">Pop-Up</span>
-              </div>
-
-              <div class="calendar-day">19</div>
-              <div class="calendar-day">20</div>
-              <div class="calendar-day">21</div>
-              <div class="calendar-day">22</div>
-              <div class="calendar-day">23</div>
-              <div class="calendar-day">24</div>
-              <div class="calendar-day">25</div>
-
-              <div class="calendar-day">26</div>
-              <div class="calendar-day">27</div>
-              <div class="calendar-day">28</div>
-              <div class="calendar-day">29</div>
-              <div class="calendar-day">30</div>
-              <div class="calendar-day muted">1</div>
-              <div class="calendar-day muted">2</div>
-            </div>
-          </div>
-
-          <div class="events-list">
-            <h4 data-i18n="events_list_title">At a glance</h4>
-            <div class="events-list-item">
-              <span class="events-list-date" data-i18n="events_date_1">April 4</span>
-              <p data-i18n="events_desc_1">Volunteer planning call for the next round of retirement community workshops and supply prep.</p>
-            </div>
-            <div class="events-list-item">
-              <span class="events-list-date" data-i18n="events_date_2">April 10</span>
-              <p data-i18n="events_desc_2">Public launch push for the current fundraiser, including social sharing and outreach to supporters.</p>
-            </div>
-            <div class="events-list-item">
-              <span class="events-list-date" data-i18n="events_date_3">April 18</span>
-              <p data-i18n="events_desc_3">Community pop-up art table designed to introduce new partners to The Rare Archive model.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="events-panel" id="events-panel-fundraisers">
-      <div class="events-fundraiser-card fade-in" id="events-fundraisers">
+    <div class="events-segment fade-in" id="events-upcoming">
+      <div class="events-segment-head">
         <div>
-          <h3 data-i18n="events_fundraiser_title">Current Fundraisers</h3>
-          <p data-i18n="events_fundraiser_desc">Our active fundraiser is a direct shopping campaign through ThriftBooks. Supporters can use our dedicated link, shop as usual, and a portion of qualifying purchases helps fund upcoming workshops, supplies, and printed archive books.</p>
-          <p data-i18n="events_fundraiser_desc2">This subtab is where we’ll feature whichever fundraiser is currently live so visitors can immediately see how to help and what the campaign is supporting right now.</p>
-          <a
-            href="https://www.groupraise.com/oc/73884-thriftbooks?utm_campaign=offers_promo_campaign_weekly&utm_medium=email&utm_source=sendgrid"
-            class="btn btn-light"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-i18n="tf_btn"
-          >Shop Through Our Fundraiser →</a>
+          <h3 data-i18n="events_upcoming_title">Upcoming Events</h3>
+          <p class="events-segment-note" data-i18n="events_upcoming_note">We do not have general upcoming events yet. The only confirmed date right now is the end of our ThriftBooks fundraiser on June 7, 2026.</p>
         </div>
-        <div class="events-fundraiser-meta">
-          <div class="progress-bar-wrap" style="margin-top:0">
-            <p style="font-size:0.8rem;margin-bottom:12px;" data-i18n="tf_prog_label">Fundraiser Impact</p>
-            <div class="progress-label">
-              <span data-i18n="tf_raised">Every qualifying order helps</span>
-              <span data-i18n="tf_goal">Goal: fund more workshops and books</span>
-            </div>
-            <div class="progress-bar"><div class="progress-fill" style="width:42%"></div></div>
+        <div class="events-mini-card">
+          <h4 data-i18n="events_upcoming_card_title">What this includes</h4>
+          <p data-i18n="events_upcoming_card_desc">For now, this section is mainly a place to share milestone dates tied to our current fundraiser and any future public events once they are announced.</p>
+        </div>
+      </div>
+
+      <div class="events-calendar">
+        <div class="calendar-card">
+          <div class="calendar-header">
+            <h3 data-i18n="events_calendar_title">June 2026</h3>
           </div>
-          <div class="events-highlight-list">
-            <div class="events-highlight-item">
-              <strong data-i18n="events_fundraiser_highlight_1_title">What it funds</strong>
-              <span data-i18n="events_fundraiser_highlight_1_desc">Art materials, adaptive tools, printing, and workshop setup for elderly residents.</span>
-            </div>
-            <div class="events-highlight-item">
-              <strong data-i18n="events_fundraiser_highlight_2_title">Why it matters now</strong>
-              <span data-i18n="events_fundraiser_highlight_2_desc">Current fundraising helps us move upcoming calendar plans into real sessions and community outreach.</span>
-            </div>
-            <div class="events-highlight-item">
-              <strong data-i18n="events_fundraiser_highlight_3_title">Where to contribute</strong>
-              <span data-i18n="events_fundraiser_highlight_3_desc">Use the fundraiser link above to support the live campaign in one step.</span>
-            </div>
+          <div class="calendar-grid">
+            <div class="calendar-dayname" data-i18n="cal_sun">Sun</div>
+            <div class="calendar-dayname" data-i18n="cal_mon">Mon</div>
+            <div class="calendar-dayname" data-i18n="cal_tue">Tue</div>
+            <div class="calendar-dayname" data-i18n="cal_wed">Wed</div>
+            <div class="calendar-dayname" data-i18n="cal_thu">Thu</div>
+            <div class="calendar-dayname" data-i18n="cal_fri">Fri</div>
+            <div class="calendar-dayname" data-i18n="cal_sat">Sat</div>
+
+            <div class="calendar-day muted">31</div>
+            <button class="calendar-day" type="button" data-calendar-date="June 1, 2026"><span>1</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 2, 2026"><span>2</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 3, 2026"><span>3</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 4, 2026"><span>4</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 5, 2026"><span>5</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 6, 2026"><span>6</span></button>
+            <button class="calendar-day event-day" type="button" data-calendar-date="June 7, 2026" data-calendar-event="fundraiser-end">
+              <span>7</span>
+              <span class="calendar-marker"></span>
+              <span class="calendar-event-label" data-i18n="events_marker_1">Ends</span>
+            </button>
+
+            <button class="calendar-day" type="button" data-calendar-date="June 8, 2026"><span>8</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 9, 2026"><span>9</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 10, 2026"><span>10</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 11, 2026"><span>11</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 12, 2026"><span>12</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 13, 2026"><span>13</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 14, 2026"><span>14</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 15, 2026"><span>15</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 16, 2026"><span>16</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 17, 2026"><span>17</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 18, 2026"><span>18</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 19, 2026"><span>19</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 20, 2026"><span>20</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 21, 2026"><span>21</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 22, 2026"><span>22</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 23, 2026"><span>23</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 24, 2026"><span>24</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 25, 2026"><span>25</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 26, 2026"><span>26</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 27, 2026"><span>27</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 28, 2026"><span>28</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 29, 2026"><span>29</span></button>
+            <button class="calendar-day" type="button" data-calendar-date="June 30, 2026"><span>30</span></button>
+            <div class="calendar-day muted">1</div>
+            <div class="calendar-day muted">2</div>
+            <div class="calendar-day muted">3</div>
+            <div class="calendar-day muted">4</div>
+          </div>
+        </div>
+
+        <div class="events-list">
+          <h4 data-i18n="events_list_title">Confirmed date</h4>
+          <div class="events-list-item">
+            <span class="events-list-date" data-i18n="events_date_1">June 7, 2026</span>
+            <p data-i18n="events_desc_1">Our ThriftBooks fundraiser ends on June 7, 2026. That is the only confirmed upcoming date we have to share right now.</p>
+          </div>
+          <div class="events-list-item">
+            <span class="events-list-date" data-i18n="events_date_2">After June 7</span>
+            <p data-i18n="events_desc_2">We do not have any workshop, pop-up, or community event dates scheduled yet beyond the fundraiser end date.</p>
+          </div>
+          <div class="events-list-item">
+            <span class="events-list-date" data-i18n="events_date_3">Next updates</span>
+            <p data-i18n="events_desc_3">When we announce our first public event or workshop date, we’ll add it here next.</p>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="events-panel" id="events-panel-past">
-      <div class="events-segment fade-in" id="events-past">
-        <div class="events-segment-head">
-          <div>
-            <h3 data-i18n="events_past_title">Past Events</h3>
-            <p class="events-segment-note" data-i18n="events_past_note">This archive captures earlier workshop moments, outreach pop-ups, and milestone gatherings that helped us test and grow the program.</p>
-          </div>
-          <div class="events-mini-card">
-            <h4 data-i18n="events_past_card_title">Why keep an archive</h4>
-            <p data-i18n="events_past_card_desc">Past events help new partners understand how we show up in the community and what kinds of programs we’ve already led.</p>
-          </div>
+<!-- ============================================================
+     PAST EVENTS
+============================================================ -->
+<section class="section" id="events-past">
+  <div class="container">
+    <span class="section-tag fade-in" data-i18n="nav_past_events">Past Events</span>
+    <h2 class="section-title fade-in fade-in-delay-1" data-i18n="events_past_title">Past Events</h2>
+    <p class="section-sub fade-in fade-in-delay-2" data-i18n="events_past_note">We have not hosted any past events yet, so this archive is currently empty. Once programs begin, we’ll document them here.</p>
+
+    <div class="events-segment fade-in">
+      <div class="events-segment-head">
+        <div>
+          <h3 data-i18n="events_past_card_title">Archive coming soon</h3>
+          <p class="events-segment-note" data-i18n="events_past_card_desc">This section will eventually document workshops, outreach moments, and community milestones after they happen.</p>
         </div>
+      </div>
 
-        <div class="past-events-grid">
-          <div class="events-mini-card">
-            <span class="past-event-date" data-i18n="past_event_1_date">December 2025</span>
-            <h4 data-i18n="past_event_1_title">Holiday Card-Making Workshop</h4>
-            <p data-i18n="past_event_1_desc">Students and residents created hand-painted winter cards together, focusing on relaxed conversation and memory-sharing through art.</p>
-          </div>
-          <div class="events-mini-card">
-            <span class="past-event-date" data-i18n="past_event_2_date">October 2025</span>
-            <h4 data-i18n="past_event_2_title">Community Awareness Table</h4>
-            <p data-i18n="past_event_2_desc">We introduced The Rare Archive at a local community event, shared sample materials, and invited new school and facility partnerships.</p>
-          </div>
-          <div class="events-mini-card">
-            <span class="past-event-date" data-i18n="past_event_3_date">August 2025</span>
-            <h4 data-i18n="past_event_3_title">Pilot Storybook Session</h4>
-            <p data-i18n="past_event_3_desc">An early small-group workshop helped shape our picture-book model by pairing guided art with personal storytelling and reflection.</p>
-          </div>
+      <div class="past-events-grid">
+        <div class="events-mini-card">
+          <span class="past-event-date" data-i18n="past_event_1_date">No events yet</span>
+          <h4 data-i18n="past_event_1_title">First workshop to be announced</h4>
+          <p data-i18n="past_event_1_desc">We have not hosted our first workshop yet, so there are no archived event details to show here right now.</p>
+        </div>
+        <div class="events-mini-card">
+          <span class="past-event-date" data-i18n="past_event_2_date">Nothing archived</span>
+          <h4 data-i18n="past_event_2_title">Future outreach will appear here</h4>
+          <p data-i18n="past_event_2_desc">When we begin hosting public outreach or community appearances, we’ll add summaries and photos to this section.</p>
+        </div>
+        <div class="events-mini-card">
+          <span class="past-event-date" data-i18n="past_event_3_date">Waiting on launch</span>
+          <h4 data-i18n="past_event_3_title">This archive starts with event one</h4>
+          <p data-i18n="past_event_3_desc">For now, this page simply shows where past event recaps will live once The Rare Archive begins hosting them.</p>
         </div>
       </div>
     </div>
@@ -2335,6 +2269,92 @@
   </div>
 </section>
 
+<!-- ============================================================
+     FAQ
+============================================================ -->
+<section class="section" id="faq">
+  <div class="container">
+    <span class="section-tag fade-in" data-i18n="faq_tag">FAQ</span>
+    <h2 class="section-title fade-in fade-in-delay-1" data-i18n="faq_title">Questions we hear most often</h2>
+
+    <div class="faq-list fade-in">
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="faq_q1">Do the students need prior art experience?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><p data-i18n="faq_a1">Not at all. We welcome students at every skill level. What matters most is genuine curiosity and the willingness to listen. All volunteers receive orientation training before their first session, and activities are designed to be guided by the process, not the product.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="faq_q2">Is there a cost to facilities or residents?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><p data-i18n="faq_a2">No. Sessions are offered completely free of charge to partner facilities and their residents. All art supplies, printing materials, and bound Archive books are funded through our fundraising efforts and donations. Facilities simply provide the space and welcome us in.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="faq_q3">How long is a typical session?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><p data-i18n="faq_a3">Sessions typically run between 60 and 90 minutes, depending on resident energy and engagement. We're flexible — if a resident is having a particularly meaningful day and wants to keep going, we stay. If they tire early, we wrap with warmth and plan for next time.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="faq_q4">What happens to the stories that are collected?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><p data-i18n="faq_a4">Stories are collected with explicit consent from the resident. They are transcribed, illustrated, and compiled into physical Archive books. Residents and their families receive copies, and the facility keeps one in their library. Stories are never shared publicly without written permission.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="faq_q5">What age are the student volunteers?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><p data-i18n="faq_a5">Our student volunteers range in age from 14 to 18. All are vetted through an application process and complete a volunteer orientation. For younger volunteers, parental consent and supervision guidelines apply. We also welcome college students and young adults seeking service hours.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="faq_q6">How do I start a chapter at my school?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><p data-i18n="faq_a6">We'd love to help you start a chapter! Reach out through our contact form with a note about your school and community. We'll walk you through our replication model, provide training materials, and connect you with a nearby retirement facility. We aim to have your first session scheduled within six weeks of your inquiry.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="faq_q7">Can residents with dementia participate?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><p data-i18n="faq_a7">Yes. Art therapy and storytelling activities have shown strong benefits for residents with mild to moderate dementia. Our activities are designed to be non-stressful and to meet residents wherever they are cognitively. We work closely with facility staff to ensure each resident's experience is safe, comfortable, and meaningful.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="faq_q8">Where does the money go?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><p data-i18n="faq_a8">Every dollar raised goes directly into the program: art supplies (40%), book printing and binding (35%), and volunteer transportation support (25%). We maintain full transparency with our financials and publish an annual report available to any supporter who requests it.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT
+============================================================ -->
+<section class="section" id="contact">
+  <div class="container">
+    <span class="section-tag fade-in" data-i18n="contact_tag">Contact</span>
+    <h2 class="section-title fade-in fade-in-delay-1" data-i18n="contact_title">Let's build something together</h2>
+
+    <div class="contact-grid">
+      <div class="contact-info fade-in">
+        <h3 data-i18n="contact_h3">We'd love to hear from you.</h3>
+        <p data-i18n="contact_p">Whether you want to volunteer, partner, donate, or simply learn more about what we do — drop us a message. We respond to every inquiry personally, usually within 48 hours.</p>
+        <div class="social-links">
+          <a href="#" class="social-link">📸 Instagram</a>
+          <a href="#" class="social-link">📘 Facebook</a>
+          <a href="#" class="social-link">🎵 TikTok</a>
+          <a href="#" class="social-link">✉️ Email Us</a>
+        </div>
+      </div>
+      <div class="contact-form-wrap fade-in fade-in-delay-1">
+        <h3 data-i18n="contact_form_title">Send a Message</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label data-i18n="form_name">Your Name</label>
+            <input type="text" placeholder="Full name" data-i18n-placeholder="contact_placeholder_name" />
+          </div>
+          <div class="form-group">
+            <label data-i18n="form_email">Email Address</label>
+            <input type="email" placeholder="you@email.com" data-i18n-placeholder="contact_placeholder_email" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label data-i18n="form_msg">Message</label>
+          <textarea placeholder="What's on your mind?" data-i18n-placeholder="contact_placeholder_msg"></textarea>
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;" data-i18n="form_submit">Send Message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <!-- ============================================================
      FOOTER
@@ -2373,8 +2393,18 @@
   </div>
   <div class="container" style="margin-top: 32px;">
     <p style="font-size:0.75rem;opacity:0.4;grid-column:1/-1;" data-i18n="footer_copy">© 2025 The Rare Archive. A student-led nonprofit organization.</p>
+    <p style="font-size:0.72rem;opacity:0.58;grid-column:1/-1;margin-top:8px;" data-i18n="footer_auto_translate">Simplified Mandarin, French, and Hindi translations on this site are auto translated.</p>
   </div>
 </footer>
+
+<div class="calendar-modal" id="calendarModal" aria-hidden="true">
+  <div class="calendar-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="calendarModalTitle">
+    <button class="calendar-modal-close" id="calendarModalClose" type="button" aria-label="Close">×</button>
+    <span class="calendar-modal-date" id="calendarModalDate"></span>
+    <h4 id="calendarModalTitle"></h4>
+    <p id="calendarModalBody"></p>
+  </div>
+</div>
 
 <!-- ============================================================
      JAVASCRIPT
@@ -2397,8 +2427,8 @@ const translations = {
     hero_btn_support: "Support Us",
     hero_btn_book: "Request a Workshop",
 
-    fundraiser_title: "📚 Current Fundraiser: Shop Through our Fundraiser with ThriftBooks!",
-    fundraiser_desc: "Use our current fundraiser link when you shop for books online and a portion of qualifying purchases will help support The Rare Archive's art sessions, printing, and program growth.",
+    fundraiser_title: "📚 Current Fundraiser: ThriftBooks Bundle Campaign",
+    fundraiser_desc: "We're raising $2,000 by selling 50 ThriftBooks bundles at $40 each. Proceeds support our student-led Ashburn, Virginia initiative, which brings mini art workshops and creative engagement sessions to elderly residents in retirement and assisted living communities.",
     fundraiser_btn: "Open Fundraiser →",
     fundraiser_note: "The fundraiser opens in a new tab so supporters can shop directly through our current campaign link.",
 
@@ -2462,9 +2492,9 @@ const translations = {
     shop_c1_title: "Resident Art Prints", shop_c1_desc: "With participant permission, selected artwork can be developed into prints that celebrate residents' creativity, support future workshops, and help bring more awareness to early cognitive decline. Etsy and Amazon storefronts are part of our long-term plan.", shop_c1_btn: "Support Our Shop →",
     shop_c2_title: "Student-Made Fundraising Art", shop_c2_desc: "Student volunteers also create original pieces and prints to raise money for supplies, transportation, and expansion into more communities.", shop_c2_btn: "Browse Prints →",
     shop_c3_title: "Sponsor a Workshop", shop_c3_desc: "Help cover materials for an upcoming session in a retirement or assisted living community in the DMV area.", shop_c3_btn: "Sponsor a Session →",
-    tf_title: "Current Book Fundraiser", tf_desc: "Our live fundraiser is a direct shopping campaign: supporters use our dedicated book link, browse as usual, and eligible purchases send support back to The Rare Archive.", tf_desc2: "It is an easy way to help if you already planned to buy books. Every fundraiser-driven purchase helps us cover workshop supplies, printing, and the materials we bring into senior communities.",
-    tf_btn: "Shop Through Our Fundraiser →", tf_prog_label: "Fundraiser Impact", tf_raised: "Every qualifying order helps", tf_goal: "Goal: fund more workshops and books",
-    tf_note: "Funds go directly toward art supplies, accessibility tools, outreach, and workshop expansion.",
+    tf_title: "ThriftBooks Fundraiser", tf_desc: "The Rare Archive is a student-led nonprofit initiative founded in January 2026. Based in Ashburn, Virginia, we provide mini art workshops and creative engagement sessions for elderly residents in local retirement and assisted living communities to reduce loneliness, support cognitive engagement, and create meaningful connection.", tf_desc2: "Our current goal is to raise $2,000 by selling 50 ThriftBooks bundles at $40 each through our GroupRaise link. Every qualifying order helps us buy materials, supplies, and expand into additional areas while keeping workshops accessible and hands-on.",
+    tf_btn: "Shop Through Our Fundraiser →", tf_prog_label: "Fundraiser Impact", tf_raised: "Every bundle sold helps", tf_goal: "Goal: 50 bundles · $2,000",
+    tf_note: "Support from this fundraiser helps fund guided painting sessions, seasonal crafts, collaborative art activities, materials, supplies, and future expansion into more communities.",
     donate_intro: "Your donation helps us purchase canvases, paint, brushes, adaptive materials, printed guides, and other tools that make our workshops consistent, accessible, and meaningful for older adults.",
     tier1_label: "Workshop Kit", tier1_desc: "Helps provide paints, brushes, palettes, and table materials for one creative session.",
     tier2_label: "Accessibility Support", tier2_desc: "Funds larger brushes, lightweight tools, and adapted supplies so more seniors can participate comfortably.",
@@ -2477,26 +2507,30 @@ const translations = {
     events_title: "See what's coming up and what we've already shared",
     events_sub: "Browse our upcoming calendar, follow the fundraiser we're actively running, and look back at community moments that helped shape The Rare Archive.",
     events_tab_upcoming: "Upcoming Events", events_tab_fundraisers: "Current Fundraisers", events_tab_past: "Past Events",
-    events_upcoming_title: "Upcoming Events", events_upcoming_note: "This calendar highlights upcoming community moments, fundraiser pushes, and workshop-related dates. As new partnerships and activations are confirmed, we'll keep this space updated so supporters can plan ahead.",
-    events_upcoming_card_title: "What this includes", events_upcoming_card_desc: "You’ll see planning calls, launch windows, pop-up workshop days, and campaign pushes that are open to supporters, school partners, and community collaborators.",
-    events_calendar_title: "April 2026", events_calendar_pill: "Calendar Preview",
+    events_upcoming_title: "Upcoming Events", events_upcoming_note: "We do not have general upcoming events yet. The only confirmed date right now is the end of our ThriftBooks fundraiser on June 7, 2026.",
+    events_upcoming_card_title: "What this includes", events_upcoming_card_desc: "For now, this section is mainly a place to share milestone dates tied to our current fundraiser and any future public events once they are announced.",
+    events_calendar_title: "June 2026", events_calendar_pill: "Fundraiser End Date",
     cal_sun: "Sun", cal_mon: "Mon", cal_tue: "Tue", cal_wed: "Wed", cal_thu: "Thu", cal_fri: "Fri", cal_sat: "Sat",
-    events_marker_1: "Planning", events_marker_2: "Launch", events_marker_3: "Pop-Up",
-    events_list_title: "At a glance",
-    events_date_1: "April 4", events_desc_1: "Volunteer planning call for the next round of retirement community workshops and supply prep.",
-    events_date_2: "April 10", events_desc_2: "Public launch push for the current fundraiser, including social sharing and outreach to supporters.",
-    events_date_3: "April 18", events_desc_3: "Community pop-up art table designed to introduce new partners to The Rare Archive model.",
+    events_marker_1: "Ends", events_marker_2: "Launch", events_marker_3: "Pop-Up",
+    events_list_title: "Confirmed date",
+    events_date_1: "June 7, 2026", events_desc_1: "Our ThriftBooks fundraiser ends on June 7, 2026. That is the only confirmed upcoming date we have to share right now.",
+    events_date_2: "After June 7", events_desc_2: "We do not have any workshop, pop-up, or community event dates scheduled yet beyond the fundraiser end date.",
+    events_date_3: "Next updates", events_desc_3: "When we announce our first public event or workshop date, we’ll add it here next.",
+    calendar_popup_event_title: "ThriftBooks Fundraiser Ends",
+    calendar_popup_event_body: "June 7, 2026 is the final day of our ThriftBooks fundraiser. Our goal is to raise $2,000 by selling 50 bundles at $40 each to support mini art workshops, supplies, and future expansion for elderly residents in Ashburn-area retirement and assisted living communities.",
+    calendar_popup_empty_title: "No event scheduled",
+    calendar_popup_empty_body: "There is no public event or workshop scheduled for this date right now.",
     events_fundraiser_title: "Current Fundraisers",
     events_fundraiser_desc: "Our active fundraiser is a direct shopping campaign through ThriftBooks. Supporters can use our dedicated link, shop as usual, and a portion of qualifying purchases helps fund upcoming workshops, supplies, and printed archive books.",
     events_fundraiser_desc2: "This subtab is where we’ll feature whichever fundraiser is currently live so visitors can immediately see how to help and what the campaign is supporting right now.",
     events_fundraiser_highlight_1_title: "What it funds", events_fundraiser_highlight_1_desc: "Art materials, adaptive tools, printing, and workshop setup for elderly residents.",
     events_fundraiser_highlight_2_title: "Why it matters now", events_fundraiser_highlight_2_desc: "Current fundraising helps us move upcoming calendar plans into real sessions and community outreach.",
     events_fundraiser_highlight_3_title: "Where to contribute", events_fundraiser_highlight_3_desc: "Use the fundraiser link above to support the live campaign in one step.",
-    events_past_title: "Past Events", events_past_note: "This archive captures earlier workshop moments, outreach pop-ups, and milestone gatherings that helped us test and grow the program.",
-    events_past_card_title: "Why keep an archive", events_past_card_desc: "Past events help new partners understand how we show up in the community and what kinds of programs we’ve already led.",
-    past_event_1_date: "December 2025", past_event_1_title: "Holiday Card-Making Workshop", past_event_1_desc: "Students and residents created hand-painted winter cards together, focusing on relaxed conversation and memory-sharing through art.",
-    past_event_2_date: "October 2025", past_event_2_title: "Community Awareness Table", past_event_2_desc: "We introduced The Rare Archive at a local community event, shared sample materials, and invited new school and facility partnerships.",
-    past_event_3_date: "August 2025", past_event_3_title: "Pilot Storybook Session", past_event_3_desc: "An early small-group workshop helped shape our picture-book model by pairing guided art with personal storytelling and reflection.",
+    events_past_title: "Past Events", events_past_note: "We have not hosted any past events yet, so this archive is currently empty. Once programs begin, we’ll document them here.",
+    events_past_card_title: "Archive coming soon", events_past_card_desc: "This section will eventually document workshops, outreach moments, and community milestones after they happen.",
+    past_event_1_date: "No events yet", past_event_1_title: "First workshop to be announced", past_event_1_desc: "We have not hosted our first workshop yet, so there are no archived event details to show here right now.",
+    past_event_2_date: "Nothing archived", past_event_2_title: "Future outreach will appear here", past_event_2_desc: "When we begin hosting public outreach or community appearances, we’ll add summaries and photos to this section.",
+    past_event_3_date: "Waiting on launch", past_event_3_title: "This archive starts with event one", past_event_3_desc: "For now, this page simply shows where past event recaps will live once The Rare Archive begins hosting them.",
 
     inv_tag: "Get Involved", inv_title: "There's a role for everyone",
     inv_sub: "Whether you're a student volunteer, school partner, facility leader, or supporter of elder mental wellness, there is a real way to help this work grow.",
@@ -2513,7 +2547,7 @@ const translations = {
     impact_tag: "Our Impact", impact_title: "Early momentum with a clear purpose.",
     impact_sub: "We are in the early stages of building The Rare Archive, but the response so far shows how strongly this mission resonates.",
     stat1_num: "2,000+", stat1_label: "Social media views",
-    stat2_num: "237", stat2_label: "Followers reached",
+    stat2_num: "330", stat2_label: "Followers reached",
     stat3_num: "2", stat3_label: "School partnerships",
     stat4_num: "DMV", stat4_label: "Region we are building in",
     t1_quote: "\"Many seniors go days without meaningful conversation. We want our workshops to interrupt that isolation with art, care, and human connection.\"",
@@ -2544,6 +2578,7 @@ const translations = {
     footer_tagline: "Creating art, preserving lives in picture books, and raising awareness through every story.",
     footer_connect: "Connect With Us",
     footer_copy: "© 2025 The Rare Archive. A student-led initiative serving the DMV area.",
+    footer_auto_translate: "Simplified Mandarin, French, and Hindi translations on this site are auto translated.",
   },
 
   es: {
@@ -2559,8 +2594,8 @@ const translations = {
     hero_btn_support: "Apóyanos",
     hero_btn_book: "Solicitar Taller",
 
-    fundraiser_title: "📚 Recaudación Actual: Compra a Través de Nuestra Campaña de Libros",
-    fundraiser_desc: "Usa nuestro enlace actual de recaudación cuando compres libros en línea y una parte de las compras elegibles apoyará las sesiones de arte, la impresión y el crecimiento del programa de The Rare Archive.",
+    fundraiser_title: "📚 Recaudación Actual: Campaña de Paquetes ThriftBooks",
+    fundraiser_desc: "Queremos recaudar $2,000 vendiendo 50 paquetes de ThriftBooks a $40 cada uno. Los ingresos apoyan nuestra iniciativa estudiantil en Ashburn, Virginia, que lleva mini talleres de arte y sesiones creativas a residentes mayores en comunidades de retiro y vida asistida.",
     fundraiser_btn: "Abrir Recaudación →",
     fundraiser_note: "La recaudación se abre en una nueva pestaña para que los seguidores compren directamente desde nuestro enlace actual.",
 
@@ -2570,7 +2605,7 @@ const translations = {
 
     about_tag: "Nosotros",
     about_title: "Empezamos con la idea de que demasiadas historias se estaban perdiendo.",
-    about_sub: "The Rare Archive nació de una realización profundamente personal: como hijos de familias inmigrantes con abuelos en otros países, entendemos lo frágil que puede sentirse el tiempo y la conexión. Esa distancia nos ayudó a ver una verdad mayor: muchas personas mayores pasan largos periodos sin ser escuchadas de verdad. Creamos esta iniciativa para responder a ese silencio con arte, atención y cuidado.",
+    about_sub: "The Rare Archive surgió de una realización profundamente personal: como hijos de familias inmigrantes con abuelos en otros países, entendemos lo frágil que puede sentirse el tiempo y la conexión. Esa distancia nos ayudó a reconocer una verdad mayor: muchas personas mayores, incluso aquellas con familia cerca, pasan largos periodos sin ser escuchadas de verdad. Creamos esta iniciativa para responder a ese silencio con arte, atención y cuidado.",
     about_c1_title: "El Problema Que Vimos",
     about_c1_desc: "Muchas personas mayores en comunidades de retiro y vida asistida experimentan soledad, poca interacción social y menos oportunidades de expresarse. Con el tiempo, ese aislamiento puede afectar el estado de ánimo, la confianza y la participación cognitiva.",
     about_c2_title: "Por Qué Importa el Arte",
@@ -2624,9 +2659,9 @@ const translations = {
     shop_c1_title: "Impresiones del Arte de Residentes", shop_c1_desc: "Con permiso del participante, algunas obras pueden convertirse en impresiones que celebran su creatividad, apoyan futuros talleres y ayudan a generar más conciencia sobre el deterioro cognitivo temprano. Etsy y Amazon forman parte de nuestro plan a largo plazo.", shop_c1_btn: "Apoyar la Tienda →",
     shop_c2_title: "Arte Estudiantil para Recaudar Fondos", shop_c2_desc: "Los voluntarios estudiantes también crean piezas e impresiones originales para recaudar dinero para materiales, transporte y expansión.", shop_c2_btn: "Ver Impresiones →",
     shop_c3_title: "Patrocina un Taller", shop_c3_desc: "Ayuda a cubrir materiales para una próxima sesión en una comunidad de retiro o vida asistida del área del DMV.", shop_c3_btn: "Patrocinar una Sesión →",
-    tf_title: "Campaña Actual de Libros", tf_desc: "Nuestra recaudación activa es una campaña de compra directa: los seguidores usan nuestro enlace especial de libros, compran normalmente y las compras elegibles generan apoyo para The Rare Archive.", tf_desc2: "Es una forma sencilla de ayudar si ya pensabas comprar libros. Cada compra hecha mediante la recaudación nos ayuda a cubrir materiales de talleres, impresión y recursos para las comunidades de adultos mayores.",
-    tf_btn: "Comprar a Través de la Recaudación →", tf_prog_label: "Impacto de la Recaudación", tf_raised: "Cada pedido elegible ayuda", tf_goal: "Meta: financiar más talleres y libros",
-    tf_note: "Los fondos se destinan a materiales de arte, herramientas de accesibilidad, alcance comunitario y expansión del programa.",
+    tf_title: "Recaudación con ThriftBooks", tf_desc: "The Rare Archive es una iniciativa estudiantil sin fines de lucro fundada en enero de 2026. Con base en Ashburn, Virginia, ofrecemos mini talleres de arte y sesiones de participación creativa para residentes mayores en comunidades locales de retiro y vida asistida, con el fin de reducir la soledad, apoyar la participación cognitiva y crear conexión significativa.", tf_desc2: "Nuestra meta actual es recaudar $2,000 vendiendo 50 paquetes de ThriftBooks a $40 cada uno a través de nuestro enlace de GroupRaise. Cada compra elegible nos ayuda a comprar materiales, suministros y expandirnos a más áreas mientras mantenemos los talleres accesibles y prácticos.",
+    tf_btn: "Comprar a Través de la Recaudación →", tf_prog_label: "Impacto de la Recaudación", tf_raised: "Cada paquete vendido ayuda", tf_goal: "Meta: 50 paquetes · $2,000",
+    tf_note: "Esta recaudación ayuda a financiar sesiones guiadas de pintura, manualidades de temporada, actividades artísticas colaborativas, materiales, suministros y la futura expansión a más comunidades.",
     donate_intro: "Tu donación nos ayuda a comprar lienzos, pintura, pinceles, materiales adaptados, guías impresas y otras herramientas que hacen que nuestros talleres sean constantes, accesibles y significativos.",
     tier1_label: "Kit de Taller", tier1_desc: "Ayuda a proporcionar pinturas, pinceles, paletas y materiales de mesa para una sesión creativa.",
     tier2_label: "Accesibilidad", tier2_desc: "Financia pinceles más grandes, herramientas livianas y materiales adaptados para que más residentes participen cómodamente.",
@@ -2639,26 +2674,30 @@ const translations = {
     events_title: "Mira lo que viene y lo que ya hemos compartido",
     events_sub: "Explora nuestro calendario próximo, sigue la recaudación que está activa ahora mismo y revisa momentos comunitarios que ayudaron a formar The Rare Archive.",
     events_tab_upcoming: "Próximos Eventos", events_tab_fundraisers: "Recaudaciones Actuales", events_tab_past: "Eventos Pasados",
-    events_upcoming_title: "Próximos Eventos", events_upcoming_note: "Este calendario destaca próximos momentos comunitarios, impulsos de recaudación y fechas relacionadas con talleres. A medida que confirmemos nuevas alianzas y actividades, mantendremos este espacio actualizado para que los seguidores puedan planificar con tiempo.",
-    events_upcoming_card_title: "Qué incluye", events_upcoming_card_desc: "Aquí verás llamadas de planificación, ventanas de lanzamiento, días de talleres emergentes e impulsos de campaña abiertos para seguidores, aliados escolares y colaboradores comunitarios.",
-    events_calendar_title: "Abril 2026", events_calendar_pill: "Vista Previa del Calendario",
+    events_upcoming_title: "Próximos Eventos", events_upcoming_note: "Todavía no tenemos eventos generales próximos. La única fecha confirmada por ahora es el cierre de nuestra recaudación con ThriftBooks el 7 de junio de 2026.",
+    events_upcoming_card_title: "Qué incluye", events_upcoming_card_desc: "Por ahora, esta sección sirve principalmente para compartir fechas importantes relacionadas con nuestra recaudación actual y cualquier evento público futuro cuando se anuncie.",
+    events_calendar_title: "Junio 2026", events_calendar_pill: "Fin de la Recaudación",
     cal_sun: "Dom", cal_mon: "Lun", cal_tue: "Mar", cal_wed: "Mié", cal_thu: "Jue", cal_fri: "Vie", cal_sat: "Sáb",
-    events_marker_1: "Plan", events_marker_2: "Lanz.", events_marker_3: "Pop-Up",
-    events_list_title: "Resumen rápido",
-    events_date_1: "4 de abril", events_desc_1: "Llamada de planificación para la próxima ronda de talleres en comunidades de retiro y preparación de materiales.",
-    events_date_2: "10 de abril", events_desc_2: "Impulso público de lanzamiento para la recaudación actual, incluyendo difusión y alcance a seguidores.",
-    events_date_3: "18 de abril", events_desc_3: "Mesa comunitaria de arte tipo pop-up para presentar el modelo de The Rare Archive a nuevos aliados.",
+    events_marker_1: "Cierre", events_marker_2: "Lanz.", events_marker_3: "Pop-Up",
+    events_list_title: "Fecha confirmada",
+    events_date_1: "7 de junio de 2026", events_desc_1: "Nuestra recaudación con ThriftBooks termina el 7 de junio de 2026. Esa es la única fecha próxima confirmada que tenemos para compartir por ahora.",
+    events_date_2: "Después del 7 de junio", events_desc_2: "Todavía no tenemos programadas fechas de talleres, eventos emergentes o encuentros comunitarios más allá del cierre de la recaudación.",
+    events_date_3: "Próximas actualizaciones", events_desc_3: "Cuando anunciemos nuestra primera fecha pública de evento o taller, la añadiremos aquí.",
+    calendar_popup_event_title: "Finaliza la Recaudación con ThriftBooks",
+    calendar_popup_event_body: "El 7 de junio de 2026 es el último día de nuestra recaudación con ThriftBooks. Nuestra meta es recaudar $2,000 vendiendo 50 paquetes a $40 cada uno para apoyar mini talleres de arte, materiales y la futura expansión para residentes mayores en comunidades de retiro y vida asistida del área de Ashburn.",
+    calendar_popup_empty_title: "No hay evento programado",
+    calendar_popup_empty_body: "No hay ningún evento público ni taller programado para esta fecha por ahora.",
     events_fundraiser_title: "Recaudaciones Actuales",
     events_fundraiser_desc: "Nuestra recaudación activa es una campaña de compra directa a través de ThriftBooks. Los seguidores pueden usar nuestro enlace especial, comprar normalmente y una parte de las compras elegibles ayuda a financiar próximos talleres, materiales y libros impresos del archivo.",
     events_fundraiser_desc2: "Esta subpestaña mostrará la recaudación que esté activa para que los visitantes vean de inmediato cómo ayudar y qué está apoyando la campaña en este momento.",
     events_fundraiser_highlight_1_title: "Qué financia", events_fundraiser_highlight_1_desc: "Materiales de arte, herramientas adaptadas, impresión y preparación de talleres para residentes mayores.",
     events_fundraiser_highlight_2_title: "Por qué importa ahora", events_fundraiser_highlight_2_desc: "La recaudación actual nos ayuda a convertir los planes del calendario en sesiones reales y mayor alcance comunitario.",
     events_fundraiser_highlight_3_title: "Dónde contribuir", events_fundraiser_highlight_3_desc: "Usa el enlace de arriba para apoyar la campaña activa en un solo paso.",
-    events_past_title: "Eventos Pasados", events_past_note: "Este archivo reúne momentos previos de talleres, mesas comunitarias y encuentros importantes que nos ayudaron a probar y hacer crecer el programa.",
-    events_past_card_title: "Por qué guardar un archivo", events_past_card_desc: "Los eventos pasados ayudan a nuevos aliados a entender cómo trabajamos en la comunidad y qué tipo de programas ya hemos realizado.",
-    past_event_1_date: "Diciembre 2025", past_event_1_title: "Taller de Tarjetas Navideñas", past_event_1_desc: "Estudiantes y residentes crearon tarjetas de invierno pintadas a mano, con conversación relajada y recuerdos compartidos a través del arte.",
-    past_event_2_date: "Octubre 2025", past_event_2_title: "Mesa Comunitaria de Concientización", past_event_2_desc: "Presentamos The Rare Archive en un evento comunitario local, compartimos materiales de muestra e invitamos a nuevas alianzas escolares y comunitarias.",
-    past_event_3_date: "Agosto 2025", past_event_3_title: "Sesión Piloto de Libro Ilustrado", past_event_3_desc: "Un taller inicial en grupo pequeño ayudó a definir nuestro modelo de libro ilustrado al combinar arte guiado con narración personal y reflexión.",
+    events_past_title: "Eventos Pasados", events_past_note: "Todavía no hemos realizado eventos, así que este archivo está vacío por ahora. Cuando comiencen los programas, los documentaremos aquí.",
+    events_past_card_title: "Archivo próximamente", events_past_card_desc: "Esta sección eventualmente documentará talleres, momentos de alcance y hitos comunitarios después de que ocurran.",
+    past_event_1_date: "Aún no hay eventos", past_event_1_title: "Primer taller por anunciar", past_event_1_desc: "Todavía no hemos realizado nuestro primer taller, así que no hay detalles archivados para mostrar aquí por ahora.",
+    past_event_2_date: "Nada archivado", past_event_2_title: "El futuro alcance aparecerá aquí", past_event_2_desc: "Cuando empecemos a realizar actividades públicas o apariciones comunitarias, añadiremos resúmenes y fotos en esta sección.",
+    past_event_3_date: "Esperando lanzamiento", past_event_3_title: "Este archivo comienza con el evento uno", past_event_3_desc: "Por ahora, esta página simplemente muestra dónde vivirán los resúmenes de eventos pasados una vez que The Rare Archive comience a organizarlos.",
 
     inv_tag: "Involúcrate", inv_title: "Hay un rol para todos",
     inv_sub: "Ya seas voluntario estudiantil, socio escolar, líder comunitario o apoyo del bienestar mental de las personas mayores, hay una forma real de ayudar a que este trabajo crezca.",
@@ -2675,7 +2714,7 @@ const translations = {
     impact_tag: "Nuestro Impacto", impact_title: "Impulso inicial con un propósito claro.",
     impact_sub: "Estamos en las primeras etapas de The Rare Archive, pero la respuesta hasta ahora muestra cuánto resuena esta misión.",
     stat1_num: "2,000+", stat1_label: "Vistas en redes sociales",
-    stat2_num: "237", stat2_label: "Seguidores alcanzados",
+    stat2_num: "330", stat2_label: "Seguidores alcanzados",
     stat3_num: "2", stat3_label: "Alianzas escolares",
     stat4_num: "DMV", stat4_label: "Región donde estamos creciendo",
     t1_quote: "\"Muchas personas mayores pasan días sin una conversación significativa. Queremos que nuestros talleres interrumpan ese aislamiento con arte, cuidado y conexión humana.\"",
@@ -2706,13 +2745,431 @@ const translations = {
     footer_tagline: "Creando arte, preservando vidas en libros ilustrados y generando conciencia con cada historia.",
     footer_connect: "Conéctate Con Nosotros",
     footer_copy: "© 2025 The Rare Archive. Una iniciativa estudiantil al servicio del área del DMV.",
+    footer_auto_translate: "Las traducciones al chino mandarín simplificado, francés e hindi de este sitio son automáticas.",
   }
 };
+
+const languageMeta = {
+  en: { label: "EN", title: "English", locale: "en" },
+  es: { label: "ES", title: "Español", locale: "es" },
+  zh: { label: "中文", title: "简体中文", locale: "zh-Hans" },
+  fr: { label: "FR", title: "Français", locale: "fr" },
+  hi: { label: "हि", title: "हिन्दी", locale: "hi" }
+};
+
+const translationOverrides = {
+  zh: {
+    nav_about: "关于我们",
+    nav_wwd: "我们的工作",
+    nav_book: "预约工作坊",
+    nav_support: "支持我们",
+    nav_involved: "参与进来",
+    nav_gallery: "画廊",
+    nav_impact: "影响力",
+    nav_faq: "常见问题",
+    nav_contact: "联系我们",
+    nav_events: "活动",
+    nav_upcoming_events: "即将举行的活动",
+    nav_past_events: "过去活动",
+    hero_eyebrow: "DMV 地区学生主导倡议 · 用艺术守护记忆、连接与关怀",
+    hero_title: "用创意工作坊帮助长者感到<em>被看见、被倾听、被铭记。</em>",
+    hero_sub: "The Rare Archive 为退休社区和辅助生活社区的老年居民举办艺术工作坊，通过创意表达减轻孤独感、支持情绪健康，并在获得许可后将居民作品制作成绘本，提高公众对老年人早期认知衰退的认识。",
+    hero_btn_support: "支持我们",
+    hero_btn_book: "预约工作坊",
+    fundraiser_title: "📚 当前筹款活动：ThriftBooks 图书捆绑活动",
+    fundraiser_desc: "我们的目标是通过销售 50 份、每份 40 美元的 ThriftBooks 图书捆绑筹集 2,000 美元。所得将支持我们位于弗吉尼亚州 Ashburn 的学生主导项目，为退休社区和辅助生活社区的老年居民带去迷你艺术工作坊和创意互动。",
+    fundraiser_btn: "打开筹款页面 →",
+    fundraiser_note: "筹款链接会在新标签页打开，方便支持者直接通过当前活动链接购买。",
+    mission_tag: "我们的使命",
+    mission_title: "用艺术守护记忆与心理健康",
+    mission_sub: "我们相信，社会孤立、抑郁和早期认知衰退在老年照护中值得更多关注。The Rare Archive 创建结构清晰、易于参与的艺术工作坊，让长者能够表达自己、与他人建立有意义的联系，并体验到被真正倾听所带来的情绪舒缓。<br><br>在获得每位居民许可后，我们会将他们的作品和分享整理成绘本，纪念他们的人生，也帮助提升公众对老年人早期认知衰退的认识。",
+    about_tag: "关于我们",
+    about_title: "我们从担心太多故事正在消失开始。",
+    about_sub: "The Rare Archive 源于一个非常个人的体会：作为移民家庭的孩子，我们的祖父母生活在海外，因此我们深知时间和连接有多脆弱。这样的距离也让我们看到一个更大的现实：许多年长者，即使家人就在附近，也常常很久都没有被真正倾听。我们希望用艺术、关注和关怀回应这种沉默。",
+    about_c1_title: "我们看到的问题",
+    about_c1_desc: "许多住在辅助生活和退休社区的长者会经历孤独、有限的社交互动，以及更少自我表达的机会。时间久了，这种孤立会影响情绪、自信和认知参与度。我们意识到，他们需要的不只是一次短暂探访或被动活动。",
+    about_c2_title: "为什么艺术很重要",
+    about_c2_desc: "艺术不仅仅是娱乐。它为反思、对话、记忆唤起和情绪释放创造空间。当居民在友善的环境中绘画、手作和创作时，他们并不只是打发时间，而是在表达身份、自主性和人生经验。",
+    about_c3_title: "绘本档案",
+    about_c3_desc: "在获得许可后，我们会把每次工作坊中产生的作品和故事制作成绘本，用富有创意且个人化的方式记录每位居民的人生。这些书可以与家人分享，也能帮助传播对老年人早期认知衰退的关注。",
+    about_c4_title: "由学生主导并持续成长",
+    about_c4_desc: "The Rare Archive 由学生志愿者推动，他们带着引导、倾听和陪伴创作的心来到长者身边。这个过程中，志愿者也会培养同理心、领导力，以及对上一代更深的尊重。",
+    about_vision_title: "我们对未来的愿景",
+    about_vision_desc: "我们希望未来能把创意健康视为长者照护的重要组成部分。我们的目标是在 DMV 地区持续扩展，与更多社区合作，并建立一种模式，让学生能够通过艺术减少孤独，同时保存长者的生命故事与声音。",
+    wwd_tag: "我们的工作",
+    wwd_title: "为表达、平静与连接而设计的艺术工作坊",
+    wwd_sub: "我们的活动以可参与性、欢迎感和情感意义为核心，为退休社区和辅助生活社区的长者而设计。",
+    wwd_c1_title: "引导式艺术工作坊",
+    wwd_c1_desc: "我们带领绘画、季节性手作和合作艺术活动，简单易参与，适合所有经验水平。",
+    wwd_c2_title: "通过创意展开对话",
+    wwd_c2_desc: "居民在创作的同时，志愿者会与他们进行真诚交流，帮助他们回忆、分享并感受到个人价值。",
+    wwd_c3_title: "基于许可的绘本",
+    wwd_c3_desc: "当居民愿意分享更多时，我们会帮助把他们的作品和感受整理成绘本，尊重他们是谁，保存他们的故事，并与亲人分享。",
+    wwd_c4_title: "无障碍材料",
+    wwd_c4_desc: "我们提供所需材料，并以舒适度为先进行调整，包括适合不同身体或认知需求的工具。",
+    wwd_c5_title: "关注心理健康",
+    wwd_c5_desc: "我们的工作坊旨在减少孤独感、支持情绪健康，并通过创意和稳定连接促进认知参与。",
+    wwd_c6_title: "持续的社区陪伴",
+    wwd_c6_desc: "我们希望建立的是一个可靠的项目，而不是一次性活动，让居民能持续获得创作、连接和被倾听的机会。",
+    steps_title: "一次活动如何展开",
+    step1_title: "准备与欢迎",
+    step1_desc: "志愿者准备材料，营造温暖、无压力的环境，让居民轻松参与。",
+    step2_title: "一起创作",
+    step2_desc: "居民在引导下参与易上手的艺术活动，鼓励专注、放松和自我表达。",
+    step3_title: "倾听与连接",
+    step3_desc: "当居民绘画和创作时，对话自然发生，故事和回忆会在他们自己的节奏中浮现。",
+    step4_title: "制作绘本",
+    step4_desc: "如果居民同意，我们会帮助把他们的作品和分享整理成绘本，细致地保存他们的故事。",
+    step5_title: "分享并提升认知",
+    step5_desc: "绘本可以与家人分享，也能帮助提高对早期认知衰退的认识；相关印刷品和作品还能支持未来工作坊。",
+    book_tag: "预约工作坊",
+    book_title: "把 The Rare Archive 带到你的社区",
+    book_info1: "我们与 DMV 地区的退休之家、辅助生活社区、老年中心和类似机构合作，把创意健康工作坊直接带给老年居民。",
+    book_info2: "我们的目标是提供一个持续且有温度的项目，包含结构化艺术活动、富有意义的志愿者支持，以及为无障碍参与而设计的材料。",
+    book_li1: "目前重点服务 DMV 地区",
+    book_li2: "周末和定期工作坊模式",
+    book_li3: "所有居民均自愿参与",
+    book_li4: "为长者量身设计的艺术项目",
+    book_li5: "学生志愿者会接受引导与鼓励培训",
+    book_li6: "工作坊方案可根据社区需求调整",
+    book_form_title: "预约工作坊",
+    form_name: "联系人姓名",
+    form_org: "机构名称",
+    form_email: "电子邮箱",
+    form_date: "希望开始日期",
+    form_msg: "告诉我们你的社区情况",
+    form_submit: "发送申请 →",
+    book_placeholder_name: "你的全名",
+    book_placeholder_org: "机构或组织名称",
+    book_placeholder_email: "you@organization.com",
+    book_placeholder_msg: "大概会有多少居民参加？是否有无障碍需求？你希望举办什么样的工作坊？",
+    support_tag: "支持我们",
+    support_title: "帮助我们带来更多艺术、关怀与连接",
+    support_sub: "每一次购买、捐赠和分享都能帮助我们为更多长者带去创意工作坊，在 DMV 地区持续扩展，并制作更多经过许可的绘本，提高公众对早期认知衰退的认识。",
+    tab_shop: "🛍️ 商店",
+    tab_fundraiser: "📚 筹款",
+    tab_donate: "💸 捐赠",
+    tab_campaign: "🚀 计划",
+    tf_title: "ThriftBooks 筹款活动",
+    tf_desc: "The Rare Archive 是一个成立于 2026 年 1 月、由学生主导的非营利倡议。我们位于弗吉尼亚州 Ashburn，为当地退休社区和辅助生活社区的老年居民提供迷你艺术工作坊和创意互动活动，以减少孤独感、支持认知参与，并建立有意义的连接。",
+    tf_desc2: "我们当前的目标是通过 GroupRaise 链接销售 50 份、每份 40 美元的 ThriftBooks 图书捆绑，筹集 2,000 美元。每一笔符合条件的订单都能帮助我们购买材料、用品，并扩展到更多地区，同时保持工作坊的可参与性与实践性。",
+    tf_btn: "通过我们的筹款链接购买 →",
+    tf_prog_label: "筹款影响",
+    tf_raised: "每卖出一份捆绑都在帮助我们",
+    tf_goal: "目标：50 份捆绑 · 2,000 美元",
+    tf_note: "这项筹款将帮助我们资助引导式绘画课程、季节性手作、合作艺术活动、材料用品，以及未来拓展到更多社区。",
+    donate_intro: "你的捐赠能帮助我们购买画布、颜料、画笔、适应性材料、印刷指南，以及其他让工作坊保持稳定、易参与且有意义的工具。",
+    tier1_label: "工作坊材料包",
+    tier1_desc: "帮助为一次创意活动提供颜料、画笔、调色盘和桌面材料。",
+    tier2_label: "无障碍支持",
+    tier2_desc: "资助更大号画笔、轻便工具和适应性材料，让更多长者能够舒适参与。",
+    tier3_label: "绘本档案",
+    tier3_desc: "支持将居民作品和分享整理成绘本，提供给家庭并用于提高认知。",
+    tier4_label: "DMV 扩展",
+    tier4_desc: "帮助我们把项目带到 DMV 地区更多辅助生活和退休社区。",
+    donate_btn: "立即捐赠 →",
+    camp_title: "帮助我们在 DMV 地区成长",
+    camp_desc: "我们目前的目标是把定期艺术工作坊带到更多退休社区和辅助生活社区，同时建立更完善的系统，将居民作品制作成经过许可的绘本。",
+    camp_desc2: "我们正在为材料、适应性工具、志愿者协调和社区联络募集支持，让这项工作成为可靠的长期项目，并提高公众对长者早期认知衰退的关注。",
+    camp_btn: "支持这项计划 →",
+    camp_raised: "来自社区的早期支持",
+    camp_goal: "目标：在 DMV 地区实现可持续成长",
+    camp_breakdown: "重点方向：材料 · 无障碍 · 绘本 · 工作坊扩展",
+    events_tag: "活动",
+    events_title: "看看接下来会发生什么，以及我们已经分享了什么",
+    events_sub: "查看即将到来的日历，并回顾帮助塑造 The Rare Archive 的社区时刻。",
+    events_upcoming_title: "即将举行的活动",
+    events_upcoming_note: "目前我们还没有一般性的近期活动。现在唯一确认的日期，是 2026 年 6 月 7 日 ThriftBooks 筹款结束。",
+    events_upcoming_card_title: "这里会显示什么",
+    events_upcoming_card_desc: "目前，这一部分主要用于分享与当前筹款相关的重要日期，以及未来一旦公布的公共活动。",
+    events_calendar_title: "2026 年 6 月",
+    cal_sun: "日",
+    cal_mon: "一",
+    cal_tue: "二",
+    cal_wed: "三",
+    cal_thu: "四",
+    cal_fri: "五",
+    cal_sat: "六",
+    events_list_title: "已确认日期",
+    events_date_1: "2026 年 6 月 7 日",
+    events_desc_1: "我们的 ThriftBooks 筹款将于 2026 年 6 月 7 日结束。这是目前唯一确认的近期日期。",
+    events_date_2: "6 月 7 日之后",
+    events_desc_2: "除筹款结束日期外，我们还没有安排任何工作坊、快闪活动或社区活动日期。",
+    events_date_3: "后续更新",
+    events_desc_3: "当我们公布第一次公共活动或工作坊日期时，会在这里更新。",
+    calendar_popup_event_title: "ThriftBooks 筹款结束",
+    calendar_popup_event_body: "2026 年 6 月 7 日是 ThriftBooks 筹款的最后一天。我们的目标是通过销售 50 份、每份 40 美元的图书捆绑筹集 2,000 美元，用于支持迷你艺术工作坊、材料用品以及未来在 Ashburn 周边退休与辅助生活社区的扩展。",
+    calendar_popup_empty_title: "当天没有安排活动",
+    calendar_popup_empty_body: "这一天目前没有安排公开活动或工作坊。",
+    events_past_title: "过去活动",
+    events_past_note: "我们目前还没有举办过活动，因此这个档案暂时为空。项目开始后，我们会在这里记录。",
+    events_past_card_title: "档案即将上线",
+    events_past_card_desc: "这一部分未来会记录工作坊、社区外展时刻和重要里程碑。",
+    past_event_1_date: "还没有活动",
+    past_event_1_title: "首场工作坊即将公布",
+    past_event_1_desc: "我们还没有举办第一场工作坊，因此目前没有可展示的活动档案内容。",
+    past_event_2_date: "暂无归档",
+    past_event_2_title: "未来的外展会出现在这里",
+    past_event_2_desc: "当我们开始举办公开外展或社区活动时，会把总结和照片放在这里。",
+    past_event_3_date: "等待启动",
+    past_event_3_title: "这个档案将从第一场活动开始",
+    past_event_3_desc: "目前，这个页面只是展示未来 The Rare Archive 举办活动后，过往回顾将会放在哪里。",
+    inv_tag: "参与进来",
+    inv_title: "每个人都能找到自己的角色",
+    inv_sub: "无论你是学生志愿者、学校伙伴、机构负责人，还是支持长者心理健康的人，都有真实的方式帮助这项工作成长。",
+    inv_c1_title: "成为工作坊志愿者",
+    inv_c1_desc: "志愿者会与居民坐在一起创作，帮助引导艺术活动，给予鼓励，并确保每位参与者都感到舒适和被接纳。不需要专业艺术背景。",
+    inv_c1_btn: "申请成为志愿者 →",
+    inv_c2_title: "成为社区合作伙伴",
+    inv_c2_desc: "退休之家、辅助生活社区和长者项目可以与我们合作，举办持续性的艺术工作坊，支持连接与表达。",
+    inv_c2_btn: "申请合作 →",
+    inv_c3_title: "建立学校支持网络",
+    inv_c3_desc: "我们也在通过学校社团、学生组织和青年服务团队成长，这些群体希望传播使命、筹集材料并帮助项目持续下去。",
+    inv_c3_btn: "立即参与 →",
+    gallery_tag: "画廊",
+    gallery_title: "来自我们工作坊的片刻",
+    gallery_sub: "一瞥 The Rare Archive 希望建立的创意、平静与连接。",
+    gal1: "水彩工作坊",
+    gal2: "受居民启发的作品",
+    gal3: "与家人分享完成的艺术作品",
+    gal4: "学生志愿者进行中",
+    gal5: "季节性手作活动",
+    gal6: "肖像与记忆项目",
+    gal7: "社区艺术展示",
+    impact_tag: "我们的影响力",
+    impact_title: "早期 momentum，目标清晰。",
+    impact_sub: "The Rare Archive 仍处于起步阶段，但目前的反馈已经说明这项使命能够引起强烈共鸣。",
+    stat1_label: "社交媒体浏览量",
+    stat2_label: "已触达粉丝",
+    stat3_label: "学校合作伙伴",
+    stat4_label: "正在建设的地区",
+    t1_author: "— 我们正在回应的问题",
+    t2_author: "— 我们工作坊的意义",
+    t3_author: "— The Rare Archive 模式",
+    faq_tag: "常见问题",
+    faq_title: "我们最常被问到的问题",
+    faq_q1: "志愿者需要有艺术经验吗？",
+    faq_a1: "不需要。我们欢迎有耐心、友善并愿意帮助居民创作的志愿者。重点在于鼓励与连接，而不是艺术上的完美。",
+    faq_q2: "你们的工作坊服务谁？",
+    faq_a2: "我们主要服务 DMV 地区退休之家、辅助生活社区及类似场所中的老年居民，尤其是那些可能经历孤独或社交互动有限的人。",
+    faq_q3: "一次典型工作坊会发生什么？",
+    faq_a3: "居民会参与引导式创意活动，志愿者会根据每个人的需求和舒适程度提供一对一支持、对话和温和协助。",
+    faq_q4: "创作出来的艺术作品会怎样处理？",
+    faq_a4: "在居民允许的情况下，他们的作品可以被整理成绘本，保存他们的故事，与家人分享，并帮助提升公众对长者早期认知衰退的认识。未经同意，我们不会分享私人作品。",
+    faq_q5: "为什么关注长者艺术健康？",
+    faq_a5: "创意表达能够支持情绪健康、减轻压力、促进记忆回想，并帮助长者感到被看见和被重视，这是许多普通项目无法做到的。",
+    faq_q6: "机构如何与你们合作？",
+    faq_a6: "请通过联系表单告诉我们你的社区情况。我们正在 DMV 地区建立合作关系，也很愿意讨论适合你们居民需求的持续性艺术工作坊。",
+    faq_q7: "有认知或身体挑战的居民可以参加吗？",
+    faq_a7: "可以。我们的活动设计灵活且易于参与，会通过适应性材料、温和节奏和志愿者支持来满足居民当前状态。",
+    faq_q8: "资金如何使用？",
+    faq_a8: "资金将用于艺术材料、适应性工具、印刷资源、社区联络，以及支持工作坊稳定扩展到更多社区所需的系统。",
+    contact_tag: "联系",
+    contact_title: "一起建设一些有意义的事",
+    contact_h3: "我们很想听到你的声音。",
+    contact_p: "无论你想做志愿者、合作、捐赠，还是只是想了解更多，都欢迎给我们留言。我们通常会在 48 小时内亲自回复每一条咨询。",
+    contact_form_title: "发送消息",
+    contact_placeholder_name: "姓名全称",
+    contact_placeholder_email: "you@email.com",
+    contact_placeholder_msg: "你在想些什么？",
+    footer_tagline: "用艺术创造连接，用绘本保存生命故事，用每一个故事提高认知。",
+    footer_connect: "关注我们",
+    footer_copy: "© 2025 The Rare Archive。由学生主导，服务于 DMV 地区。",
+    footer_auto_translate: "本网站的简体中文、法语和印地语翻译均为自动翻译。"
+  },
+  fr: {
+    nav_about: "À propos",
+    nav_wwd: "Nos actions",
+    nav_book: "Demander un atelier",
+    nav_support: "Nous soutenir",
+    nav_involved: "S'impliquer",
+    nav_gallery: "Galerie",
+    nav_impact: "Impact",
+    nav_faq: "FAQ",
+    nav_contact: "Contact",
+    nav_events: "Événements",
+    nav_upcoming_events: "Événements à venir",
+    nav_past_events: "Événements passés",
+    hero_eyebrow: "Une initiative étudiante dans la région DMV · L'art au service de la mémoire, du lien et du soin",
+    hero_title: "Des ateliers créatifs pour aider les personnes âgées à se sentir <em>vues, écoutées et retenues.</em>",
+    hero_sub: "The Rare Archive anime des ateliers d'art pour des résidents âgés de maisons de retraite et de résidences services, en utilisant la création pour réduire l'isolement, soutenir le bien-être émotionnel et, avec permission, transformer les œuvres des résidents en livres illustrés qui sensibilisent au déclin cognitif précoce.",
+    hero_btn_support: "Nous soutenir",
+    hero_btn_book: "Demander un atelier",
+    fundraiser_title: "📚 Collecte actuelle : campagne ThriftBooks Bundle",
+    fundraiser_desc: "Nous voulons récolter 2 000 $ en vendant 50 bundles ThriftBooks à 40 $ chacun. Les fonds soutiennent notre initiative étudiante à Ashburn, en Virginie, qui propose de mini-ateliers artistiques et des moments de création à des résidents âgés en maison de retraite et en résidence assistée.",
+    fundraiser_btn: "Ouvrir la collecte →",
+    fundraiser_note: "La collecte s'ouvre dans un nouvel onglet pour permettre aux soutiens d'acheter directement via notre lien de campagne actuel.",
+    mission_tag: "Notre mission",
+    mission_title: "Utiliser l'art pour protéger la mémoire et le bien-être mental",
+    mission_sub: "Nous pensons que l'isolement social, la dépression et le déclin cognitif précoce méritent davantage d'attention dans l'accompagnement des personnes âgées. The Rare Archive crée des ateliers d'art structurés et accessibles où les aînés peuvent s'exprimer, créer du lien et ressentir le soulagement émotionnel d'être vraiment écoutés.<br><br>Avec l'accord de chaque résident, nous transformons leurs œuvres et leurs paroles en livres illustrés qui honorent leur vie, peuvent être partagés avec leurs familles et sensibilisent au déclin cognitif précoce.",
+    about_tag: "À propos",
+    about_title: "Nous avons commencé avec la peur de voir trop d'histoires se perdre.",
+    about_sub: "The Rare Archive est né d'une prise de conscience profondément personnelle : en tant qu'enfants de familles immigrées avec des grands-parents à l'étranger, nous savons à quel point le temps et le lien peuvent sembler fragiles. Cette distance nous a aussi révélé une vérité plus large : beaucoup de personnes âgées, même entourées de proches, passent de longues périodes sans être réellement écoutées. Nous avons créé cette initiative pour répondre à ce silence avec de l'art, de l'attention et du soin.",
+    wwd_tag: "Nos actions",
+    wwd_title: "Des ateliers d'art pensés pour l'expression, l'apaisement et le lien",
+    wwd_sub: "Nos séances sont conçues pour être accessibles, accueillantes et émotionnellement significatives pour les résidents âgés des maisons de retraite et résidences assistées.",
+    book_tag: "Demander un atelier",
+    book_title: "Faites venir The Rare Archive dans votre communauté",
+    support_tag: "Nous soutenir",
+    support_title: "Aidez-nous à financer plus d'art, de soin et de lien",
+    support_sub: "Chaque achat, don et mise en relation nous aide à proposer plus d'ateliers créatifs aux personnes âgées, à nous développer dans la région DMV et à créer davantage de livres illustrés avec autorisation.",
+    tf_title: "Collecte ThriftBooks",
+    tf_desc: "The Rare Archive est une initiative à but non lucratif dirigée par des étudiants, fondée en janvier 2026. Basés à Ashburn, en Virginie, nous proposons de mini-ateliers artistiques et des séances de création à des résidents âgés pour réduire la solitude, soutenir l'engagement cognitif et créer du lien.",
+    tf_desc2: "Notre objectif actuel est de récolter 2 000 $ en vendant 50 bundles ThriftBooks à 40 $ chacun via notre lien GroupRaise. Chaque commande éligible nous aide à acheter du matériel et à étendre le programme.",
+    tf_btn: "Acheter via notre collecte →",
+    tf_prog_label: "Impact de la collecte",
+    tf_raised: "Chaque bundle vendu nous aide",
+    tf_goal: "Objectif : 50 bundles · 2 000 $",
+    tf_note: "Cette collecte aide à financer des séances de peinture guidée, des bricolages saisonniers, des activités artistiques collaboratives, du matériel et le développement futur.",
+    events_tag: "Événements",
+    events_title: "Voir ce qui arrive et ce que nous avons déjà partagé",
+    events_sub: "Consultez notre calendrier à venir et revenez sur les moments de communauté qui aideront à façonner The Rare Archive.",
+    events_upcoming_title: "Événements à venir",
+    events_upcoming_note: "Nous n'avons pas encore d'événements à venir au sens large. La seule date confirmée pour le moment est la fin de notre collecte ThriftBooks le 7 juin 2026.",
+    events_calendar_title: "Juin 2026",
+    events_list_title: "Date confirmée",
+    events_date_1: "7 juin 2026",
+    events_desc_1: "Notre collecte ThriftBooks se termine le 7 juin 2026. C'est la seule date confirmée à partager pour le moment.",
+    calendar_popup_event_title: "Fin de la collecte ThriftBooks",
+    calendar_popup_event_body: "Le 7 juin 2026 est le dernier jour de notre collecte ThriftBooks. Notre objectif est de récolter 2 000 $ en vendant 50 bundles à 40 $ chacun pour financer des mini-ateliers artistiques, du matériel et notre développement futur.",
+    calendar_popup_empty_title: "Aucun événement prévu",
+    calendar_popup_empty_body: "Aucun événement public ni atelier n'est prévu à cette date pour le moment.",
+    events_past_title: "Événements passés",
+    events_past_note: "Nous n'avons encore organisé aucun événement, donc cette archive est vide pour l'instant. Nous la remplirons lorsque les programmes commenceront.",
+    inv_tag: "S'impliquer",
+    inv_title: "Il y a une place pour chacun",
+    inv_sub: "Que vous soyez bénévole étudiant, partenaire scolaire, responsable d'établissement ou soutien du bien-être des aînés, il existe une vraie manière d'aider ce travail à grandir.",
+    gallery_tag: "Galerie",
+    gallery_title: "Moments de nos ateliers",
+    gallery_sub: "Un aperçu de la créativité, du calme et du lien que nous voulons construire grâce à The Rare Archive.",
+    impact_tag: "Notre impact",
+    impact_title: "Un élan précoce avec un cap clair.",
+    impact_sub: "Nous en sommes encore aux débuts de The Rare Archive, mais les retours montrent déjà combien cette mission résonne.",
+    stat1_label: "Vues sur les réseaux sociaux",
+    stat2_label: "Abonnés touchés",
+    stat3_label: "Partenariats scolaires",
+    stat4_label: "Région où nous grandissons",
+    faq_tag: "FAQ",
+    faq_title: "Les questions que l'on nous pose le plus",
+    contact_tag: "Contact",
+    contact_title: "Construisons quelque chose ensemble",
+    contact_h3: "Nous serions ravis d'avoir de vos nouvelles.",
+    contact_p: "Que vous souhaitiez être bénévole, devenir partenaire, faire un don ou simplement en savoir plus, écrivez-nous. Nous répondons personnellement à chaque message, généralement sous 48 heures.",
+    contact_form_title: "Envoyer un message",
+    form_name: "Nom",
+    form_email: "Adresse e-mail",
+    form_msg: "Votre message",
+    form_submit: "Envoyer →",
+    contact_placeholder_name: "Nom complet",
+    contact_placeholder_email: "vous@email.com",
+    contact_placeholder_msg: "Dites-nous ce que vous avez en tête.",
+    footer_tagline: "Créer par l'art, préserver des vies en livres illustrés et sensibiliser à travers chaque histoire.",
+    footer_connect: "Nous suivre",
+    footer_copy: "© 2025 The Rare Archive. Une initiative étudiante au service de la région DMV.",
+    footer_auto_translate: "Les traductions en chinois mandarin simplifié, en français et en hindi sur ce site sont automatiques."
+  },
+  hi: {
+    nav_about: "हमारे बारे में",
+    nav_wwd: "हम क्या करते हैं",
+    nav_book: "वर्कशॉप अनुरोध करें",
+    nav_support: "हमें समर्थन दें",
+    nav_involved: "जुड़ें",
+    nav_gallery: "गैलरी",
+    nav_impact: "प्रभाव",
+    nav_faq: "सवाल-जवाब",
+    nav_contact: "संपर्क",
+    nav_events: "इवेंट्स",
+    nav_upcoming_events: "आने वाले इवेंट्स",
+    nav_past_events: "पिछले इवेंट्स",
+    hero_eyebrow: "DMV क्षेत्र की छात्र-नेतृत्व पहल · यादों, जुड़ाव और देखभाल के लिए कला",
+    hero_title: "रचनात्मक वर्कशॉप जो वरिष्ठों को <em>देखा गया, सुना गया और याद रखा गया</em> महसूस कराती हैं।",
+    hero_sub: "The Rare Archive रिटायरमेंट और असिस्टेड लिविंग समुदायों में रहने वाले वरिष्ठ नागरिकों के लिए कला वर्कशॉप चलाता है, ताकि रचनात्मक अभिव्यक्ति के जरिए अकेलापन कम हो, भावनात्मक स्वास्थ्य को सहारा मिले, और अनुमति मिलने पर उनकी कला को चित्र पुस्तकों में बदला जा सके।",
+    hero_btn_support: "हमें समर्थन दें",
+    hero_btn_book: "वर्कशॉप अनुरोध करें",
+    fundraiser_title: "📚 वर्तमान फंडरेज़र: ThriftBooks Bundle Campaign",
+    fundraiser_desc: "हम 50 ThriftBooks बंडल, प्रत्येक $40 में बेचकर $2,000 जुटाना चाहते हैं। इससे Ashburn, Virginia में हमारी छात्र-नेतृत्व पहल को समर्थन मिलेगा, जो वरिष्ठ नागरिकों के लिए छोटे कला सत्र और रचनात्मक जुड़ाव कार्यक्रम चलाती है।",
+    fundraiser_btn: "फंडरेज़र खोलें →",
+    fundraiser_note: "फंडरेज़र नए टैब में खुलेगा ताकि समर्थक सीधे हमारे मौजूदा कैंपेन लिंक से खरीद सकें।",
+    mission_tag: "हमारा मिशन",
+    mission_title: "कला के जरिए यादों और मानसिक स्वास्थ्य की रक्षा",
+    mission_sub: "हम मानते हैं कि सामाजिक अलगाव, अवसाद और शुरुआती संज्ञानात्मक गिरावट को वरिष्ठ देखभाल में अधिक ध्यान मिलना चाहिए। The Rare Archive ऐसे संरचित और सुलभ कला वर्कशॉप बनाता है जहां वरिष्ठ खुद को व्यक्त कर सकें, सार्थक रूप से जुड़ सकें, और सचमुच सुने जाने से मिलने वाली भावनात्मक राहत महसूस कर सकें।<br><br>हर निवासी की अनुमति से, हम उनकी कला और विचारों को चित्र पुस्तकों में बदलते हैं जो उनके जीवन का सम्मान करती हैं और शुरुआती संज्ञानात्मक गिरावट के बारे में जागरूकता बढ़ाती हैं।",
+    about_tag: "हमारे बारे में",
+    about_title: "हमने यह काम इस डर से शुरू किया कि बहुत सी कहानियां खो रही हैं।",
+    about_sub: "The Rare Archive एक बहुत व्यक्तिगत एहसास से शुरू हुआ: प्रवासी परिवारों के बच्चों के रूप में, जिनके दादा-दादी विदेश में हैं, हम जानते हैं कि समय और जुड़ाव कितना नाज़ुक लग सकता है। उसी दूरी ने हमें एक बड़ी सच्चाई भी दिखाई: कई बुजुर्ग, भले ही परिवार पास हो, लंबे समय तक सच में सुने नहीं जाते। हमने इस खामोशी का जवाब कला, ध्यान और देखभाल से देने के लिए यह पहल बनाई।",
+    wwd_tag: "हम क्या करते हैं",
+    wwd_title: "अभिव्यक्ति, शांति और जुड़ाव के लिए बनाई गई कला वर्कशॉप",
+    wwd_sub: "हमारे सत्र रिटायरमेंट और असिस्टेड लिविंग समुदायों के वरिष्ठों के लिए सुलभ, स्वागतपूर्ण और भावनात्मक रूप से अर्थपूर्ण हैं।",
+    book_tag: "वर्कशॉप अनुरोध करें",
+    book_title: "The Rare Archive को अपने समुदाय तक लाएं",
+    support_tag: "हमें समर्थन दें",
+    support_title: "हमें और कला, देखभाल और जुड़ाव के लिए मदद करें",
+    support_sub: "हर खरीद, दान और साझा परिचय हमें और वरिष्ठों तक रचनात्मक वर्कशॉप पहुंचाने, DMV क्षेत्र में विस्तार करने और अनुमति-आधारित चित्र पुस्तकें बनाने में मदद करता है।",
+    tf_title: "ThriftBooks फंडरेज़र",
+    tf_desc: "The Rare Archive जनवरी 2026 में शुरू हुई एक छात्र-नेतृत्व गैर-लाभकारी पहल है। Ashburn, Virginia में आधारित, हम स्थानीय वरिष्ठ निवासियों के लिए छोटे कला वर्कशॉप और रचनात्मक जुड़ाव सत्र चलाते हैं ताकि अकेलापन कम हो, संज्ञानात्मक भागीदारी बढ़े और सार्थक संबंध बनें।",
+    tf_desc2: "हमारा मौजूदा लक्ष्य GroupRaise लिंक के जरिए 50 ThriftBooks बंडल, प्रत्येक $40 में बेचकर $2,000 जुटाना है। हर योग्य ऑर्डर सामग्री, सप्लाई और आगे के विस्तार में मदद करता है।",
+    tf_btn: "हमारे फंडरेज़र से खरीदें →",
+    tf_prog_label: "फंडरेज़र प्रभाव",
+    tf_raised: "हर बंडल हमारी मदद करता है",
+    tf_goal: "लक्ष्य: 50 बंडल · $2,000",
+    tf_note: "यह फंडरेज़र निर्देशित पेंटिंग सत्र, मौसमी क्राफ्ट, सहयोगी कला गतिविधियां, सामग्री और आगे के विस्तार को समर्थन देता है।",
+    events_tag: "इवेंट्स",
+    events_title: "देखें आगे क्या आने वाला है और हमने अब तक क्या साझा किया है",
+    events_sub: "हमारा आने वाला कैलेंडर देखें और उन सामुदायिक पलों को जानें जो The Rare Archive को आकार देंगे।",
+    events_upcoming_title: "आने वाले इवेंट्स",
+    events_upcoming_note: "अभी हमारे पास सामान्य आने वाले इवेंट्स नहीं हैं। फिलहाल केवल 7 जून 2026 को हमारे ThriftBooks फंडरेज़र की समाप्ति तिथि तय है।",
+    events_calendar_title: "जून 2026",
+    events_list_title: "पुष्ट तारीख",
+    events_date_1: "7 जून 2026",
+    events_desc_1: "हमारा ThriftBooks फंडरेज़र 7 जून 2026 को समाप्त होता है। अभी के लिए यही एक पुष्ट तारीख है।",
+    calendar_popup_event_title: "ThriftBooks फंडरेज़र समाप्त होता है",
+    calendar_popup_event_body: "7 जून 2026 हमारे ThriftBooks फंडरेज़र का आखिरी दिन है। हमारा लक्ष्य 50 बंडल, प्रत्येक $40 में बेचकर $2,000 जुटाना है, ताकि छोटे कला वर्कशॉप, सामग्री और भविष्य के विस्तार का समर्थन हो सके।",
+    calendar_popup_empty_title: "कोई इवेंट निर्धारित नहीं",
+    calendar_popup_empty_body: "इस तारीख पर अभी कोई सार्वजनिक इवेंट या वर्कशॉप निर्धारित नहीं है।",
+    events_past_title: "पिछले इवेंट्स",
+    events_past_note: "हमने अभी तक कोई इवेंट आयोजित नहीं किया है, इसलिए यह आर्काइव फिलहाल खाली है। कार्यक्रम शुरू होने पर हम यहां उन्हें दर्ज करेंगे।",
+    inv_tag: "जुड़ें",
+    inv_title: "हर किसी के लिए एक भूमिका है",
+    inv_sub: "चाहे आप छात्र स्वयंसेवक हों, स्कूल पार्टनर, सुविधा नेता, या वरिष्ठ मानसिक स्वास्थ्य के समर्थक, इस काम को बढ़ाने का एक वास्तविक तरीका है।",
+    gallery_tag: "गैलरी",
+    gallery_title: "हमारी वर्कशॉप के पल",
+    gallery_sub: "The Rare Archive के जरिए हम जो रचनात्मकता, शांति और जुड़ाव बनाना चाहते हैं, उसकी एक झलक।",
+    impact_tag: "हमारा प्रभाव",
+    impact_title: "शुरुआती गति, स्पष्ट उद्देश्य के साथ।",
+    impact_sub: "The Rare Archive अभी शुरुआती चरण में है, लेकिन अब तक की प्रतिक्रिया दिखाती है कि यह मिशन कितनी गहराई से लोगों तक पहुंच रहा है।",
+    stat1_label: "सोशल मीडिया व्यूज़",
+    stat2_label: "फॉलोअर्स तक पहुंच",
+    stat3_label: "स्कूल साझेदारियां",
+    stat4_label: "जिस क्षेत्र में हम बढ़ रहे हैं",
+    faq_tag: "सवाल-जवाब",
+    faq_title: "वे सवाल जो हमें सबसे ज़्यादा मिलते हैं",
+    contact_tag: "संपर्क",
+    contact_title: "आइए साथ मिलकर कुछ बनाएं",
+    contact_h3: "हम आपसे सुनना चाहेंगे।",
+    contact_p: "अगर आप स्वयंसेवा करना चाहते हैं, साझेदारी करना चाहते हैं, दान देना चाहते हैं, या सिर्फ और जानना चाहते हैं, तो हमें संदेश भेजें। हम आमतौर पर 48 घंटों के भीतर व्यक्तिगत रूप से जवाब देते हैं।",
+    contact_form_title: "संदेश भेजें",
+    form_name: "आपका नाम",
+    form_email: "ईमेल पता",
+    form_msg: "संदेश",
+    form_submit: "भेजें →",
+    contact_placeholder_name: "पूरा नाम",
+    contact_placeholder_email: "you@email.com",
+    contact_placeholder_msg: "आपके मन में क्या है?",
+    footer_tagline: "कला के जरिए जुड़ाव बनाना, चित्र पुस्तकों में जीवन संजोना, और हर कहानी के साथ जागरूकता फैलाना।",
+    footer_connect: "हमसे जुड़ें",
+    footer_copy: "© 2025 The Rare Archive. DMV क्षेत्र की सेवा करने वाली छात्र-नेतृत्व पहल।",
+    footer_auto_translate: "इस साइट पर सरल चीनी, फ़्रेंच और हिंदी अनुवाद स्वचालित हैं।"
+  }
+};
+
+Object.entries(translationOverrides).forEach(([lang, override]) => {
+  translations[lang] = { ...translations.en, ...override };
+});
 
 /* ============================================================
    LANGUAGE TOGGLE
 ============================================================ */
-let currentLang = 'en';
+const savedLanguage = window.localStorage.getItem('rareArchiveLanguage');
+let currentLang = translations[savedLanguage] ? savedLanguage : 'en';
 
 function applyTranslations(lang) {
   const t = translations[lang];
@@ -2743,21 +3200,23 @@ function setLanguage(lang) {
 
   currentLang = lang;
   applyTranslations(lang);
-  document.documentElement.lang = lang;
+  document.documentElement.lang = (languageMeta[lang] && languageMeta[lang].locale) || lang;
+  document.documentElement.dir = 'ltr';
+  window.localStorage.setItem('rareArchiveLanguage', lang);
 
   document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    const isActive = btn.getAttribute('data-lang') === lang;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
   });
 }
 
 document.querySelectorAll('.lang-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const selectedLang = btn.getAttribute('data-lang');
-    const nextLang = selectedLang === currentLang
-      ? (currentLang === 'en' ? 'es' : 'en')
-      : selectedLang;
-
-    setLanguage(nextLang);
+    if (selectedLang !== currentLang) {
+      setLanguage(selectedLang);
+    }
   });
 });
 
@@ -2802,10 +3261,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const href = a.getAttribute('href');
     if (!href || href === '#') return;
-    const eventsTarget = a.getAttribute('data-events-target');
-    if (eventsTarget) {
-      activateEventsTab(eventsTarget);
-    }
     const target = document.querySelector(href);
     if (target) {
       e.preventDefault();
@@ -2848,41 +3303,6 @@ document.querySelectorAll('.support-tab').forEach(tab => {
 });
 
 /* ============================================================
-   EVENTS TABS
-============================================================ */
-function activateEventsTab(target) {
-  if (!target) return;
-  const panel = document.getElementById('events-panel-' + target);
-  if (!panel) return;
-
-  document.querySelectorAll('.events-tab').forEach(tab => {
-    tab.classList.toggle('active', tab.getAttribute('data-events-tab') === target);
-  });
-  document.querySelectorAll('.events-panel').forEach(p => {
-    p.classList.toggle('active', p.id === 'events-panel-' + target);
-  });
-}
-
-document.querySelectorAll('.events-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    activateEventsTab(tab.getAttribute('data-events-tab'));
-  });
-});
-
-document.querySelectorAll('[data-events-target]').forEach(link => {
-  link.addEventListener('click', () => {
-    activateEventsTab(link.getAttribute('data-events-target'));
-  });
-});
-
-const initialEventsMap = {
-  '#events-upcoming': 'upcoming',
-  '#events-fundraisers': 'fundraisers',
-  '#events-past': 'past'
-};
-activateEventsTab(initialEventsMap[window.location.hash] || 'upcoming');
-
-/* ============================================================
    FAQ ACCORDION
 ============================================================ */
 document.querySelectorAll('.faq-q').forEach(btn => {
@@ -2908,6 +3328,71 @@ if (progressFill) {
     });
   }, { threshold: 0.3 });
   progObserver.observe(progressFill);
+}
+
+/* ============================================================
+   CALENDAR POPUP
+============================================================ */
+const calendarModal = document.getElementById('calendarModal');
+const calendarModalClose = document.getElementById('calendarModalClose');
+const calendarModalDate = document.getElementById('calendarModalDate');
+const calendarModalTitle = document.getElementById('calendarModalTitle');
+const calendarModalBody = document.getElementById('calendarModalBody');
+
+function closeCalendarModal() {
+  if (!calendarModal) return;
+  calendarModal.classList.remove('open');
+  calendarModal.setAttribute('aria-hidden', 'true');
+  calendarModal.style.top = '';
+  calendarModal.style.left = '';
+}
+
+function openCalendarModal(button) {
+  if (!calendarModal || !button) return;
+  const t = translations[currentLang] || translations.en;
+  const eventType = button.getAttribute('data-calendar-event');
+  const dateText = button.getAttribute('data-calendar-date') || '';
+  const rect = button.getBoundingClientRect();
+  const bubbleWidth = Math.min(340, window.innerWidth - 24);
+  const top = Math.max(16, rect.top + window.scrollY - 150);
+  const preferredLeft = rect.left + window.scrollX - 12;
+  const left = Math.min(
+    window.scrollX + window.innerWidth - bubbleWidth - 12,
+    Math.max(window.scrollX + 12, preferredLeft)
+  );
+
+  calendarModalDate.textContent = dateText;
+  if (eventType === 'fundraiser-end') {
+    calendarModalTitle.textContent = t.calendar_popup_event_title;
+    calendarModalBody.textContent = t.calendar_popup_event_body;
+  } else {
+    calendarModalTitle.textContent = t.calendar_popup_empty_title;
+    calendarModalBody.textContent = t.calendar_popup_empty_body;
+  }
+
+  calendarModal.style.top = `${top}px`;
+  calendarModal.style.left = `${left}px`;
+  calendarModal.classList.add('open');
+  calendarModal.setAttribute('aria-hidden', 'false');
+}
+
+document.querySelectorAll('.calendar-day[data-calendar-date]').forEach(button => {
+  button.addEventListener('click', () => openCalendarModal(button));
+});
+
+if (calendarModal && calendarModalClose) {
+  calendarModalClose.addEventListener('click', closeCalendarModal);
+  document.addEventListener('click', (e) => {
+    if (!calendarModal.classList.contains('open')) return;
+    const clickedCalendarDay = e.target.closest('.calendar-day[data-calendar-date]');
+    if (clickedCalendarDay) return;
+    if (!e.target.closest('.calendar-modal-dialog')) closeCalendarModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && calendarModal.classList.contains('open')) {
+      closeCalendarModal();
+    }
+  });
 }
 
 /* initial translate */
