@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Rare Archive</title>
+  <style>
+    :root {
+      --bg:
+        radial-gradient(circle at top, rgba(255, 255, 255, 0.62), transparent 34%),
+        linear-gradient(160deg, #f8e7ee 0%, #efd4df 52%, #b88798 100%);
+      --surface-strong: rgba(255, 248, 251, 0.7);
+      --border: rgba(184, 135, 152, 0.26);
+      --text: #503443;
+      --text-soft: #765565;
+      --accent: #b88798;
+      --accent-deep: #7d4f63;
+      --accent-soft: rgba(184, 135, 152, 0.16);
+      --shadow: 0 12px 30px rgba(125, 79, 99, 0.14);
+      --shadow-hover: 0 22px 48px rgba(125, 79, 99, 0.2);
+      --inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+      --radius: 18px;
+      --ease: 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body,
+    .lang {
+      overflow: visible;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font-family: "Inter", "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .demo-shell {
+      width: min(100%, 420px);
+      display: flex;
+      justify-content: center;
+      overflow: visible;
+    }
+
+    .lang {
+      position: relative;
+      display: inline-block;
+      width: 132px;
+      height: 50px;
+      transition:
+        height var(--ease),
+        transform var(--ease);
+      z-index: 20;
+    }
+
+    .lang:hover,
+    .lang:focus-within,
+    .lang.is-open {
+      height: 266px;
+      transform: translateY(-2px);
+    }
+
+    .lang-shell {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255, 252, 253, 0.84), rgba(248, 232, 239, 0.56));
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      backdrop-filter: blur(24px) saturate(150%);
+      -webkit-backdrop-filter: blur(24px) saturate(150%);
+      box-shadow:
+        var(--shadow-hover),
+        var(--inner-highlight);
+      transition:
+        border-radius var(--ease),
+        box-shadow var(--ease),
+        background var(--ease);
+      z-index: 0;
+    }
+
+    .lang:hover .lang-shell,
+    .lang:focus-within .lang-shell,
+    .lang.is-open .lang-shell {
+      border-radius: 42px;
+      box-shadow:
+        0 26px 54px rgba(125, 79, 99, 0.22),
+        var(--inner-highlight);
+    }
+
+    .lang-shell::after {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: inherit;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.4), transparent 40%);
+      pointer-events: none;
+    }
+
+    .lang-pill {
+      position: relative;
+      width: 100%;
+      min-width: 132px;
+      min-height: 50px;
+      padding: 10px 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 28px;
+      border: 1px solid rgba(255, 247, 250, 0.55);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.1)),
+        linear-gradient(135deg, var(--accent), var(--accent-deep));
+      color: #fff;
+      backdrop-filter: blur(20px) saturate(150%);
+      -webkit-backdrop-filter: blur(20px) saturate(150%);
+      box-shadow:
+        0 10px 24px rgba(125, 79, 99, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.42);
+      transition:
+        box-shadow var(--ease),
+        background var(--ease),
+        transform var(--ease);
+      font-size: 0.96rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .lang-pill::after {
+      content: "";
+      width: 8px;
+      height: 8px;
+      margin-left: 10px;
+      border-right: 1.5px solid rgba(255, 255, 255, 0.92);
+      border-bottom: 1.5px solid rgba(255, 255, 255, 0.92);
+      transform: rotate(45deg) translateY(-1px);
+      transition: transform var(--ease), opacity var(--ease);
+      opacity: 0.88;
+    }
+
+    .lang:hover .lang-pill,
+    .lang:focus-within .lang-pill,
+    .lang.is-open .lang-pill {
+      box-shadow:
+        0 14px 28px rgba(125, 79, 99, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.46);
+      transform: translateY(0) scale(0.985);
+    }
+
+    .lang:hover .lang-pill::after,
+    .lang:focus-within .lang-pill::after,
+    .lang.is-open .lang-pill::after {
+      transform: rotate(225deg) translateY(1px);
+    }
+
+    .lang-list {
+      position: relative;
+      width: 100%;
+      padding: 10px 9px 9px;
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-radius: 30px;
+      background: transparent;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-10px);
+      transition:
+        opacity 220ms ease,
+        transform var(--ease);
+      z-index: 1;
+    }
+
+    .lang-option {
+      width: 100%;
+      border: 0;
+      padding: 11px 16px;
+      border-radius: 22px;
+      background: rgba(255, 251, 252, 0.58);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 8px 18px rgba(125, 79, 99, 0.045);
+      color: var(--text-soft);
+      font: inherit;
+      font-size: 0.94rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition:
+        background var(--ease),
+        color var(--ease),
+        opacity var(--ease),
+        transform var(--ease),
+        box-shadow var(--ease);
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    .lang:hover .lang-list,
+    .lang:focus-within .lang-list,
+    .lang.is-open .lang-list {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .lang:hover .lang-option,
+    .lang:focus-within .lang-option,
+    .lang.is-open .lang-option {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .lang:hover .lang-option:nth-child(1),
+    .lang:focus-within .lang-option:nth-child(1),
+    .lang.is-open .lang-option:nth-child(1) { transition-delay: 40ms; }
+
+    .lang:hover .lang-option:nth-child(2),
+    .lang:focus-within .lang-option:nth-child(2),
+    .lang.is-open .lang-option:nth-child(2) { transition-delay: 70ms; }
+
+    .lang:hover .lang-option:nth-child(3),
+    .lang:focus-within .lang-option:nth-child(3),
+    .lang.is-open .lang-option:nth-child(3) { transition-delay: 100ms; }
+
+    .lang:hover .lang-option:nth-child(4),
+    .lang:focus-within .lang-option:nth-child(4),
+    .lang.is-open .lang-option:nth-child(4) { transition-delay: 130ms; }
+
+    .lang-option:hover,
+    .lang-option:focus-visible {
+      outline: none;
+      background: rgba(184, 135, 152, 0.18);
+      color: var(--text);
+      transform: translateY(-1px);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.56),
+        0 12px 24px rgba(125, 79, 99, 0.08);
+    }
+
+    .hint {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.9);
+      text-align: center;
+      padding: 0 16px;
+      text-shadow: 0 1px 14px rgba(87, 54, 79, 0.22);
+    }
+
+    @media (max-width: 480px) {
+      .lang {
+        width: 114px;
+        height: 48px;
+      }
+
+      .lang:hover,
+      .lang:focus-within,
+      .lang.is-open {
+        height: 244px;
+      }
+
+      .lang-pill {
+        min-width: 114px;
+        min-height: 48px;
+      }
+
+      .lang-option {
+        padding: 8px 14px;
+        font-size: 0.88rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .lang,
+      .lang-pill,
+      .lang-pill::after,
+      .lang-list,
+      .lang-option,
+      .lang-shell {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="demo-shell">
+    <div class="lang" id="langBubble" aria-label="Language selector">
+      <div class="lang-shell" aria-hidden="true"></div>
+      <button class="lang-pill" id="langPill" type="button" aria-haspopup="listbox" aria-expanded="false">ES</button>
+      <div class="lang-list" role="listbox" aria-label="Languages">
+        <button class="lang-option" type="button" data-lang="EN" aria-selected="false">EN</button>
+        <button class="lang-option" type="button" data-lang="中文" aria-selected="false">中文</button>
+        <button class="lang-option" type="button" data-lang="FR" aria-selected="false">FR</button>
+        <button class="lang-option" type="button" data-lang="हिंदी" aria-selected="false">हिंदी</button>
+      </div>
+    </div>
+  </main>
+
+  <p class="hint">Hover to expand. Click a language to update the selected pill.</p>
+
+  <script>
+    const bubble = document.getElementById('langBubble');
+    const pill = document.getElementById('langPill');
+    const options = Array.from(document.querySelectorAll('.lang-option'));
+
+    function setActive(next) {
+      options.forEach(option => {
+        const active = option === next;
+        option.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+
+      pill.textContent = next.dataset.lang;
+      pill.setAttribute('aria-expanded', 'false');
+      bubble.classList.remove('is-open');
+    }
+
+    options.forEach(option => {
+      option.addEventListener('click', () => {
+        setActive(option);
+      });
+    });
+
+    pill.addEventListener('click', () => {
+      const isOpen = bubble.classList.toggle('is-open');
+      pill.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    bubble.addEventListener('mouseleave', () => {
+      bubble.classList.remove('is-open');
+      pill.setAttribute('aria-expanded', 'false');
+    });
+
+    document.addEventListener('click', event => {
+      if (!bubble.contains(event.target)) {
+        bubble.classList.remove('is-open');
+        pill.setAttribute('aria-expanded', 'false');
+      }
+    });
+  </script>
+</body>
+</html>
