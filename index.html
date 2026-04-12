@@ -1145,67 +1145,29 @@
       font-size: 1.15rem;
       color: var(--text-dark);
     }
-    .calendar-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
     .calendar-nav {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      flex-wrap: wrap;
-    }
-    .calendar-nav-btn,
-    .calendar-view-btn {
-      border: 1px solid rgba(107, 77, 112, 0.12);
-      background: rgba(255, 255, 255, 0.82);
-      color: var(--text-dark);
-      border-radius: 999px;
-      font-family: inherit;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background var(--transition), color var(--transition), border-color var(--transition), transform var(--transition), box-shadow var(--transition);
     }
     .calendar-nav-btn {
       width: 40px;
       height: 40px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      border: 1px solid rgba(107, 77, 112, 0.12);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.84);
+      color: var(--purple-deep);
+      font-family: inherit;
       font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition), background var(--transition);
     }
-    .calendar-nav-btn:hover,
-    .calendar-view-btn:hover {
+    .calendar-nav-btn:hover {
       transform: translateY(-1px);
       border-color: rgba(107, 77, 112, 0.22);
       box-shadow: 0 10px 20px rgba(107, 77, 112, 0.08);
-    }
-    .calendar-view-switcher {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px;
-      border-radius: 999px;
-      background: rgba(239, 212, 223, 0.55);
-    }
-    .calendar-view-btn {
-      padding: 10px 16px;
-    }
-    .calendar-view-btn.active {
-      background: linear-gradient(135deg, var(--purple-soft), var(--purple-deep));
-      color: #fff;
-      border-color: transparent;
-      box-shadow: 0 10px 22px rgba(107, 77, 112, 0.16);
-    }
-    .calendar-current-range {
-      font-size: 0.84rem;
-      color: var(--text-mid);
-      font-weight: 600;
+      background: rgba(255, 255, 255, 0.96);
     }
     .calendar-grid {
       display: grid;
@@ -1262,6 +1224,14 @@
       color: var(--purple-deep);
       font-weight: 600;
     }
+    .calendar-day.today {
+      box-shadow: inset 0 0 0 2px rgba(107, 77, 112, 0.22);
+    }
+    .calendar-day.selected {
+      background: linear-gradient(135deg, rgba(239, 212, 223, 0.92), rgba(255, 255, 255, 0.96));
+      border-color: rgba(107, 77, 112, 0.24);
+      color: var(--purple-deep);
+    }
     .calendar-day.muted:hover {
       transform: none;
       box-shadow: none;
@@ -1278,94 +1248,29 @@
       font-size: 0.7rem;
       line-height: 1.2;
     }
-    .calendar-day.is-today {
-      box-shadow: inset 0 0 0 2px rgba(107, 77, 112, 0.22);
-    }
-    .calendar-day.is-selected {
-      background: linear-gradient(135deg, rgba(184, 135, 152, 0.18), rgba(125, 79, 99, 0.18));
-      border-color: rgba(107, 77, 112, 0.26);
-    }
-    .calendar-month-view,
-    .calendar-week-view,
-    .calendar-day-view {
-      display: grid;
-      gap: 10px;
-    }
-    .calendar-week-view {
-      grid-template-columns: repeat(7, 1fr);
-    }
-    .calendar-day-view {
-      grid-template-columns: minmax(0, 1fr);
-    }
-    .calendar-focus-card {
-      background: linear-gradient(135deg, rgba(239, 212, 223, 0.38), rgba(255, 255, 255, 0.92));
-      border: 1px solid rgba(107, 77, 112, 0.12);
-      border-radius: 18px;
-      padding: 20px;
-      display: grid;
-      gap: 8px;
-      text-align: left;
-    }
-    .calendar-focus-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: baseline;
-      flex-wrap: wrap;
-    }
-    .calendar-focus-day {
-      font-size: 0.74rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--purple-deep);
-    }
-    .calendar-focus-date {
-      font-size: 1.25rem;
-      color: var(--text-dark);
-    }
-    .calendar-focus-note {
-      font-size: 0.9rem;
-      color: var(--text-mid);
-      line-height: 1.7;
-    }
     .events-list h4 {
       font-size: 1rem;
       margin-bottom: 14px;
       color: var(--text-dark);
     }
-    .events-list-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
-    .events-list-intro {
-      font-size: 0.82rem;
-      color: var(--text-light);
-      line-height: 1.65;
-      margin-top: 4px;
-      max-width: 280px;
-    }
-    .events-list-item {
-      cursor: pointer;
-      transition: transform var(--transition), background var(--transition);
-      border-radius: 16px;
-      padding: 2px 2px 0;
+    .events-list {
+      background:
+        radial-gradient(circle at top right, rgba(255, 255, 255, 0.88), transparent 42%),
+        linear-gradient(145deg, rgba(248, 231, 238, 0.96), rgba(239, 212, 223, 0.92));
+      border-color: rgba(107, 77, 112, 0.14);
+      box-shadow: 0 16px 30px rgba(107, 77, 112, 0.08);
     }
     .events-list-item + .events-list-item {
       margin-top: 14px;
       padding-top: 14px;
       border-top: 1px solid rgba(107, 77, 112, 0.1);
     }
-    .events-list-item:hover {
-      transform: translateX(4px);
-    }
-    .events-list-item:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(107, 77, 112, 0.16);
+    .events-list-item {
+      background: rgba(255, 255, 255, 0.54);
+      border: 1px solid rgba(107, 77, 112, 0.08);
+      border-radius: 18px;
+      padding: 14px 16px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
     }
     .events-list-date {
       display: inline-block;
@@ -1380,12 +1285,6 @@
       font-size: 0.84rem;
       color: var(--text-mid);
       line-height: 1.7;
-    }
-    .events-list-empty {
-      font-size: 0.86rem;
-      color: var(--text-mid);
-      line-height: 1.7;
-      padding: 16px 0 4px;
     }
     .events-fundraiser-card {
       background: linear-gradient(135deg, #6b4d70 0%, #5a3f65 100%);
@@ -1745,12 +1644,6 @@
       padding: 44px 40px;
     }
     .contact-form-wrap h3 { font-size: 1.3rem; margin-bottom: 28px; }
-    .form-status {
-      margin-top: 16px;
-      font-size: 0.88rem;
-      color: var(--text-mid);
-      min-height: 1.4em;
-    }
 
     /* ============================================================
        FOOTER
@@ -1891,18 +1784,6 @@
       .events-segment-head,
       .events-calendar,
       .events-fundraiser-card { grid-template-columns: 1fr; }
-      .calendar-toolbar,
-      .events-list-header,
-      .calendar-focus-top { align-items: flex-start; }
-      .calendar-week-view { grid-template-columns: 1fr; }
-      .calendar-view-switcher {
-        width: 100%;
-        justify-content: space-between;
-      }
-      .calendar-view-btn {
-        flex: 1 1 0;
-        text-align: center;
-      }
       .wwd-cards,
       .involved-grid,
       .testimonials-grid,
@@ -1931,7 +1812,6 @@
       .events-segment,
       .events-fundraiser-card { padding: 32px 24px; }
       .calendar-grid { gap: 8px; }
-      .calendar-week-view { gap: 8px; }
       .calendar-day { min-height: 64px; }
       .calendar-modal {
         width: min(300px, calc(100vw - 20px));
@@ -2450,31 +2330,29 @@
       <div class="events-calendar">
         <div class="calendar-card">
           <div class="calendar-header">
-            <h3 id="calendarTitle">June 2026</h3>
-          </div>
-          <div class="calendar-toolbar">
+            <h3 id="calendarMonthLabel" data-i18n="events_calendar_title">June 2026</h3>
             <div class="calendar-nav">
-              <button class="calendar-nav-btn" id="calendarPrev" type="button" aria-label="Previous range">&#8249;</button>
-              <button class="calendar-nav-btn" id="calendarNext" type="button" aria-label="Next range">&#8250;</button>
-              <span class="calendar-current-range" id="calendarRangeLabel">June 2026</span>
-            </div>
-            <div class="calendar-view-switcher" aria-label="Calendar view switcher">
-              <button class="calendar-view-btn active" type="button" data-calendar-view="day">Day</button>
-              <button class="calendar-view-btn" type="button" data-calendar-view="week">Week</button>
-              <button class="calendar-view-btn" type="button" data-calendar-view="month">Month</button>
+              <button class="calendar-nav-btn" id="calendarPrevBtn" type="button" aria-label="Previous month">&#8249;</button>
+              <button class="calendar-nav-btn" id="calendarNextBtn" type="button" aria-label="Next month">&#8250;</button>
             </div>
           </div>
-          <div id="calendarView" aria-live="polite"></div>
+          <div class="calendar-grid" id="calendarGrid"></div>
         </div>
 
         <div class="events-list">
-          <div class="events-list-header">
-            <div>
-              <h4 id="eventsListTitle">Confirmed date</h4>
-              <p class="events-list-intro" id="eventsListIntro">Switch between day, week, and month to focus on upcoming dates.</p>
-            </div>
+          <h4 data-i18n="events_list_title">Confirmed date</h4>
+          <div class="events-list-item">
+            <span class="events-list-date" data-i18n="events_date_1">June 7, 2026</span>
+            <p data-i18n="events_desc_1">Our ThriftBooks fundraiser ends on June 7, 2026. That is the only confirmed upcoming date we have to share right now.</p>
           </div>
-          <div id="eventsListContent"></div>
+          <div class="events-list-item">
+            <span class="events-list-date" data-i18n="events_date_2">After June 7</span>
+            <p data-i18n="events_desc_2">We do not have any workshop, pop-up, or community event dates scheduled yet beyond the fundraiser end date.</p>
+          </div>
+          <div class="events-list-item">
+            <span class="events-list-date" data-i18n="events_date_3">Next updates</span>
+            <p data-i18n="events_desc_3">When we announce our first public event or workshop date, we’ll add it here next.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -2667,30 +2545,27 @@
           <a href="#" class="social-link" data-i18n="social_instagram">📸 Instagram</a>
           <a href="#" class="social-link" data-i18n="social_facebook">📘 Facebook</a>
           <a href="#" class="social-link" data-i18n="social_tiktok">🎵 TikTok</a>
-          <a href="mailto:therarearchive.va@gmail.com" class="social-link" data-i18n="social_email">✉️ Email Us</a>
+          <a href="#" class="social-link" data-i18n="social_email">✉️ Email Us</a>
         </div>
       </div>
-      <form class="contact-form-wrap fade-in fade-in-delay-1" id="contactForm">
+      <div class="contact-form-wrap fade-in fade-in-delay-1">
         <h3 data-i18n="contact_form_title">Send a Message</h3>
-        <input type="hidden" name="_subject" value="New Contact Request - The Rare Archive" />
-        <input type="hidden" name="_template" value="table" />
         <div class="form-row">
           <div class="form-group">
             <label data-i18n="form_name">Your Name</label>
-            <input type="text" name="name" placeholder="Full name" data-i18n-placeholder="contact_placeholder_name" required />
+            <input type="text" placeholder="Full name" data-i18n-placeholder="contact_placeholder_name" />
           </div>
           <div class="form-group">
             <label data-i18n="form_email">Email Address</label>
-            <input type="email" name="email" placeholder="you@email.com" data-i18n-placeholder="contact_placeholder_email" required />
+            <input type="email" placeholder="you@email.com" data-i18n-placeholder="contact_placeholder_email" />
           </div>
         </div>
         <div class="form-group">
           <label data-i18n="form_msg">Message</label>
-          <textarea name="message" placeholder="What's on your mind?" data-i18n-placeholder="contact_placeholder_msg" required></textarea>
+          <textarea placeholder="What's on your mind?" data-i18n-placeholder="contact_placeholder_msg"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;" data-i18n="form_submit">Send Message →</button>
-        <p class="form-status" id="contactFormStatus" aria-live="polite"></p>
-      </form>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;" data-i18n="form_submit">Send Message →</button>
+      </div>
     </div>
   </div>
 </section>
@@ -3102,82 +2977,9 @@ const languageMeta = {
   hi: { label: "हि", title: "हिन्दी", locale: "hi" }
 };
 
-const calendarUiText = {
-  en: {
-    day: "Day",
-    week: "Week",
-    month: "Month",
-    prev: "Previous",
-    next: "Next",
-    upcomingTitle: "Upcoming dates",
-    empty: "No confirmed public dates are scheduled in this view yet.",
-    introDay: "Focused on the selected day.",
-    introWeek: "Showing the next seven days from the selected date.",
-    introMonth: "Showing confirmed dates in the selected month.",
-    noEvent: "No public event scheduled yet for this date.",
-    noEventTitle: "Open date"
-  },
-  es: {
-    day: "Día",
-    week: "Semana",
-    month: "Mes",
-    prev: "Anterior",
-    next: "Siguiente",
-    upcomingTitle: "Próximas fechas",
-    empty: "Aún no hay fechas públicas confirmadas en esta vista.",
-    introDay: "Enfocado en el día seleccionado.",
-    introWeek: "Mostrando los próximos siete días desde la fecha seleccionada.",
-    introMonth: "Mostrando fechas confirmadas en el mes seleccionado.",
-    noEvent: "Todavía no hay un evento público programado para esta fecha.",
-    noEventTitle: "Fecha abierta"
-  },
-  zh: {
-    day: "日",
-    week: "周",
-    month: "月",
-    prev: "上一个",
-    next: "下一个",
-    upcomingTitle: "即将到来的日期",
-    empty: "此视图中暂时还没有已确认的公开日期。",
-    introDay: "聚焦所选日期。",
-    introWeek: "显示从所选日期开始的未来七天。",
-    introMonth: "显示所选月份内已确认的日期。",
-    noEvent: "这一天暂时还没有安排公开活动。",
-    noEventTitle: "开放日期"
-  },
-  fr: {
-    day: "Jour",
-    week: "Semaine",
-    month: "Mois",
-    prev: "Précédent",
-    next: "Suivant",
-    upcomingTitle: "Dates à venir",
-    empty: "Aucune date publique confirmée n'est encore prévue dans cette vue.",
-    introDay: "Affichage centré sur le jour sélectionné.",
-    introWeek: "Affiche les sept prochains jours à partir de la date choisie.",
-    introMonth: "Affiche les dates confirmées du mois sélectionné.",
-    noEvent: "Aucun événement public n'est encore prévu pour cette date.",
-    noEventTitle: "Date libre"
-  },
-  hi: {
-    day: "दिन",
-    week: "सप्ताह",
-    month: "महीना",
-    prev: "पिछला",
-    next: "अगला",
-    upcomingTitle: "आने वाली तारीखें",
-    empty: "इस दृश्य में अभी कोई पुष्टि की गई सार्वजनिक तारीख नहीं है।",
-    introDay: "चुनी गई तारीख पर केंद्रित।",
-    introWeek: "चुनी गई तारीख से अगले सात दिन दिखा रहा है।",
-    introMonth: "चुने गए महीने में पुष्टि की गई तारीखें दिखा रहा है।",
-    noEvent: "इस तारीख के लिए अभी कोई सार्वजनिक इवेंट तय नहीं है।",
-    noEventTitle: "खुली तारीख"
-  }
-};
-
 const translationOverrides = {
   zh: {
-    brand_name: "The <span>Rare</span> Archive",
+    brand_name: "The Rare Archive",
     nav_fundraising: "筹款活动",
     nav_about: "关于我们",
     nav_wwd: "我们的工作",
@@ -3602,7 +3404,7 @@ const translationOverrides = {
     footer_auto_translate: "Les traductions en chinois mandarin simplifié, en français et en hindi sur ce site sont automatiques."
   },
   hi: {
-    brand_name: "The RareArchive",
+    brand_name: "The Rare Archive",
     nav_home: "होम",
     nav_about: "हमारे बारे में",
     nav_wwd: "हम क्या करते हैं",
@@ -3999,84 +3801,22 @@ const calendarModalClose = document.getElementById('calendarModalClose');
 const calendarModalDate = document.getElementById('calendarModalDate');
 const calendarModalTitle = document.getElementById('calendarModalTitle');
 const calendarModalBody = document.getElementById('calendarModalBody');
-const calendarTitle = document.getElementById('calendarTitle');
-const calendarRangeLabel = document.getElementById('calendarRangeLabel');
-const calendarView = document.getElementById('calendarView');
-const eventsListTitle = document.getElementById('eventsListTitle');
-const eventsListIntro = document.getElementById('eventsListIntro');
-const eventsListContent = document.getElementById('eventsListContent');
-const calendarPrev = document.getElementById('calendarPrev');
-const calendarNext = document.getElementById('calendarNext');
-const contactForm = document.getElementById('contactForm');
-const contactFormStatus = document.getElementById('contactFormStatus');
+const calendarMonthLabel = document.getElementById('calendarMonthLabel');
+const calendarGrid = document.getElementById('calendarGrid');
+const calendarPrevBtn = document.getElementById('calendarPrevBtn');
+const calendarNextBtn = document.getElementById('calendarNextBtn');
 
-const calendarEvents = [
-  {
-    id: 'fundraiser-end',
-    date: '2026-06-07',
-    labelKey: 'events_marker_1',
-    titleKey: 'calendar_popup_event_title',
-    bodyKey: 'calendar_popup_event_body'
-  }
-];
+const today = new Date();
+today.setHours(12, 0, 0, 0);
 
 const calendarState = {
-  view: 'month',
-  selectedDate: new Date('2026-06-07T12:00:00')
+  currentMonth: new Date(today.getFullYear(), today.getMonth(), 1, 12),
+  selectedDate: new Date(today)
 };
 
-if (contactForm && contactFormStatus) {
-  contactForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    const submitButton = contactForm.querySelector('button[type="submit"]');
-    const originalButtonLabel = submitButton ? submitButton.textContent : '';
-    const formData = new FormData(contactForm);
-
-    contactFormStatus.textContent = 'Sending your request...';
-    if (submitButton) {
-      submitButton.disabled = true;
-      submitButton.textContent = 'Sending...';
-    }
-
-    try {
-      const response = await fetch('https://formsubmit.co/ajax/therarearchive.va@gmail.com', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          Accept: 'application/json'
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('Request failed');
-      }
-
-      contactForm.reset();
-      contactFormStatus.textContent = 'Your request was sent successfully. We will get back to you soon.';
-    } catch (error) {
-      contactFormStatus.textContent = 'There was a problem sending your request. Please email therarearchive.va@gmail.com directly.';
-    } finally {
-      if (submitButton) {
-        submitButton.disabled = false;
-        submitButton.textContent = originalButtonLabel;
-      }
-    }
-  });
-}
-
-function closeCalendarModal() {
-  if (!calendarModal) return;
-  calendarModal.classList.remove('open');
-  calendarModal.setAttribute('aria-hidden', 'true');
-  calendarModal.style.top = '';
-  calendarModal.style.left = '';
-}
-
-function formatCalendarDate(date, options = {}) {
-  const locale = (languageMeta[currentLang] && languageMeta[currentLang].locale) || 'en';
-  return new Intl.DateTimeFormat(locale, options).format(date);
-}
+const calendarEvents = {
+  '2026-06-07': 'fundraiser-end'
+};
 
 function formatCalendarISO(date) {
   const year = date.getFullYear();
@@ -4089,243 +3829,84 @@ function parseCalendarISO(isoDate) {
   return new Date(`${isoDate}T12:00:00`);
 }
 
-function startOfWeek(date) {
-  const copy = new Date(date);
-  copy.setHours(12, 0, 0, 0);
-  copy.setDate(copy.getDate() - copy.getDay());
-  return copy;
-}
-
-function addDays(date, amount) {
-  const copy = new Date(date);
-  copy.setDate(copy.getDate() + amount);
-  return copy;
-}
-
-function addMonths(date, amount) {
-  const copy = new Date(date);
-  copy.setDate(1);
-  copy.setMonth(copy.getMonth() + amount);
-  const maxDay = new Date(copy.getFullYear(), copy.getMonth() + 1, 0).getDate();
-  copy.setDate(Math.min(date.getDate(), maxDay));
-  return copy;
-}
-
-function isSameDay(a, b) {
+function isSameDate(a, b) {
   return a.getFullYear() === b.getFullYear() &&
     a.getMonth() === b.getMonth() &&
     a.getDate() === b.getDate();
 }
 
-function getCalendarEvent(isoDate) {
-  return calendarEvents.find(entry => entry.date === isoDate) || null;
-}
-
-function getCalendarUi() {
-  return calendarUiText[currentLang] || calendarUiText.en;
-}
-
-function getViewRangeLabel() {
-  const date = calendarState.selectedDate;
-  if (calendarState.view === 'day') {
-    return formatCalendarDate(date, { month: 'long', day: 'numeric', year: 'numeric' });
-  }
-  if (calendarState.view === 'week') {
-    const weekStart = startOfWeek(date);
-    const weekEnd = addDays(weekStart, 6);
-    const startLabel = formatCalendarDate(weekStart, { month: 'short', day: 'numeric' });
-    const endLabel = formatCalendarDate(weekEnd, { month: 'short', day: 'numeric', year: 'numeric' });
-    return `${startLabel} - ${endLabel}`;
-  }
-  return formatCalendarDate(date, { month: 'long', year: 'numeric' });
-}
-
-function getListIntroText() {
-  const ui = getCalendarUi();
-  if (calendarState.view === 'day') return ui.introDay;
-  if (calendarState.view === 'week') return ui.introWeek;
-  return ui.introMonth;
-}
-
-function buildDayButton(date, { muted = false } = {}) {
-  const isoDate = formatCalendarISO(date);
-  const eventData = getCalendarEvent(isoDate);
-  const isToday = isSameDay(date, new Date());
-  const isSelected = isSameDay(date, calendarState.selectedDate);
-  const dateLabel = formatCalendarDate(date, { month: 'long', day: 'numeric', year: 'numeric' });
-  const ui = getCalendarUi();
-
-  const labelText = eventData ? (translations[currentLang]?.[eventData.labelKey] || translations.en[eventData.labelKey] || '') : '';
-  const buttonClasses = [
-    'calendar-day',
-    muted ? 'muted' : '',
-    eventData ? 'event-day' : '',
-    isToday ? 'is-today' : '',
-    isSelected ? 'is-selected' : ''
-  ].filter(Boolean).join(' ');
-
-  return `<button class="${buttonClasses}" type="button" data-calendar-date="${dateLabel}" data-calendar-iso="${isoDate}"${eventData ? ` data-calendar-event="${eventData.id}"` : ''}${muted ? ' data-calendar-muted="true"' : ''}>
-    <span>${date.getDate()}</span>
-    ${eventData ? `<span class="calendar-marker"></span><span class="calendar-event-label">${labelText}</span>` : ''}
-  </button>`;
-}
-
-function renderMonthView() {
-  const selected = calendarState.selectedDate;
-  const firstOfMonth = new Date(selected.getFullYear(), selected.getMonth(), 1, 12);
-  const startDay = firstOfMonth.getDay();
-  const startDate = addDays(firstOfMonth, -startDay);
-  const dayNames = [];
-  for (let index = 0; index < 7; index += 1) {
-    const referenceDate = addDays(startDate, index);
-    dayNames.push(`<div class="calendar-dayname">${formatCalendarDate(referenceDate, { weekday: 'short' })}</div>`);
-  }
-
-  const cells = [];
-  for (let index = 0; index < 42; index += 1) {
-    const cellDate = addDays(startDate, index);
-    cells.push(buildDayButton(cellDate, { muted: cellDate.getMonth() !== selected.getMonth() }));
-  }
-
-  return `<div class="calendar-month-view">
-    <div class="calendar-grid">
-      ${dayNames.join('')}
-      ${cells.join('')}
-    </div>
-  </div>`;
-}
-
-function renderWeekView() {
-  const weekStart = startOfWeek(calendarState.selectedDate);
-  const cards = [];
-  for (let index = 0; index < 7; index += 1) {
-    cards.push(buildDayButton(addDays(weekStart, index)));
-  }
-  return `<div class="calendar-week-view">${cards.join('')}</div>`;
-}
-
-function renderDayView() {
-  const date = calendarState.selectedDate;
-  const isoDate = formatCalendarISO(date);
-  const eventData = getCalendarEvent(isoDate);
-  const description = eventData
-    ? (translations[currentLang]?.[eventData.bodyKey] || translations.en[eventData.bodyKey] || '')
-    : getCalendarUi().noEvent;
-
-  return `<div class="calendar-day-view">
-    <button class="calendar-focus-card" type="button" data-calendar-date="${formatCalendarDate(date, { month: 'long', day: 'numeric', year: 'numeric' })}" data-calendar-iso="${isoDate}"${eventData ? ` data-calendar-event="${eventData.id}"` : ''}>
-      <div class="calendar-focus-top">
-        <span class="calendar-focus-day">${formatCalendarDate(date, { weekday: 'long' })}</span>
-        <span class="calendar-focus-date">${formatCalendarDate(date, { month: 'long', day: 'numeric', year: 'numeric' })}</span>
-      </div>
-      <p class="calendar-focus-note">${description}</p>
-    </button>
-  </div>`;
-}
-
-function getVisibleEvents() {
-  if (calendarState.view === 'day') {
-    const isoDate = formatCalendarISO(calendarState.selectedDate);
-    return calendarEvents.filter(entry => entry.date === isoDate);
-  }
-
-  if (calendarState.view === 'week') {
-    const weekStart = startOfWeek(calendarState.selectedDate);
-    const weekEnd = addDays(weekStart, 6);
-    return calendarEvents.filter(entry => {
-      const eventDate = parseCalendarISO(entry.date);
-      return eventDate >= weekStart && eventDate <= weekEnd;
-    });
-  }
-
-  return calendarEvents.filter(entry => {
-    const eventDate = parseCalendarISO(entry.date);
-    return eventDate.getFullYear() === calendarState.selectedDate.getFullYear() &&
-      eventDate.getMonth() === calendarState.selectedDate.getMonth();
-  });
-}
-
-function renderEventsList() {
-  if (!eventsListContent || !eventsListTitle || !eventsListIntro) return;
-  const t = translations[currentLang] || translations.en;
-  const ui = getCalendarUi();
-  const visibleEvents = getVisibleEvents();
-
-  eventsListTitle.textContent = ui.upcomingTitle;
-  eventsListIntro.textContent = getListIntroText();
-
-  if (!visibleEvents.length) {
-    eventsListContent.innerHTML = `<p class="events-list-empty">${ui.empty}</p>`;
-    return;
-  }
-
-  eventsListContent.innerHTML = visibleEvents.map(entry => {
-    const eventDate = parseCalendarISO(entry.date);
-    return `<button class="events-list-item" type="button" data-calendar-date="${formatCalendarDate(eventDate, { month: 'long', day: 'numeric', year: 'numeric' })}" data-calendar-iso="${entry.date}" data-calendar-event="${entry.id}">
-      <span class="events-list-date">${formatCalendarDate(eventDate, { month: 'long', day: 'numeric', year: 'numeric' })}</span>
-      <p>${t[entry.bodyKey] || translations.en[entry.bodyKey]}</p>
-    </button>`;
-  }).join('');
+function formatCalendarDate(date, options = {}) {
+  const locale = (languageMeta[currentLang] && languageMeta[currentLang].locale) || 'en';
+  return new Intl.DateTimeFormat(locale, options).format(date);
 }
 
 function renderCalendar() {
-  if (!calendarView || !calendarTitle || !calendarRangeLabel) return;
-  const ui = getCalendarUi();
+  if (!calendarGrid || !calendarMonthLabel) return;
 
-  if (calendarPrev) calendarPrev.setAttribute('aria-label', `${ui.prev} ${ui[calendarState.view]}`);
-  if (calendarNext) calendarNext.setAttribute('aria-label', `${ui.next} ${ui[calendarState.view]}`);
+  const t = translations[currentLang] || translations.en;
+  const monthStart = new Date(calendarState.currentMonth.getFullYear(), calendarState.currentMonth.getMonth(), 1, 12);
+  const firstVisible = new Date(monthStart);
+  firstVisible.setDate(firstVisible.getDate() - firstVisible.getDay());
 
-  document.querySelectorAll('[data-calendar-view]').forEach(button => {
-    const view = button.getAttribute('data-calendar-view');
-    const isActive = view === calendarState.view;
-    button.classList.toggle('active', isActive);
-    button.textContent = ui[view];
-    button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-  });
+  calendarMonthLabel.textContent = formatCalendarDate(monthStart, { month: 'long', year: 'numeric' });
 
-  const titleOptions = calendarState.view === 'month'
-    ? { month: 'long', year: 'numeric' }
-    : { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
-
-  calendarTitle.textContent = formatCalendarDate(calendarState.selectedDate, titleOptions);
-  calendarRangeLabel.textContent = getViewRangeLabel();
-
-  if (calendarState.view === 'day') {
-    calendarView.innerHTML = renderDayView();
-  } else if (calendarState.view === 'week') {
-    calendarView.innerHTML = renderWeekView();
-  } else {
-    calendarView.innerHTML = renderMonthView();
+  const dayNames = [];
+  for (let index = 0; index < 7; index += 1) {
+    const date = new Date(firstVisible);
+    date.setDate(firstVisible.getDate() + index);
+    dayNames.push(`<div class="calendar-dayname">${formatCalendarDate(date, { weekday: 'short' })}</div>`);
   }
 
-  renderEventsList();
+  const dayButtons = [];
+  for (let index = 0; index < 42; index += 1) {
+    const date = new Date(firstVisible);
+    date.setDate(firstVisible.getDate() + index);
+    const isoDate = formatCalendarISO(date);
+    const eventType = calendarEvents[isoDate] || '';
+    const isMuted = date.getMonth() !== monthStart.getMonth();
+    const classes = ['calendar-day'];
+
+    if (isMuted) classes.push('muted');
+    if (eventType) classes.push('event-day');
+    if (isSameDate(date, today)) classes.push('today');
+    if (isSameDate(date, calendarState.selectedDate)) classes.push('selected');
+
+    dayButtons.push(`
+      <button
+        class="${classes.join(' ')}"
+        type="button"
+        data-calendar-date="${formatCalendarDate(date, { month: 'long', day: 'numeric', year: 'numeric' })}"
+        data-calendar-iso="${isoDate}"
+        ${eventType ? `data-calendar-event="${eventType}"` : ''}
+      >
+        <span>${date.getDate()}</span>
+        ${eventType ? `<span class="calendar-marker"></span><span class="calendar-event-label">${t.events_marker_1 || 'Ends'}</span>` : ''}
+      </button>
+    `);
+  }
+
+  calendarGrid.innerHTML = `${dayNames.join('')}${dayButtons.join('')}`;
 }
 
-function moveCalendar(step) {
-  if (calendarState.view === 'day') {
-    calendarState.selectedDate = addDays(calendarState.selectedDate, step);
-  } else if (calendarState.view === 'week') {
-    calendarState.selectedDate = addDays(calendarState.selectedDate, step * 7);
-  } else {
-    calendarState.selectedDate = addMonths(calendarState.selectedDate, step);
-  }
-  renderCalendar();
-  closeCalendarModal();
+function closeCalendarModal() {
+  if (!calendarModal) return;
+  calendarModal.classList.remove('open');
+  calendarModal.setAttribute('aria-hidden', 'true');
+  calendarModal.style.top = '';
+  calendarModal.style.left = '';
 }
 
 function openCalendarModal(button) {
   if (!calendarModal || !button) return;
   const t = translations[currentLang] || translations.en;
-  const isoDate = button.getAttribute('data-calendar-iso');
-  const eventData = isoDate ? getCalendarEvent(isoDate) : null;
-  const eventType = button.getAttribute('data-calendar-event') || (eventData && eventData.id);
+  const eventType = button.getAttribute('data-calendar-event');
   const dateText = button.getAttribute('data-calendar-date') || '';
   const rect = button.getBoundingClientRect();
 
   calendarModalDate.textContent = dateText;
-  if (eventType && eventData) {
-    calendarModalTitle.textContent = t[eventData.titleKey] || translations.en[eventData.titleKey];
-    calendarModalBody.textContent = t[eventData.bodyKey] || translations.en[eventData.bodyKey];
+  if (eventType === 'fundraiser-end') {
+    calendarModalTitle.textContent = t.calendar_popup_event_title;
+    calendarModalBody.textContent = t.calendar_popup_event_body;
   } else {
     calendarModalTitle.textContent = t.calendar_popup_empty_title;
     calendarModalBody.textContent = t.calendar_popup_empty_body;
@@ -4350,47 +3931,33 @@ function openCalendarModal(button) {
   calendarModal.style.left = `${left}px`;
 }
 
-if (calendarPrev) {
-  calendarPrev.addEventListener('click', () => moveCalendar(-1));
-}
-
-if (calendarNext) {
-  calendarNext.addEventListener('click', () => moveCalendar(1));
-}
-
-document.querySelectorAll('[data-calendar-view]').forEach(button => {
-  button.addEventListener('click', () => {
-    const nextView = button.getAttribute('data-calendar-view');
-    if (!nextView || nextView === calendarState.view) return;
-    calendarState.view = nextView;
+if (calendarPrevBtn) {
+  calendarPrevBtn.addEventListener('click', () => {
+    calendarState.currentMonth = new Date(calendarState.currentMonth.getFullYear(), calendarState.currentMonth.getMonth() - 1, 1, 12);
     renderCalendar();
-    closeCalendarModal();
-  });
-});
-
-if (calendarView) {
-  calendarView.addEventListener('click', event => {
-    const trigger = event.target.closest('[data-calendar-date]');
-    if (!trigger) return;
-    const isoDate = trigger.getAttribute('data-calendar-iso');
-    openCalendarModal(trigger);
-    if (isoDate) {
-      calendarState.selectedDate = parseCalendarISO(isoDate);
-      renderCalendar();
-    }
   });
 }
 
-if (eventsListContent) {
-  eventsListContent.addEventListener('click', event => {
-    const trigger = event.target.closest('[data-calendar-date]');
-    if (!trigger) return;
-    const isoDate = trigger.getAttribute('data-calendar-iso');
-    openCalendarModal(trigger);
+if (calendarNextBtn) {
+  calendarNextBtn.addEventListener('click', () => {
+    calendarState.currentMonth = new Date(calendarState.currentMonth.getFullYear(), calendarState.currentMonth.getMonth() + 1, 1, 12);
+    renderCalendar();
+  });
+}
+
+if (calendarGrid) {
+  calendarGrid.addEventListener('click', (event) => {
+    const button = event.target.closest('.calendar-day[data-calendar-date]');
+    if (!button) return;
+
+    const isoDate = button.getAttribute('data-calendar-iso');
     if (isoDate) {
       calendarState.selectedDate = parseCalendarISO(isoDate);
+      calendarState.currentMonth = new Date(calendarState.selectedDate.getFullYear(), calendarState.selectedDate.getMonth(), 1, 12);
       renderCalendar();
     }
+
+    openCalendarModal(button);
   });
 }
 
@@ -4398,8 +3965,8 @@ if (calendarModal && calendarModalClose) {
   calendarModalClose.addEventListener('click', closeCalendarModal);
   document.addEventListener('click', (e) => {
     if (!calendarModal.classList.contains('open')) return;
-    const clickedCalendarTrigger = e.target.closest('[data-calendar-date]');
-    if (clickedCalendarTrigger) return;
+    const clickedCalendarDay = e.target.closest('.calendar-day[data-calendar-date]');
+    if (clickedCalendarDay) return;
     if (!e.target.closest('.calendar-modal-dialog')) closeCalendarModal();
   });
   document.addEventListener('keydown', (e) => {
@@ -4409,10 +3976,9 @@ if (calendarModal && calendarModalClose) {
   });
 }
 
-renderCalendar();
-
 /* initial translate */
 setLanguage(currentLang);
+renderCalendar();
 </script>
 </body>
 </html>
