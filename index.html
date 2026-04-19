@@ -1362,6 +1362,14 @@
     .calendar-modal.open {
       display: block;
     }
+    .calendar-modal.below .calendar-modal-dialog::after {
+      top: -10px;
+      bottom: auto;
+      border-top: 1px solid rgba(107, 77, 112, 0.14);
+      border-left: 1px solid rgba(107, 77, 112, 0.14);
+      border-right: none;
+      border-bottom: none;
+    }
     .calendar-modal-dialog {
       width: 100%;
       background: rgba(255, 255, 255, 0.96);
@@ -1375,7 +1383,7 @@
     .calendar-modal-dialog::after {
       content: "";
       position: absolute;
-      left: 28px;
+      left: var(--calendar-modal-arrow-left, 28px);
       bottom: -10px;
       width: 20px;
       height: 20px;
@@ -2162,7 +2170,7 @@
         <div class="involved-icon">🎓</div>
         <h3 data-i18n="inv_c1_title">Volunteer as a Student Artist</h3>
         <p data-i18n="inv_c1_desc">No professional art experience required — just a willingness to listen and create alongside someone who has lived more life than you can imagine. We train all volunteers before their first session. Open to students aged 14+.</p>
-        <a href="#contact" class="btn btn-light" style="font-size:0.82rem;" data-i18n="inv_c1_btn">Apply to Volunteer →</a>
+        <a href="https://forms.gle/8RwFouKbypUNJEAt8" class="btn btn-light" style="font-size:0.82rem;" data-i18n="inv_c1_btn" target="_blank" rel="noopener noreferrer">Apply to Volunteer →</a>
       </div>
       <div class="involved-card fade-in fade-in-delay-1">
         <div class="involved-icon">🏠</div>
@@ -2278,8 +2286,9 @@
           <p class="tier-desc" data-i18n="tier4_desc">Helps launch a new session series at a facility — paying for the first full month of visits.</p>
         </div>
       </div>
-      <div style="text-align:center;margin-top:36px;">
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:36px;">
         <a href="#" class="btn btn-primary fade-in" data-i18n="donate_btn">Donate Now →</a>
+        <a href="https://forms.gle/8RwFouKbypUNJEAt8" class="btn btn-light fade-in" data-i18n="volunteer_btn" target="_blank" rel="noopener noreferrer">Volunteer With Us →</a>
       </div>
     </div>
 
@@ -2319,11 +2328,11 @@
       <div class="events-segment-head">
         <div>
           <h3 data-i18n="events_upcoming_title">Upcoming Events</h3>
-          <p class="events-segment-note" data-i18n="events_upcoming_note">We do not have general upcoming events yet. The only confirmed date right now is the end of our ThriftBooks fundraiser on June 7, 2026.</p>
+          <p class="events-segment-note" data-i18n="events_upcoming_note">Our main recurring upcoming event is volunteer time at Lansdowne on the third Saturday of each coming month at 1:00 PM.</p>
         </div>
         <div class="events-mini-card">
-          <h4 data-i18n="events_upcoming_card_title">What this includes</h4>
-          <p data-i18n="events_upcoming_card_desc">For now, this section is mainly a place to share milestone dates tied to our current fundraiser and any future public events once they are announced.</p>
+          <h4 data-i18n="events_upcoming_card_title">How to use the calendar</h4>
+          <p data-i18n="events_upcoming_card_desc">Use this section to keep track of our recurring volunteer schedule. Right now, the standing upcoming event is our Lansdowne visit on the third Saturday of each coming month at 1:00 PM.</p>
         </div>
       </div>
 
@@ -2340,18 +2349,10 @@
         </div>
 
         <div class="events-list">
-          <h4 data-i18n="events_list_title">Confirmed date</h4>
+          <h4 data-i18n="events_tab_upcoming">Upcoming Events</h4>
           <div class="events-list-item">
-            <span class="events-list-date" data-i18n="events_date_1">June 7, 2026</span>
-            <p data-i18n="events_desc_1">Our ThriftBooks fundraiser ends on June 7, 2026. That is the only confirmed upcoming date we have to share right now.</p>
-          </div>
-          <div class="events-list-item">
-            <span class="events-list-date" data-i18n="events_date_2">After June 7</span>
-            <p data-i18n="events_desc_2">We do not have any workshop, pop-up, or community event dates scheduled yet beyond the fundraiser end date.</p>
-          </div>
-          <div class="events-list-item">
-            <span class="events-list-date" data-i18n="events_date_3">Next updates</span>
-            <p data-i18n="events_desc_3">When we announce our first public event or workshop date, we’ll add it here next.</p>
+            <span class="events-list-date" data-i18n="events_date_1">Third Saturday of every coming month · 1:00 PM</span>
+            <p data-i18n="events_desc_1">We volunteer at Lansdowne on the third Saturday of each coming month at 1:00 PM. This is the main upcoming event currently listed on our website.</p>
           </div>
         </div>
       </div>
@@ -2366,31 +2367,36 @@
   <div class="container">
     <span class="section-tag fade-in" data-i18n="nav_past_events">Past Events</span>
     <h2 class="section-title fade-in fade-in-delay-1" data-i18n="events_past_title">Past Events</h2>
-    <p class="section-sub fade-in fade-in-delay-2" data-i18n="events_past_note">We have not hosted any past events yet, so this archive is currently empty. Once programs begin, we’ll document them here.</p>
+    <p class="section-sub fade-in fade-in-delay-2">These spring sessions marked some of our earliest workshop visits, each one built around storytelling, creativity, and meaningful intergenerational connection.</p>
 
     <div class="events-segment fade-in">
       <div class="events-segment-head">
         <div>
-          <h3 data-i18n="events_past_card_title">Archive coming soon</h3>
-          <p class="events-segment-note" data-i18n="events_past_card_desc">This section will eventually document workshops, outreach moments, and community milestones after they happen.</p>
+          <h3>Workshop archive</h3>
+          <p class="events-segment-note">Each visit gave residents room to create, remember, and connect with student volunteers through art that invited conversation rather than pressure.</p>
         </div>
       </div>
 
       <div class="past-events-grid">
         <div class="events-mini-card">
-          <span class="past-event-date" data-i18n="past_event_1_date">No events yet</span>
-          <h4 data-i18n="past_event_1_title">First workshop to be announced</h4>
-          <p data-i18n="past_event_1_desc">We have not hosted our first workshop yet, so there are no archived event details to show here right now.</p>
+          <span class="past-event-date">April 11, 2026 · Tribute @ One Loudoun</span>
+          <h4>Beach scenes and memory sharing</h4>
+          <p>From noon to 1:30 PM, residents painted beach-inspired scenes while talking about favorite vacations, family trips, and the calm they associated with the shore. The session helped spark memory, conversation, and a sense of ease across generations.</p>
         </div>
         <div class="events-mini-card">
-          <span class="past-event-date" data-i18n="past_event_2_date">Nothing archived</span>
-          <h4 data-i18n="past_event_2_title">Future outreach will appear here</h4>
-          <p data-i18n="past_event_2_desc">When we begin hosting public outreach or community appearances, we’ll add summaries and photos to this section.</p>
+          <span class="past-event-date">April 12, 2026 · Tribute @ One Loudoun</span>
+          <h4>Tulips, roses, and intergenerational storytelling</h4>
+          <p>From 10:00 AM to 11:30 AM, we painted tulips and roses with residents as they shared stories tied to gardens, loved ones, and meaningful seasons of life. The activity encouraged both artistic expression and warm intergenerational conversation.</p>
         </div>
         <div class="events-mini-card">
-          <span class="past-event-date" data-i18n="past_event_3_date">Waiting on launch</span>
-          <h4 data-i18n="past_event_3_title">This archive starts with event one</h4>
-          <p data-i18n="past_event_3_desc">For now, this page simply shows where past event recaps will live once The Rare Archive begins hosting them.</p>
+          <span class="past-event-date">April 18, 2026 · Lansdowne Heights</span>
+          <h4>Turtles by the sea</h4>
+          <p>From 1:00 PM to 2:30 PM, residents painted turtles by the sea and spoke about their own beach memories, favorite coastlines, and moments from earlier years. The artwork became a way for each person to weave a bit of their own story into the page.</p>
+        </div>
+        <div class="events-mini-card">
+          <span class="past-event-date">April 19, 2026 · Lansdowne Heights</span>
+          <h4>Animal-themed creative connection</h4>
+          <p>From 1:00 PM to 2:30 PM, we led a playful animal-themed workshop designed to help residents open up through imagination, conversation, and color. The session fostered closeness with seniors while keeping the atmosphere light, interactive, and joyful.</p>
         </div>
       </div>
     </div>
@@ -2408,20 +2414,20 @@
 
     <div class="stats-row">
       <div class="stat-card fade-in">
-        <div class="stat-num" data-i18n="stat1_num">47+</div>
-        <div class="stat-label" data-i18n="stat1_label">Sessions completed</div>
+        <div class="stat-num" data-i18n="stat1_num">3</div>
+        <div class="stat-label" data-i18n="stat1_label">Nursing homes connected with</div>
       </div>
       <div class="stat-card fade-in fade-in-delay-1">
-        <div class="stat-num" data-i18n="stat2_num">38</div>
-        <div class="stat-label" data-i18n="stat2_label">Residents served</div>
+        <div class="stat-num" data-i18n="stat2_num">20</div>
+        <div class="stat-label" data-i18n="stat2_label">Residents connected with</div>
       </div>
       <div class="stat-card fade-in fade-in-delay-2">
-        <div class="stat-num" data-i18n="stat3_num">22</div>
-        <div class="stat-label" data-i18n="stat3_label">Student volunteers</div>
+        <div class="stat-num" data-i18n="stat3_num">5,000+</div>
+        <div class="stat-label" data-i18n="stat3_label">Social media views</div>
       </div>
       <div class="stat-card fade-in fade-in-delay-3">
-        <div class="stat-num" data-i18n="stat4_num">12</div>
-        <div class="stat-label" data-i18n="stat4_label">Archive books created</div>
+        <div class="stat-num" data-i18n="stat4_num">350</div>
+        <div class="stat-label" data-i18n="stat4_label">Hours contributed by our organization</div>
       </div>
     </div>
 
@@ -2542,10 +2548,9 @@
         <h3 data-i18n="contact_h3">We'd love to hear from you.</h3>
         <p data-i18n="contact_p">Whether you want to volunteer, partner, donate, or simply learn more about what we do — drop us a message. We respond to every inquiry personally, usually within 48 hours.</p>
         <div class="social-links">
-          <a href="#" class="social-link" data-i18n="social_instagram">📸 Instagram</a>
-          <a href="#" class="social-link" data-i18n="social_facebook">📘 Facebook</a>
-          <a href="#" class="social-link" data-i18n="social_tiktok">🎵 TikTok</a>
-          <a href="#" class="social-link" data-i18n="social_email">✉️ Email Us</a>
+          <a href="https://www.instagram.com/the_rare_archive?utm_source=ig_web_button_share_sheet&amp;igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="social-link" data-i18n="social_instagram">📸 Instagram</a>
+          <a href="https://www.tiktok.com/@the.rare.archive?is_from_webapp=1&amp;sender_device=pc" target="_blank" rel="noopener noreferrer" class="social-link" data-i18n="social_tiktok">🎵 TikTok</a>
+          <a href="mailto:therarearchive.va@gmail.com" class="social-link" data-i18n="social_email">✉️ Email Us</a>
         </div>
       </div>
       <div class="contact-form-wrap fade-in fade-in-delay-1">
@@ -2593,7 +2598,7 @@
       <div class="footer-social">
         <span class="footer-social-label" data-i18n="footer_connect">Connect With Us</span>
         <div class="footer-social-icons">
-          <a href="https://www.instagram.com/the_rare_archive" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Instagram">
+          <a href="https://www.instagram.com/the_rare_archive?utm_source=ig_web_button_share_sheet&amp;igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Instagram">
             <img src="insta.png" alt="Instagram">
           </a>
           <a href="https://www.tiktok.com/@the.rare.archive?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="TikTok">
@@ -2717,21 +2722,22 @@ const translations = {
     tier3_label: "Picture Book Archive", tier3_desc: "Supports the process of turning resident artwork and reflections into picture books for families and awareness efforts.",
     tier4_label: "DMV Expansion", tier4_desc: "Helps us bring the program to more assisted living and retirement communities across the DMV area.",
     donate_btn: "Donate Now →",
+    volunteer_btn: "Volunteer With Us →",
     camp_title: "Help Us Grow Across the DMV", camp_desc: "Our current goal is to bring recurring art workshops to more retirement and assisted living communities while building a stronger system for creating permission-based picture books from resident artwork.", camp_desc2: "We are raising support for supplies, adaptive materials, volunteer coordination, and outreach so this can become a reliable program that also spreads awareness about early cognitive decline in the elderly.", camp_btn: "Support the Campaign →", camp_raised: "Early community momentum", camp_goal: "Goal: sustainable DMV growth", camp_breakdown: "Focus areas: supplies · accessibility · picture books · workshop growth",
 
     events_tag: "Events",
     events_title: "See what's coming up and what we've already shared",
     events_sub: "Browse our upcoming calendar, follow currrent fundraisers, and scroll further to look back at community moments that helped shape The Rare Archive.",
     events_tab_upcoming: "Upcoming Events", events_tab_fundraisers: "Current Fundraisers", events_tab_past: "Past Events",
-    events_upcoming_title: "Upcoming Events", events_upcoming_note: "We do not have general upcoming events yet. The only confirmed date right now is the end of our ThriftBooks fundraiser on June 7, 2026.",
-    events_upcoming_card_title: "What this includes", events_upcoming_card_desc: "For now, this section is mainly a place to share milestone dates tied to our current fundraiser and any future public events once they are announced.",
+    events_upcoming_title: "Upcoming Events", events_upcoming_note: "Our main recurring upcoming event is volunteer time at Lansdowne on the third Saturday of each coming month at 1:00 PM.",
+    events_upcoming_card_title: "How to use the calendar", events_upcoming_card_desc: "Use this section to keep track of our recurring volunteer schedule. Right now, the standing upcoming event is our Lansdowne visit on the third Saturday of each coming month at 1:00 PM.",
     events_calendar_title: "June 2026", events_calendar_pill: "Fundraiser End Date",
     cal_sun: "Sun", cal_mon: "Mon", cal_tue: "Tue", cal_wed: "Wed", cal_thu: "Thu", cal_fri: "Fri", cal_sat: "Sat",
     events_marker_1: "Ends", events_marker_2: "Launch", events_marker_3: "Pop-Up",
     events_list_title: "Confirmed date",
-    events_date_1: "June 7, 2026", events_desc_1: "Our ThriftBooks fundraiser ends on June 7, 2026. That is the only confirmed upcoming date we have to share right now.",
-    events_date_2: "After June 7", events_desc_2: "We do not have any workshop, pop-up, or community event dates scheduled yet beyond the fundraiser end date.",
-    events_date_3: "Next updates", events_desc_3: "When we announce our first public event or workshop date, we’ll add it here next.",
+    events_date_1: "Third Saturday of every coming month · 1:00 PM", events_desc_1: "We volunteer at Lansdowne on the third Saturday of each coming month at 1:00 PM. This is the main upcoming event currently listed on our website.",
+    events_date_2: "Location", events_desc_2: "Lansdowne is the current recurring upcoming event location listed on our website.",
+    events_date_3: "Next updates", events_desc_3: "Any new workshop, pop-up, or community event dates will be added here once they are confirmed.",
     calendar_popup_event_title: "ThriftBooks Fundraiser Ends",
     calendar_popup_event_body: "June 7, 2026 is the final day of our ThriftBooks fundraiser. Our goal is to raise $2,000 by selling 50 bundles at $40 each to support mini art workshops, supplies, and future expansion for elderly residents in Ashburn-area retirement and assisted living communities.",
     calendar_popup_empty_title: "No event scheduled",
@@ -2762,10 +2768,10 @@ const translations = {
 
     impact_tag: "Our Impact", impact_title: "Early momentum with a clear purpose.",
     impact_sub: "We are in the early stages of building The Rare Archive, but the response so far shows how strongly this mission resonates.",
-    stat1_num: "3,000+", stat1_label: "Social media views",
-    stat2_num: "330", stat2_label: "Followers reached",
-    stat3_num: "2", stat3_label: "School partnerships",
-    stat4_num: "DMV", stat4_label: "Region we are building in",
+    stat1_num: "3", stat1_label: "Nursing homes connected with",
+    stat2_num: "20", stat2_label: "Residents connected with",
+    stat3_num: "5,000+", stat3_label: "Social media views",
+    stat4_num: "350", stat4_label: "Hours contributed by our organization",
     t1_quote: "\"Many seniors go days without meaningful conversation. We want our workshops to interrupt that isolation with art, care, and human connection.\"",
     t1_author: "— The problem we are addressing",
     t2_quote: "\"Our sessions are designed to help older adults feel calm, creative, and seen while supporting emotional wellbeing and cognitive engagement.\"",
@@ -2888,20 +2894,21 @@ const translations = {
     tier3_label: "Archivo en Libros Ilustrados", tier3_desc: "Apoya el proceso de convertir el arte y las reflexiones de residentes en libros ilustrados para sus familias y para la concientización.",
     tier4_label: "Expansión DMV", tier4_desc: "Nos ayuda a llevar el programa a más comunidades de retiro y vida asistida en el área del DMV.",
     donate_btn: "Donar Ahora →",
+    volunteer_btn: "Haz voluntariado con nosotros →",
     camp_title: "Ayúdanos a Crecer en el DMV", camp_desc: "Nuestra meta actual es llevar talleres de arte recurrentes a más comunidades de retiro y vida asistida mientras fortalecemos nuestro sistema para crear libros ilustrados con permiso a partir del arte de los residentes.", camp_desc2: "Estamos reuniendo apoyo para materiales, herramientas adaptadas, coordinación de voluntarios y alcance comunitario para convertir esto en un programa confiable que también genere conciencia sobre el deterioro cognitivo temprano en las personas mayores.", camp_btn: "Apoyar la Campaña →", camp_raised: "Impulso comunitario inicial", camp_goal: "Meta: crecimiento sostenible en el DMV", camp_breakdown: "Áreas clave: materiales · accesibilidad · libros ilustrados · crecimiento",
 
     events_tag: "Eventos",
     events_title: "Mira lo que viene y lo que ya hemos compartido",
     events_sub: "Explora nuestro calendario próximo, sigue la recaudación que está activa ahora mismo y revisa momentos comunitarios que ayudaron a formar The Rare Archive.",
     events_tab_upcoming: "Próximos Eventos", events_tab_fundraisers: "Recaudaciones Actuales", events_tab_past: "Eventos Pasados",
-    events_upcoming_title: "Próximos Eventos", events_upcoming_note: "Todavía no tenemos eventos generales próximos. La única fecha confirmada por ahora es el cierre de nuestra recaudación con ThriftBooks el 7 de junio de 2026.",
-    events_upcoming_card_title: "Qué incluye", events_upcoming_card_desc: "Por ahora, esta sección sirve principalmente para compartir fechas importantes relacionadas con nuestra recaudación actual y cualquier evento público futuro cuando se anuncie.",
+    events_upcoming_title: "Próximos Eventos", events_upcoming_note: "Nuestro principal evento próximo recurrente es el voluntariado en Lansdowne el tercer sábado de cada mes próximo a la 1:00 PM.",
+    events_upcoming_card_title: "Cómo usar el calendario", events_upcoming_card_desc: "Usa esta sección para seguir nuestro calendario recurrente de voluntariado. Por ahora, el evento próximo fijo es nuestra visita a Lansdowne el tercer sábado de cada mes próximo a la 1:00 PM.",
     events_calendar_title: "Junio 2026", events_calendar_pill: "Fin de la Recaudación",
     cal_sun: "Dom", cal_mon: "Lun", cal_tue: "Mar", cal_wed: "Mié", cal_thu: "Jue", cal_fri: "Vie", cal_sat: "Sáb",
     events_marker_1: "Cierre", events_marker_2: "Lanz.", events_marker_3: "Pop-Up",
     events_list_title: "Fecha confirmada",
-    events_date_1: "7 de junio de 2026", events_desc_1: "Nuestra recaudación con ThriftBooks termina el 7 de junio de 2026. Esa es la única fecha próxima confirmada que tenemos para compartir por ahora.",
-    events_date_2: "Después del 7 de junio", events_desc_2: "Todavía no tenemos programadas fechas de talleres, eventos emergentes o encuentros comunitarios más allá del cierre de la recaudación.",
+    events_date_1: "Tercer sábado de cada mes próximo · 1:00 PM", events_desc_1: "Hacemos voluntariado en Lansdowne el tercer sábado de cada mes próximo a la 1:00 PM. Este es el principal evento próximo que aparece actualmente en nuestro sitio web.",
+    events_date_2: "Ubicación", events_desc_2: "Lansdowne es la ubicación actual del evento próximo recurrente que aparece en nuestro sitio web.",
     events_date_3: "Próximas actualizaciones", events_desc_3: "Cuando anunciemos nuestra primera fecha pública de evento o taller, la añadiremos aquí.",
     calendar_popup_event_title: "Finaliza la Recaudación con ThriftBooks",
     calendar_popup_event_body: "El 7 de junio de 2026 es el último día de nuestra recaudación con ThriftBooks. Nuestra meta es recaudar $2,000 vendiendo 50 paquetes a $40 cada uno para apoyar mini talleres de arte, materiales y la futura expansión para residentes mayores en comunidades de retiro y vida asistida del área de Ashburn.",
@@ -2933,10 +2940,10 @@ const translations = {
 
     impact_tag: "Nuestro Impacto", impact_title: "Impulso inicial con un propósito claro.",
     impact_sub: "Estamos en las primeras etapas de The Rare Archive, pero la respuesta hasta ahora muestra cuánto resuena esta misión.",
-    stat1_num: "2,000+", stat1_label: "Vistas en redes sociales",
-    stat2_num: "330", stat2_label: "Seguidores alcanzados",
-    stat3_num: "2", stat3_label: "Alianzas escolares",
-    stat4_num: "DMV", stat4_label: "Región donde estamos creciendo",
+    stat1_num: "3", stat1_label: "Hogares de ancianos conectados",
+    stat2_num: "20", stat2_label: "Residentes con quienes nos hemos conectado",
+    stat3_num: "5,000+", stat3_label: "Vistas en redes sociales",
+    stat4_num: "350", stat4_label: "Horas aportadas por nuestra organización",
     t1_quote: "\"Muchas personas mayores pasan días sin una conversación significativa. Queremos que nuestros talleres interrumpan ese aislamiento con arte, cuidado y conexión humana.\"",
     t1_author: "— El problema que abordamos",
     t2_quote: "\"Nuestras sesiones están diseñadas para ayudar a los adultos mayores a sentirse tranquilos, creativos y vistos, mientras apoyan el bienestar emocional y la participación cognitiva.\"",
@@ -3094,6 +3101,7 @@ const translationOverrides = {
     tier4_label: "DMV 扩展",
     tier4_desc: "帮助我们把项目带到 DMV 地区更多辅助生活和退休社区。",
     donate_btn: "立即捐赠 →",
+    volunteer_btn: "加入我们做志愿者 →",
     camp_title: "帮助我们在 DMV 地区成长",
     camp_desc: "我们目前的目标是把定期艺术工作坊带到更多退休社区和辅助生活社区，同时建立更完善的系统，将居民作品制作成经过许可的绘本。",
     camp_desc2: "我们正在为材料、适应性工具、志愿者协调和社区联络募集支持，让这项工作成为可靠的长期项目，并提高公众对长者早期认知衰退的关注。",
@@ -3108,9 +3116,9 @@ const translationOverrides = {
     events_tab_fundraisers: "当前筹款",
     events_tab_past: "过去活动",
     events_upcoming_title: "即将举行的活动",
-    events_upcoming_note: "目前我们还没有一般性的近期活动。现在唯一确认的日期，是 2026 年 6 月 7 日 ThriftBooks 筹款结束。",
-    events_upcoming_card_title: "这里会显示什么",
-    events_upcoming_card_desc: "目前，这一部分主要用于分享与当前筹款相关的重要日期，以及未来一旦公布的公共活动。",
+    events_upcoming_note: "我们当前主要的固定近期活动，是每个接下来月份的第三个星期六下午 1:00 在 Lansdowne 进行志愿服务。",
+    events_upcoming_card_title: "如何使用日历",
+    events_upcoming_card_desc: "使用这一部分来查看我们持续进行的志愿服务安排。目前，固定的近期活动是在每个接下来月份的第三个星期六下午 1:00 前往 Lansdowne。",
     events_calendar_title: "2026 年 6 月",
     events_calendar_pill: "筹款结束",
     cal_sun: "日",
@@ -3124,10 +3132,10 @@ const translationOverrides = {
     events_marker_2: "开始",
     events_marker_3: "快闪",
     events_list_title: "已确认日期",
-    events_date_1: "2026 年 6 月 7 日",
-    events_desc_1: "我们的 ThriftBooks 筹款将于 2026 年 6 月 7 日结束。这是目前唯一确认的近期日期。",
-    events_date_2: "6 月 7 日之后",
-    events_desc_2: "除筹款结束日期外，我们还没有安排任何工作坊、快闪活动或社区活动日期。",
+    events_date_1: "每个接下来月份的第三个星期六 · 下午 1:00",
+    events_desc_1: "我们会在每个接下来月份的第三个星期六下午 1:00 前往 Lansdowne 做志愿服务。这是目前网站上列出的主要近期活动。",
+    events_date_2: "地点",
+    events_desc_2: "Lansdowne 是目前网站上列出的固定近期活动地点。",
     events_date_3: "后续更新",
     events_desc_3: "当我们公布第一次公共活动或工作坊日期时，会在这里更新。",
     calendar_popup_event_title: "ThriftBooks 筹款结束",
@@ -3181,14 +3189,14 @@ const translationOverrides = {
     impact_tag: "我们的影响力",
     impact_title: "起步虽早，方向清晰。",
     impact_sub: "The Rare Archive 仍处于起步阶段，但到目前为止的反馈已经说明这项使命能够引起强烈共鸣。",
-    stat1_num: "3,000+",
-    stat2_num: "330",
-    stat3_num: "2",
-    stat4_num: "DMV",
-    stat1_label: "社交媒体浏览量",
-    stat2_label: "已触达粉丝",
-    stat3_label: "学校合作伙伴",
-    stat4_label: "正在建设的地区",
+    stat1_num: "3",
+    stat2_num: "20",
+    stat3_num: "5,000+",
+    stat4_num: "350",
+    stat1_label: "已建立联系的护理院",
+    stat2_label: "已建立联系的居民",
+    stat3_label: "社交媒体浏览量",
+    stat4_label: "我们组织投入的小时数",
     t1_quote: "\"许多长者常常一连几天都没有真正有意义的交流。我们希望用艺术、关怀和人与人之间的连接打破这种孤立。\"",
     t1_author: "— 我们正在回应的问题",
     t2_quote: "\"我们的活动旨在让长者感到平静、有创造力、被看见，同时支持他们的情绪健康和认知参与。\"",
@@ -3327,19 +3335,20 @@ const translationOverrides = {
     tier3_label: "Archive en livre illustré", tier3_desc: "Soutient la transformation des œuvres et réflexions des résidents en livres illustrés pour leurs familles et pour la sensibilisation.",
     tier4_label: "Développement dans le DMV", tier4_desc: "Nous aide à proposer le programme dans davantage de résidences assistées et maisons de retraite de la région DMV.",
     donate_btn: "Faire un don →",
+    volunteer_btn: "Devenez bénévole avec nous →",
     camp_title: "Aidez-nous à grandir dans toute la région DMV", camp_desc: "Notre objectif actuel est d'apporter des ateliers artistiques récurrents à davantage de résidences assistées et maisons de retraite, tout en renforçant notre système de création de livres illustrés à partir des œuvres des résidents avec leur accord.", camp_desc2: "Nous mobilisons des soutiens pour le matériel, les outils adaptés, la coordination des bénévoles et le lien communautaire afin de faire de ce projet un programme durable qui sensibilise aussi au déclin cognitif précoce chez les aînés.", camp_btn: "Soutenir la campagne →", camp_raised: "Élan initial de la communauté", camp_goal: "Objectif : une croissance durable dans le DMV", camp_breakdown: "Axes prioritaires : matériel · accessibilité · livres illustrés · développement des ateliers",
     events_tag: "Événements",
     events_title: "Voir ce qui arrive et ce que nous avons déjà partagé",
     events_sub: "Consultez notre calendrier à venir, suivez la collecte actuellement active et revenez sur les moments de communauté qui aident à façonner The Rare Archive.",
     events_tab_upcoming: "Événements à venir", events_tab_fundraisers: "Collectes en cours", events_tab_past: "Événements passés",
-    events_upcoming_title: "Événements à venir", events_upcoming_note: "Nous n'avons pas encore d'événements à venir au sens large. La seule date confirmée pour le moment est la fin de notre collecte ThriftBooks le 7 juin 2026.",
-    events_upcoming_card_title: "Ce que cette section contient", events_upcoming_card_desc: "Pour l'instant, cette section sert surtout à partager les dates importantes liées à notre collecte actuelle et les futurs événements publics dès qu'ils seront annoncés.",
+    events_upcoming_title: "Événements à venir", events_upcoming_note: "Notre principal rendez-vous à venir récurrent est le bénévolat à Lansdowne le troisième samedi de chaque mois à venir à 13 h.",
+    events_upcoming_card_title: "Comment utiliser le calendrier", events_upcoming_card_desc: "Utilisez cette section pour suivre notre calendrier récurrent de bénévolat. Pour le moment, l'événement à venir fixe est notre visite à Lansdowne le troisième samedi de chaque mois à venir à 13 h.",
     events_calendar_title: "Juin 2026", events_calendar_pill: "Fin de la collecte",
     cal_sun: "Dim", cal_mon: "Lun", cal_tue: "Mar", cal_wed: "Mer", cal_thu: "Jeu", cal_fri: "Ven", cal_sat: "Sam",
     events_marker_1: "Fin", events_marker_2: "Lanc.", events_marker_3: "Éph.",
     events_list_title: "Date confirmée",
-    events_date_1: "7 juin 2026", events_desc_1: "Notre collecte ThriftBooks se termine le 7 juin 2026. C'est la seule date confirmée à partager pour le moment.",
-    events_date_2: "Après le 7 juin", events_desc_2: "Nous n'avons encore programmé ni atelier, ni événement éphémère, ni rencontre communautaire au-delà de la fin de la collecte.",
+    events_date_1: "Troisième samedi de chaque mois à venir · 13 h", events_desc_1: "Nous faisons du bénévolat à Lansdowne le troisième samedi de chaque mois à venir à 13 h. C'est le principal événement à venir actuellement indiqué sur notre site.",
+    events_date_2: "Lieu", events_desc_2: "Lansdowne est le lieu de l'événement récurrent actuellement indiqué sur notre site.",
     events_date_3: "Prochaines mises à jour", events_desc_3: "Dès que nous annoncerons la date de notre premier événement public ou atelier, nous l'ajouterons ici.",
     calendar_popup_event_title: "Fin de la collecte ThriftBooks",
     calendar_popup_event_body: "Le 7 juin 2026 est le dernier jour de notre collecte ThriftBooks. Notre objectif est de récolter 2 000 $ en vendant 50 coffrets à 40 $ chacun pour financer des mini-ateliers artistiques, du matériel et notre développement futur.",
@@ -3368,10 +3377,10 @@ const translationOverrides = {
     gal5: "Séance de bricolage saisonnier", gal6: "Projet portrait et mémoire", gal7: "Présentation artistique communautaire",
     impact_tag: "Notre impact", impact_title: "Un élan précoce avec un cap clair.",
     impact_sub: "The Rare Archive en est encore à ses débuts, mais les retours montrent déjà à quel point cette mission résonne.",
-    stat1_num: "3,000+", stat1_label: "Vues sur les réseaux sociaux",
-    stat2_num: "330", stat2_label: "Abonnés touchés",
-    stat3_num: "2", stat3_label: "Partenariats scolaires",
-    stat4_num: "DMV", stat4_label: "Région où nous grandissons",
+    stat1_num: "3", stat1_label: "Maisons de retraite partenaires",
+    stat2_num: "20", stat2_label: "Résidents rencontrés",
+    stat3_num: "5,000+", stat3_label: "Vues sur les réseaux sociaux",
+    stat4_num: "350", stat4_label: "Heures apportées par notre organisation",
     t1_quote: "\"De nombreuses personnes âgées passent des jours sans conversation vraiment significative. Nous voulons que nos ateliers interrompent cet isolement avec de l'art, de l'attention et du lien humain.\"",
     t1_author: "— Le problème auquel nous répondons",
     t2_quote: "\"Nos séances sont conçues pour aider les aînés à se sentir apaisés, créatifs et vus, tout en soutenant le bien-être émotionnel et l'engagement cognitif.\"",
@@ -3500,19 +3509,20 @@ const translationOverrides = {
     tier3_label: "चित्र-पुस्तक अभिलेख", tier3_desc: "निवासियों की कला और विचारों को चित्र पुस्तकों में बदलने की प्रक्रिया का समर्थन करता है, ताकि परिवारों तक पहुंच सके और जागरूकता फैले।",
     tier4_label: "डीएमवी विस्तार", tier4_desc: "हमें यह कार्यक्रम डीएमवी क्षेत्र की अधिक असिस्टेड लिविंग और रिटायरमेंट समुदायों तक ले जाने में मदद करता है।",
     donate_btn: "अभी दान करें →",
+    volunteer_btn: "हमारे साथ स्वयंसेवा करें →",
     camp_title: "पूरे डीएमवी क्षेत्र में हमें बढ़ने में मदद करें", camp_desc: "हमारा मौजूदा लक्ष्य और अधिक रिटायरमेंट तथा असिस्टेड लिविंग समुदायों में नियमित कला वर्कशॉप पहुंचाना है, साथ ही निवासी कला से अनुमति-आधारित चित्र पुस्तकें बनाने की प्रणाली को मजबूत करना है।", camp_desc2: "हम सामग्री, अनुकूलित उपकरण, स्वयंसेवक समन्वय और सामुदायिक पहुंच के लिए समर्थन जुटा रहे हैं ताकि यह एक भरोसेमंद कार्यक्रम बन सके और बुजुर्गों में शुरुआती संज्ञानात्मक गिरावट के बारे में जागरूकता भी फैले।", camp_btn: "अभियान का समर्थन करें →", camp_raised: "समुदाय से शुरुआती गति", camp_goal: "लक्ष्य: डीएमवी में टिकाऊ विकास", camp_breakdown: "मुख्य क्षेत्र: सामग्री · सुलभता · चित्र पुस्तकें · वर्कशॉप विस्तार",
     events_tag: "इवेंट्स",
     events_title: "देखें आगे क्या आने वाला है और हमने अब तक क्या साझा किया है",
     events_sub: "हमारा आने वाला कैलेंडर देखें, वर्तमान फंडरेज़र पर नज़र रखें और उन सामुदायिक पलों को जानें जिन्होंने The Rare Archive को आकार दिया।",
     events_tab_upcoming: "आने वाले इवेंट्स", events_tab_fundraisers: "वर्तमान फंडरेज़र", events_tab_past: "पिछले इवेंट्स",
-    events_upcoming_title: "आने वाले इवेंट्स", events_upcoming_note: "अभी हमारे पास सामान्य आने वाले इवेंट्स नहीं हैं। फिलहाल केवल 7 जून 2026 को हमारे थ्रिफ्टबुक्स फंडरेज़र की समाप्ति तिथि तय है।",
-    events_upcoming_card_title: "इसमें क्या शामिल है", events_upcoming_card_desc: "फिलहाल यह भाग मुख्य रूप से हमारे वर्तमान फंडरेज़र से जुड़ी महत्वपूर्ण तारीखें और भविष्य में घोषित होने वाले सार्वजनिक इवेंट्स साझा करने के लिए है।",
+    events_upcoming_title: "आने वाले इवेंट्स", events_upcoming_note: "हमारा मुख्य नियमित आगामी इवेंट Lansdowne में हर आने वाले महीने के तीसरे शनिवार को 1:00 PM पर स्वयंसेवा करना है।",
+    events_upcoming_card_title: "कैलेंडर का उपयोग कैसे करें", events_upcoming_card_desc: "इस भाग का उपयोग हमारे नियमित स्वयंसेवी कार्यक्रम को ट्रैक करने के लिए करें। फिलहाल निश्चित आगामी इवेंट Lansdowne की हमारी यात्रा है, जो हर आने वाले महीने के तीसरे शनिवार को 1:00 PM पर होती है।",
     events_calendar_title: "जून 2026", events_calendar_pill: "फंडरेज़र समाप्ति",
     cal_sun: "रवि", cal_mon: "सोम", cal_tue: "मंगल", cal_wed: "बुध", cal_thu: "गुरु", cal_fri: "शुक्र", cal_sat: "शनि",
     events_marker_1: "समाप्ति", events_marker_2: "शुरुआत", events_marker_3: "पॉप-अप",
     events_list_title: "पुष्ट तारीख",
-    events_date_1: "7 जून 2026", events_desc_1: "हमारा थ्रिफ्टबुक्स फंडरेज़र 7 जून 2026 को समाप्त होता है। अभी के लिए यही एक पुष्ट तारीख है।",
-    events_date_2: "7 जून के बाद", events_desc_2: "फंडरेज़र की समाप्ति तिथि के बाद फिलहाल कोई वर्कशॉप, पॉप-अप या सामुदायिक इवेंट तय नहीं किया गया है।",
+    events_date_1: "हर आने वाले महीने का तीसरा शनिवार · 1:00 PM", events_desc_1: "हम हर आने वाले महीने के तीसरे शनिवार को 1:00 PM पर Lansdowne में स्वयंसेवा करते हैं। यही इस समय हमारी वेबसाइट पर सूचीबद्ध मुख्य आगामी इवेंट है।",
+    events_date_2: "स्थान", events_desc_2: "Lansdowne इस समय हमारी वेबसाइट पर सूचीबद्ध नियमित आगामी इवेंट का स्थान है।",
     events_date_3: "अगले अपडेट", events_desc_3: "जैसे ही हम अपनी पहली सार्वजनिक वर्कशॉप या इवेंट की तारीख घोषित करेंगे, उसे यहां जोड़ देंगे।",
     calendar_popup_event_title: "थ्रिफ्टबुक्स फंडरेज़र समाप्त होता है",
     calendar_popup_event_body: "7 जून 2026 हमारे थ्रिफ्टबुक्स फंडरेज़र का आखिरी दिन है। हमारा लक्ष्य 50 बंडल, प्रत्येक $40 में बेचकर $2,000 जुटाना है, ताकि छोटे कला वर्कशॉप, सामग्री और भविष्य के विस्तार का समर्थन हो सके।",
@@ -3541,10 +3551,10 @@ const translationOverrides = {
     gal5: "मौसमी क्राफ्ट सत्र", gal6: "पोर्ट्रेट और स्मृति परियोजना", gal7: "सामुदायिक कला प्रदर्शन",
     impact_tag: "हमारा प्रभाव", impact_title: "शुरुआती गति, स्पष्ट उद्देश्य के साथ।",
     impact_sub: "The Rare Archive अभी शुरुआती चरण में है, लेकिन अब तक की प्रतिक्रिया दिखाती है कि यह मिशन लोगों तक कितनी गहराई से पहुंच रहा है।",
-    stat1_num: "3,000+", stat1_label: "सोशल मीडिया व्यूज़",
-    stat2_num: "330", stat2_label: "फॉलोअर्स तक पहुंच",
-    stat3_num: "2", stat3_label: "स्कूल साझेदारियां",
-    stat4_num: "डीएमवी", stat4_label: "जिस क्षेत्र में हम बढ़ रहे हैं",
+    stat1_num: "3", stat1_label: "जिन नर्सिंग होम्स से हम जुड़े",
+    stat2_num: "20", stat2_label: "जिन निवासियों से हम जुड़े",
+    stat3_num: "5,000+", stat3_label: "सोशल मीडिया व्यूज़",
+    stat4_num: "350", stat4_label: "हमारे संगठन द्वारा दिए गए घंटे",
     t1_quote: "\"कई वरिष्ठ कई दिनों तक बिना किसी सार्थक बातचीत के रहते हैं। हम चाहते हैं कि हमारी वर्कशॉप कला, देखभाल और मानवीय जुड़ाव के जरिए उस अलगाव को तोड़े।\"",
     t1_author: "— वह समस्या जिसका हम जवाब दे रहे हैं",
     t2_quote: "\"हमारे सत्र इस तरह बनाए गए हैं कि बुजुर्ग शांत, रचनात्मक और देखे गए महसूस करें, साथ ही उनका भावनात्मक स्वास्थ्य और संज्ञानात्मक भागीदारी भी मजबूत हो।\"",
@@ -3815,7 +3825,31 @@ const calendarState = {
 };
 
 const calendarEvents = {
-  '2026-06-07': 'fundraiser-end'
+  '2026-04-11': {
+    label: 'Workshop',
+    title: 'Beach Memories at Tribute @ One Loudoun',
+    body: 'On April 11, 2026, from 12:00 PM to 1:30 PM, residents and student volunteers painted beach scenes together at Tribute @ One Loudoun. The activity invited seniors to reflect on favorite shorelines, family vacations, and peaceful moments by the water while building warm intergenerational conversation through art.'
+  },
+  '2026-04-12': {
+    label: 'Workshop',
+    title: 'Floral Storytelling at Tribute @ One Loudoun',
+    body: 'On April 12, 2026, from 10:00 AM to 11:30 AM, residents painted tulips and roses while talking with volunteers about gardens, family traditions, and meaningful stories from different chapters of life. The workshop was designed to foster intergenerational connection through calm creativity and shared conversation.'
+  },
+  '2026-04-18': {
+    label: 'Workshop',
+    title: 'Turtles by the Sea at Lansdowne Heights',
+    body: 'On April 18, 2026, from 1:00 PM to 2:30 PM, residents at Lansdowne Heights created turtle-by-the-sea paintings while sharing personal beach memories and moments of joy connected to the coast. The session encouraged each participant to incorporate pieces of their own story into the artwork.'
+  },
+  '2026-04-19': {
+    label: 'Workshop',
+    title: 'Animal-Themed Connection at Lansdowne Heights',
+    body: 'On April 19, 2026, from 1:00 PM to 2:30 PM, we hosted a playful animal-themed workshop at Lansdowne Heights. The activity was designed to help seniors connect more easily with student volunteers through imagination, storytelling, laughter, and colorful art-making.'
+  },
+  '2026-06-07': {
+    label: 'Ends',
+    title: 'ThriftBooks Fundraiser Ends',
+    body: 'June 7, 2026 is the final day of our ThriftBooks fundraiser. Our goal is to raise $2,000 by selling 50 bundles at $40 each to support mini art workshops, supplies, and future expansion for elderly residents in Ashburn-area retirement and assisted living communities.'
+  }
 };
 
 function formatCalendarISO(date) {
@@ -3843,7 +3877,6 @@ function formatCalendarDate(date, options = {}) {
 function renderCalendar() {
   if (!calendarGrid || !calendarMonthLabel) return;
 
-  const t = translations[currentLang] || translations.en;
   const monthStart = new Date(calendarState.currentMonth.getFullYear(), calendarState.currentMonth.getMonth(), 1, 12);
   const firstVisible = new Date(monthStart);
   firstVisible.setDate(firstVisible.getDate() - firstVisible.getDay());
@@ -3862,12 +3895,12 @@ function renderCalendar() {
     const date = new Date(firstVisible);
     date.setDate(firstVisible.getDate() + index);
     const isoDate = formatCalendarISO(date);
-    const eventType = calendarEvents[isoDate] || '';
+    const eventDetails = calendarEvents[isoDate];
     const isMuted = date.getMonth() !== monthStart.getMonth();
     const classes = ['calendar-day'];
 
     if (isMuted) classes.push('muted');
-    if (eventType) classes.push('event-day');
+    if (eventDetails) classes.push('event-day');
     if (isSameDate(date, today)) classes.push('today');
     if (isSameDate(date, calendarState.selectedDate)) classes.push('selected');
 
@@ -3877,36 +3910,53 @@ function renderCalendar() {
         type="button"
         data-calendar-date="${formatCalendarDate(date, { month: 'long', day: 'numeric', year: 'numeric' })}"
         data-calendar-iso="${isoDate}"
-        ${eventType ? `data-calendar-event="${eventType}"` : ''}
+        ${eventDetails ? 'data-calendar-event="true"' : ''}
       >
         <span>${date.getDate()}</span>
-        ${eventType ? `<span class="calendar-marker"></span><span class="calendar-event-label">${t.events_marker_1 || 'Ends'}</span>` : ''}
+        ${eventDetails ? `<span class="calendar-marker"></span><span class="calendar-event-label">${eventDetails.label}</span>` : ''}
       </button>
     `);
   }
 
   calendarGrid.innerHTML = `${dayNames.join('')}${dayButtons.join('')}`;
+
+  if (calendarModal && calendarModal.classList.contains('open')) {
+    const activeButton = getCalendarButton(formatCalendarISO(calendarState.selectedDate));
+    if (activeButton) {
+      requestAnimationFrame(() => openCalendarModal(activeButton));
+    } else {
+      closeCalendarModal();
+    }
+  }
+}
+
+function getCalendarButton(isoDate) {
+  if (!calendarGrid || !isoDate) return null;
+  return calendarGrid.querySelector(`.calendar-day[data-calendar-iso="${isoDate}"]`);
 }
 
 function closeCalendarModal() {
   if (!calendarModal) return;
   calendarModal.classList.remove('open');
+  calendarModal.classList.remove('below');
   calendarModal.setAttribute('aria-hidden', 'true');
   calendarModal.style.top = '';
   calendarModal.style.left = '';
+  calendarModal.style.setProperty('--calendar-modal-arrow-left', '28px');
 }
 
 function openCalendarModal(button) {
   if (!calendarModal || !button) return;
   const t = translations[currentLang] || translations.en;
-  const eventType = button.getAttribute('data-calendar-event');
+  const isoDate = button.getAttribute('data-calendar-iso');
   const dateText = button.getAttribute('data-calendar-date') || '';
   const rect = button.getBoundingClientRect();
+  const eventDetails = isoDate ? calendarEvents[isoDate] : null;
 
   calendarModalDate.textContent = dateText;
-  if (eventType === 'fundraiser-end') {
-    calendarModalTitle.textContent = t.calendar_popup_event_title;
-    calendarModalBody.textContent = t.calendar_popup_event_body;
+  if (eventDetails) {
+    calendarModalTitle.textContent = eventDetails.title;
+    calendarModalBody.textContent = eventDetails.body;
   } else {
     calendarModalTitle.textContent = t.calendar_popup_empty_title;
     calendarModalBody.textContent = t.calendar_popup_empty_body;
@@ -3918,17 +3968,26 @@ function openCalendarModal(button) {
   const modalRect = calendarModal.getBoundingClientRect();
   const bubbleWidth = Math.min(modalRect.width || 340, window.innerWidth - 24);
   const bubbleHeight = modalRect.height || 200;
-  const top = Math.min(
-    window.innerHeight - bubbleHeight - 16,
-    Math.max(16, rect.top - bubbleHeight - 14)
-  );
+  const triggerCenter = rect.left + (rect.width / 2);
+  const spaceAbove = rect.top - 16;
+  const spaceBelow = window.innerHeight - rect.bottom - 16;
+  const placeBelow = spaceAbove < bubbleHeight + 14 && spaceBelow > spaceAbove;
+  const top = placeBelow
+    ? Math.min(window.innerHeight - bubbleHeight - 16, rect.bottom + 14)
+    : Math.min(window.innerHeight - bubbleHeight - 16, Math.max(16, rect.top - bubbleHeight - 14));
   const left = Math.min(
     window.innerWidth - bubbleWidth - 12,
-    Math.max(12, rect.left + (rect.width / 2) - (bubbleWidth / 2))
+    Math.max(12, triggerCenter - (bubbleWidth / 2))
+  );
+  const arrowLeft = Math.min(
+    bubbleWidth - 38,
+    Math.max(18, triggerCenter - left - 10)
   );
 
+  calendarModal.classList.toggle('below', placeBelow);
   calendarModal.style.top = `${top}px`;
   calendarModal.style.left = `${left}px`;
+  calendarModal.style.setProperty('--calendar-modal-arrow-left', `${arrowLeft}px`);
 }
 
 if (calendarPrevBtn) {
@@ -3957,9 +4016,21 @@ if (calendarGrid) {
       renderCalendar();
     }
 
-    openCalendarModal(button);
+    openCalendarModal(getCalendarButton(isoDate) || button);
   });
 }
+
+window.addEventListener('resize', () => {
+  if (!calendarModal || !calendarModal.classList.contains('open')) return;
+  const activeButton = getCalendarButton(formatCalendarISO(calendarState.selectedDate));
+  if (activeButton) openCalendarModal(activeButton);
+});
+
+window.addEventListener('scroll', () => {
+  if (!calendarModal || !calendarModal.classList.contains('open')) return;
+  const activeButton = getCalendarButton(formatCalendarISO(calendarState.selectedDate));
+  if (activeButton) openCalendarModal(activeButton);
+}, { passive: true });
 
 if (calendarModal && calendarModalClose) {
   calendarModalClose.addEventListener('click', closeCalendarModal);
