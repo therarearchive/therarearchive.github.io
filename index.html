@@ -1474,6 +1474,11 @@
       overflow: hidden;
       position: relative;
       cursor: pointer;
+      background: #ead7e0;
+    }
+    .gallery-item:focus-visible {
+      outline: 3px solid rgba(159, 109, 130, 0.7);
+      outline-offset: 4px;
     }
     .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
     .gallery-item:nth-child(5) { grid-column: span 2; }
@@ -1482,6 +1487,34 @@
       transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
     }
     .gallery-item:hover .gallery-img { transform: scale(1.06); }
+    .gallery-item.portrait .gallery-img {
+      object-fit: contain;
+      object-position: center;
+      padding: 12px;
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.45), transparent 50%),
+        linear-gradient(160deg, #f4e5ec, #e7d2dc);
+    }
+    .gallery-item.portrait:hover .gallery-img {
+      transform: scale(1.03);
+    }
+    .gallery-date-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--purple-deep);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      box-shadow: 0 8px 18px rgba(80, 52, 67, 0.14);
+      backdrop-filter: blur(8px);
+    }
     .gallery-overlay {
       position: absolute;
       inset: 0;
@@ -1498,15 +1531,123 @@
       font-size: 0.85rem;
       font-weight: 500;
     }
-
-    /* gallery placeholder colors */
-    .gal-1 { background: linear-gradient(135deg, #c8b8f0, #a88de0); }
-    .gal-2 { background: linear-gradient(135deg, #d4c9f4, #b89ee8); }
-    .gal-3 { background: linear-gradient(135deg, #e0d6f8, #c4b0ec); }
-    .gal-4 { background: linear-gradient(135deg, #b8a4e0, #9070cc); }
-    .gal-5 { background: linear-gradient(135deg, #ecdff8, #d4c0f0); }
-    .gal-6 { background: linear-gradient(135deg, #a890d8, #7a58c0); }
-    .gal-7 { background: linear-gradient(135deg, #d8d0f0, #bcaae4); }
+    body.gallery-lightbox-open {
+      overflow: hidden;
+    }
+    .gallery-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 1400;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      background: rgba(40, 24, 32, 0.7);
+      backdrop-filter: blur(12px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity var(--transition), visibility var(--transition);
+    }
+    .gallery-lightbox.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    .gallery-lightbox-dialog {
+      position: relative;
+      width: min(1080px, 100%);
+      max-height: calc(100vh - 56px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+      background: rgba(255, 252, 253, 0.96);
+      border: 1px solid rgba(184, 135, 152, 0.18);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(44, 25, 35, 0.3);
+      transform: translateY(18px) scale(0.985);
+      transition: transform var(--transition);
+    }
+    .gallery-lightbox.open .gallery-lightbox-dialog {
+      transform: translateY(0) scale(1);
+    }
+    .gallery-lightbox-dialog.is-portrait {
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+    }
+    .gallery-lightbox-media {
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.55), transparent 48%),
+        linear-gradient(160deg, #f4e5ec, #ecd7e1);
+      min-height: 0;
+    }
+    .gallery-lightbox-media img {
+      width: 100%;
+      height: 100%;
+      max-height: calc(100vh - 56px);
+      object-fit: contain;
+    }
+    .gallery-lightbox-dialog.is-portrait .gallery-lightbox-media {
+      padding: 18px 8px 18px 18px;
+    }
+    .gallery-lightbox-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 16px;
+      padding: 34px 30px 30px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(248,231,238,0.96));
+    }
+    .gallery-lightbox-tag {
+      display: inline-flex;
+      align-self: flex-start;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(159, 109, 130, 0.12);
+      color: var(--purple-deep);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .gallery-lightbox-copy p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text-dark);
+    }
+    .gallery-lightbox-copy h4 {
+      font-size: clamp(1.4rem, 2.6vw, 2rem);
+      color: var(--text-dark);
+      line-height: 1.25;
+    }
+    .gallery-lightbox-event {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      letter-spacing: 0.02em;
+    }
+    .gallery-lightbox-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 2;
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.88);
+      color: var(--purple-deep);
+      font-size: 1.7rem;
+      line-height: 1;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(80, 52, 67, 0.14);
+      transition: transform var(--transition), background var(--transition);
+    }
+    .gallery-lightbox-close:hover,
+    .gallery-lightbox-close:focus-visible {
+      transform: scale(1.06);
+      background: #fff;
+      outline: none;
+    }
 
     /* ============================================================
        IMPACT
@@ -1801,6 +1942,34 @@
       .gallery-grid { grid-template-columns: 1fr 1fr; }
       .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
       .gallery-item:nth-child(5) { grid-column: span 1; }
+      .gallery-lightbox {
+        padding: 18px;
+      }
+      .gallery-lightbox-dialog {
+        grid-template-columns: 1fr;
+        max-height: calc(100vh - 36px);
+      }
+      .gallery-lightbox-dialog.is-portrait {
+        grid-template-columns: 1fr;
+      }
+      .gallery-lightbox-media {
+        max-height: 62vh;
+      }
+      .gallery-lightbox-media img {
+        max-height: 62vh;
+      }
+      .gallery-lightbox-copy {
+        padding: 24px 22px 24px;
+      }
+      .gallery-date-badge {
+        top: 10px;
+        left: 10px;
+        padding: 6px 10px;
+        font-size: 0.66rem;
+      }
+      .gallery-item.portrait .gallery-img {
+        padding: 10px;
+      }
       .steps-row { flex-direction: column; }
       .steps-row::before { display: none; }
       .lang-toggle { width: 108px; flex-basis: 108px; }
@@ -1816,6 +1985,30 @@
       .form-row { grid-template-columns: 1fr; }
       .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 200px; }
       .gallery-item:nth-child(1) { grid-column: span 1; }
+      .gallery-lightbox {
+        padding: 12px;
+      }
+      .gallery-lightbox-dialog {
+        border-radius: 22px;
+        max-height: calc(100vh - 24px);
+      }
+      .gallery-lightbox-media,
+      .gallery-lightbox-media img {
+        max-height: 54vh;
+      }
+      .gallery-lightbox-copy p {
+        font-size: 0.94rem;
+        line-height: 1.7;
+      }
+      .gallery-lightbox-copy h4 {
+        font-size: 1.25rem;
+      }
+      .gallery-lightbox-close {
+        top: 12px;
+        right: 12px;
+        width: 38px;
+        height: 38px;
+      }
       .fundraiser-card { padding: 32px 24px; }
       .events-segment,
       .events-fundraiser-card { padding: 32px 24px; }
@@ -2458,33 +2651,50 @@
     <p class="section-sub fade-in fade-in-delay-2" data-i18n="gallery_sub">A glimpse into the art, the connection, and the stories that live inside The Rare Archive.</p>
 
     <div class="gallery-grid fade-in">
-      <div class="gallery-item">
-        <div class="gallery-img gal-1" style="width:100%;height:100%;"></div>
-        <div class="gallery-overlay"><span data-i18n="gal1">Watercolor session, Spring 2024</span></div>
+      <div class="gallery-item portrait" data-event-key="2026-04-19" data-date-label="April 19, 2026">
+        <span class="gallery-date-badge">April 19, 2026</span>
+        <img class="gallery-img" src="workshop-photos/workshop-01.png" alt="Resident smiling and holding up her finished animal-themed painting.">
+        <div class="gallery-overlay"><span>Proud artist sharing her finished workshop canvas</span></div>
       </div>
-      <div class="gallery-item">
-        <div class="gallery-img gal-2" style="width:100%;height:100%;"></div>
-        <div class="gallery-overlay"><span data-i18n="gal2">Margaret's story illustration</span></div>
+      <div class="gallery-item" data-event-key="2026-04-19" data-date-label="April 19, 2026">
+        <span class="gallery-date-badge">April 19, 2026</span>
+        <img class="gallery-img" src="workshop-photos/workshop-02.png" alt="Workshop table with palettes, rinsing cups, and paintings in progress.">
+        <div class="gallery-overlay"><span>Brushes, palettes, and process shots from the animal workshop</span></div>
       </div>
-      <div class="gallery-item">
-        <div class="gallery-img gal-3" style="width:100%;height:100%;"></div>
-        <div class="gallery-overlay"><span data-i18n="gal3">Reading the finished Archive book</span></div>
+      <div class="gallery-item" data-event-key="2026-04-19" data-date-label="April 19, 2026">
+        <span class="gallery-date-badge">April 19, 2026</span>
+        <img class="gallery-img" src="workshop-photos/workshop-12.png" alt="Paint station viewed from above during a group workshop.">
+        <div class="gallery-overlay"><span>The table set before each resident added their own idea to the page</span></div>
       </div>
-      <div class="gallery-item">
-        <div class="gallery-img gal-4" style="width:100%;height:100%;"></div>
-        <div class="gallery-overlay"><span data-i18n="gal4">Student artist at work</span></div>
+      <div class="gallery-item" data-event-key="2026-04-19" data-date-label="April 19, 2026">
+        <span class="gallery-date-badge">April 19, 2026</span>
+        <img class="gallery-img" src="workshop-photos/workshop-13.png" alt="Student volunteer standing beside residents during a painting workshop.">
+        <div class="gallery-overlay"><span>Student volunteers guiding the session step by step</span></div>
       </div>
-      <div class="gallery-item">
-        <div class="gallery-img gal-5" style="width:100%;height:100%;"></div>
-        <div class="gallery-overlay"><span data-i18n="gal5">Collage afternoon, Fall 2024</span></div>
+      <div class="gallery-item portrait" data-event-key="2026-04-19" data-date-label="April 19, 2026">
+        <span class="gallery-date-badge">April 19, 2026</span>
+        <img class="gallery-img" src="workshop-photos/workshop-03.png" alt="Two people smiling and holding a finished painting together.">
+        <div class="gallery-overlay"><span>A joyful post-workshop portrait with a finished animal painting</span></div>
       </div>
-      <div class="gallery-item">
-        <div class="gallery-img gal-6" style="width:100%;height:100%;"></div>
-        <div class="gallery-overlay"><span data-i18n="gal6">Henry's portrait series</span></div>
+      <div class="gallery-item portrait" data-event-key="2026-04-18" data-date-label="April 18, 2026">
+        <span class="gallery-date-badge">April 18, 2026</span>
+        <img class="gallery-img" src="workshop-photos/workshop-04.png" alt="Canvas painting of sea turtles on a beach.">
+        <div class="gallery-overlay"><span>One resident's turtle-by-the-sea canvas from the beach-themed workshop</span></div>
       </div>
-      <div class="gallery-item">
-        <div class="gallery-img gal-7" style="width:100%;height:100%;"></div>
-        <div class="gallery-overlay"><span data-i18n="gal7">Book gifting ceremony</span></div>
+      <div class="gallery-item portrait" data-event-key="2026-04-11" data-date-label="April 11, 2026">
+        <span class="gallery-date-badge">April 11, 2026</span>
+        <img class="gallery-img" src="workshop-photos/workshop-08.png" alt="Canvas with ocean, beach, starfish, and figures painted by a resident.">
+        <div class="gallery-overlay"><span>A playful shoreline scene showing how personal each interpretation became</span></div>
+      </div>
+      <div class="gallery-item portrait" data-event-key="2026-04-11" data-date-label="April 11, 2026">
+        <span class="gallery-date-badge">April 11, 2026</span>
+        <img class="gallery-img" src="workshop-photos/workshop-09.png" alt="Canvas of a beach with three starfish and figures drawn in black.">
+        <div class="gallery-overlay"><span>Beach memories translated into bright color and simple storytelling</span></div>
+      </div>
+      <div class="gallery-item portrait" data-event-key="2026-04-19" data-date-label="April 19, 2026">
+        <span class="gallery-date-badge">April 19, 2026</span>
+        <img class="gallery-img" src="workshop-photos/workshop-15.png" alt="Finished animal-themed painting featuring a bear-like character and flower.">
+        <div class="gallery-overlay"><span>Another finished animal painting from the April 19, 2026 session</span></div>
       </div>
     </div>
   </div>
@@ -2616,6 +2826,21 @@
     <p style="font-size:0.72rem;opacity:0.58;grid-column:1/-1;margin-top:8px;" data-i18n="footer_auto_translate">Simplified Mandarin, French, and Hindi translations on this site are auto translated.</p>
   </div>
 </footer>
+
+<div class="gallery-lightbox" id="galleryLightbox" aria-hidden="true">
+  <div class="gallery-lightbox-dialog" role="dialog" aria-modal="true" aria-labelledby="galleryLightboxTitle">
+    <button class="gallery-lightbox-close" id="galleryLightboxClose" type="button" aria-label="Close image">×</button>
+    <div class="gallery-lightbox-media">
+      <img id="galleryLightboxImage" src="" alt="">
+    </div>
+    <div class="gallery-lightbox-copy">
+      <span class="gallery-lightbox-tag" id="galleryLightboxDate">Workshop Gallery</span>
+      <h4 id="galleryLightboxTitle"></h4>
+      <span class="gallery-lightbox-event" id="galleryLightboxEvent"></span>
+      <p id="galleryLightboxCaption"></p>
+    </div>
+  </div>
+</div>
 
 <div class="calendar-modal" id="calendarModal" aria-hidden="true">
   <div class="calendar-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="calendarModalTitle">
@@ -3759,6 +3984,104 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.12 });
 faders.forEach(f => observer.observe(f));
+
+/* ============================================================
+   GALLERY LIGHTBOX
+============================================================ */
+const galleryLightbox = document.getElementById('galleryLightbox');
+const galleryLightboxImage = document.getElementById('galleryLightboxImage');
+const galleryLightboxDate = document.getElementById('galleryLightboxDate');
+const galleryLightboxTitle = document.getElementById('galleryLightboxTitle');
+const galleryLightboxEvent = document.getElementById('galleryLightboxEvent');
+const galleryLightboxCaption = document.getElementById('galleryLightboxCaption');
+const galleryLightboxClose = document.getElementById('galleryLightboxClose');
+const galleryLightboxDialog = document.querySelector('.gallery-lightbox-dialog');
+const galleryItems = document.querySelectorAll('#gallery .gallery-item');
+let galleryActiveTrigger = null;
+
+function openGalleryLightbox(item) {
+  if (!galleryLightbox || !galleryLightboxImage || !galleryLightboxCaption || !galleryLightboxTitle || !galleryLightboxDate || !galleryLightboxEvent) return;
+
+  const image = item.querySelector('.gallery-img');
+  const caption = item.querySelector('.gallery-overlay span');
+  if (!image) return;
+
+  const eventKey = item.getAttribute('data-event-key');
+  const dateLabel = item.getAttribute('data-date-label') || 'Workshop Gallery';
+  const eventDetails = eventKey && typeof calendarEvents !== 'undefined' ? calendarEvents[eventKey] : null;
+  const imageTitle = caption ? caption.textContent.trim() : image.getAttribute('alt') || '';
+
+  galleryActiveTrigger = item;
+  galleryLightboxImage.src = image.getAttribute('src') || '';
+  galleryLightboxImage.alt = image.getAttribute('alt') || '';
+  galleryLightboxDate.textContent = dateLabel;
+  galleryLightboxTitle.textContent = imageTitle;
+  galleryLightboxEvent.textContent = eventDetails ? eventDetails.title : '';
+  galleryLightboxEvent.style.display = eventDetails ? 'inline' : 'none';
+  galleryLightboxCaption.textContent = eventDetails ? eventDetails.body : imageTitle;
+  if (galleryLightboxDialog) {
+    galleryLightboxDialog.classList.toggle('is-portrait', item.classList.contains('portrait'));
+  }
+
+  galleryLightbox.classList.add('open');
+  galleryLightbox.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('gallery-lightbox-open');
+
+  if (galleryLightboxClose) {
+    galleryLightboxClose.focus();
+  }
+}
+
+function closeGalleryLightbox() {
+  if (!galleryLightbox) return;
+
+  galleryLightbox.classList.remove('open');
+  galleryLightbox.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('gallery-lightbox-open');
+  if (galleryLightboxDialog) {
+    galleryLightboxDialog.classList.remove('is-portrait');
+  }
+
+  if (galleryActiveTrigger) {
+    galleryActiveTrigger.focus();
+  }
+}
+
+galleryItems.forEach(item => {
+  const image = item.querySelector('.gallery-img');
+  const caption = item.querySelector('.gallery-overlay span');
+  const baseLabel = caption ? caption.textContent.trim() : (image ? image.getAttribute('alt') : 'Open image');
+  const dateLabel = item.getAttribute('data-date-label');
+  const accessibleLabel = dateLabel ? `${baseLabel}, ${dateLabel}` : baseLabel;
+
+  item.setAttribute('tabindex', '0');
+  item.setAttribute('role', 'button');
+  item.setAttribute('aria-haspopup', 'dialog');
+  item.setAttribute('aria-label', accessibleLabel || 'Open image');
+
+  item.addEventListener('click', () => openGalleryLightbox(item));
+  item.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      openGalleryLightbox(item);
+    }
+  });
+});
+
+if (galleryLightbox && galleryLightboxClose) {
+  galleryLightboxClose.addEventListener('click', closeGalleryLightbox);
+  galleryLightbox.addEventListener('click', event => {
+    if (!event.target.closest('.gallery-lightbox-dialog')) {
+      closeGalleryLightbox();
+    }
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && galleryLightbox.classList.contains('open')) {
+      closeGalleryLightbox();
+    }
+  });
+}
 
 /* ============================================================
    SUPPORT TABS
