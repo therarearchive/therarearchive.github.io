@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="./" />
   <title>The Rare Archive</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Poppins:wght@300;400;500;600&display=swap');
@@ -1461,13 +1462,33 @@
     /* ============================================================
        GALLERY
     ============================================================ */
-    #gallery { background: var(--white); }
+    #gallery { background: var(--white); overflow: hidden; }
     .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-auto-rows: 220px;
+      --gallery-unit: clamp(152px, 15vw, 212px);
+      grid-auto-flow: column dense;
+      grid-auto-columns: var(--gallery-unit);
+      grid-template-rows: repeat(3, var(--gallery-unit));
       gap: 16px;
       margin-top: 56px;
+      padding: 8px 8px 20px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x proximity;
+      scroll-padding-left: 8px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(159, 109, 130, 0.42) rgba(159, 109, 130, 0.12);
+    }
+    .gallery-grid::-webkit-scrollbar {
+      height: 12px;
+    }
+    .gallery-grid::-webkit-scrollbar-track {
+      background: rgba(159, 109, 130, 0.12);
+      border-radius: 999px;
+    }
+    .gallery-grid::-webkit-scrollbar-thumb {
+      background: rgba(159, 109, 130, 0.42);
+      border-radius: 999px;
     }
     .gallery-item {
       border-radius: var(--radius-md);
@@ -1475,29 +1496,50 @@
       position: relative;
       cursor: pointer;
       background: #ead7e0;
+      border: 1px solid rgba(184, 135, 152, 0.18);
+      box-shadow: 0 14px 34px rgba(80, 52, 67, 0.12);
+      scroll-snap-align: start;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+    .gallery-item.tile-square {
+      grid-column: span 1;
+      grid-row: span 1;
+    }
+    .gallery-item.tile-wide {
+      grid-column: span 2;
+      grid-row: span 1;
+    }
+    .gallery-item.tile-tall {
+      grid-column: span 1;
+      grid-row: span 2;
+    }
+    .gallery-item.tile-hero {
+      grid-column: span 2;
+      grid-row: span 2;
     }
     .gallery-item:focus-visible {
       outline: 3px solid rgba(159, 109, 130, 0.7);
       outline-offset: 4px;
     }
-    .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
-    .gallery-item:nth-child(5) { grid-column: span 2; }
+    .gallery-item:hover {
+      transform: translateY(-8px);
+      border-color: rgba(159, 109, 130, 0.28);
+      box-shadow: 0 20px 40px rgba(80, 52, 67, 0.18);
+    }
     .gallery-img {
       width: 100%; height: 100%;
-      transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
-    }
-    .gallery-item:hover .gallery-img { transform: scale(1.06); }
-    .gallery-item.portrait .gallery-img {
       object-fit: contain;
       object-position: center;
-      padding: 12px;
+      padding: 10px;
+      border-radius: calc(var(--radius-md) - 6px);
+      transform-origin: 50% 50%;
+      will-change: transform;
       background:
-        radial-gradient(circle at top, rgba(255,255,255,0.45), transparent 50%),
+        radial-gradient(circle at top, rgba(255,255,255,0.5), transparent 50%),
         linear-gradient(160deg, #f4e5ec, #e7d2dc);
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
     }
-    .gallery-item.portrait:hover .gallery-img {
-      transform: scale(1.03);
-    }
+    .gallery-item:hover .gallery-img { transform: scale(1.03); }
     .gallery-date-badge {
       position: absolute;
       top: 14px;
@@ -1518,7 +1560,8 @@
     .gallery-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(92,63,160,0.55), transparent 60%);
+      background:
+        linear-gradient(to top, rgba(55, 34, 44, 0.82), rgba(92,63,160,0.14) 56%, rgba(255,255,255,0.02));
       opacity: 0;
       transition: opacity var(--transition);
       display: flex;
@@ -1530,6 +1573,7 @@
       color: #fff;
       font-size: 0.85rem;
       font-weight: 500;
+      line-height: 1.55;
     }
     body.gallery-lightbox-open {
       overflow: hidden;
@@ -1547,6 +1591,7 @@
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
+      overflow-y: auto;
       transition: opacity var(--transition), visibility var(--transition);
     }
     .gallery-lightbox.open {
@@ -1557,9 +1602,10 @@
     .gallery-lightbox-dialog {
       position: relative;
       width: min(1080px, 100%);
-      max-height: calc(100vh - 56px);
+      max-height: min(calc(100vh - 56px), 920px);
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+      grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+      grid-template-rows: minmax(0, 1fr);
       background: rgba(255, 252, 253, 0.96);
       border: 1px solid rgba(184, 135, 152, 0.18);
       border-radius: 28px;
@@ -1572,18 +1618,19 @@
       transform: translateY(0) scale(1);
     }
     .gallery-lightbox-dialog.is-portrait {
-      grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+      grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
     }
     .gallery-lightbox-media {
       background:
         radial-gradient(circle at top, rgba(255,255,255,0.55), transparent 48%),
         linear-gradient(160deg, #f4e5ec, #ecd7e1);
       min-height: 0;
+      display: flex;
     }
     .gallery-lightbox-media img {
       width: 100%;
       height: 100%;
-      max-height: calc(100vh - 56px);
+      max-height: none;
       object-fit: contain;
     }
     .gallery-lightbox-dialog.is-portrait .gallery-lightbox-media {
@@ -1592,10 +1639,26 @@
     .gallery-lightbox-copy {
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
+      justify-content: flex-start;
       gap: 16px;
-      padding: 34px 30px 30px;
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-gutter: stable;
+      padding: 34px 26px 30px 30px;
       background: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(248,231,238,0.96));
+    }
+    .gallery-lightbox-copy::-webkit-scrollbar {
+      width: 10px;
+    }
+    .gallery-lightbox-copy::-webkit-scrollbar-track {
+      background: rgba(159, 109, 130, 0.08);
+      border-radius: 999px;
+    }
+    .gallery-lightbox-copy::-webkit-scrollbar-thumb {
+      background: rgba(159, 109, 130, 0.32);
+      border-radius: 999px;
+      border: 2px solid rgba(255,255,255,0.84);
     }
     .gallery-lightbox-tag {
       display: inline-flex;
@@ -1613,11 +1676,13 @@
       font-size: 1rem;
       line-height: 1.8;
       color: var(--text-dark);
+      overflow-wrap: anywhere;
     }
     .gallery-lightbox-copy h4 {
       font-size: clamp(1.4rem, 2.6vw, 2rem);
       color: var(--text-dark);
       line-height: 1.25;
+      overflow-wrap: anywhere;
     }
     .gallery-lightbox-event {
       font-size: 0.88rem;
@@ -1939,36 +2004,36 @@
       .past-events-grid { grid-template-columns: 1fr 1fr; }
       .tiers-grid { grid-template-columns: 1fr 1fr; }
       .shop-grid { grid-template-columns: 1fr 1fr; }
-      .gallery-grid { grid-template-columns: 1fr 1fr; }
-      .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
-      .gallery-item:nth-child(5) { grid-column: span 1; }
+      .gallery-grid {
+        --gallery-unit: clamp(140px, 22vw, 188px);
+        grid-template-rows: repeat(2, var(--gallery-unit));
+      }
       .gallery-lightbox {
         padding: 18px;
       }
       .gallery-lightbox-dialog {
         grid-template-columns: 1fr;
+        grid-template-rows: minmax(0, 56vh) minmax(0, 1fr);
         max-height: calc(100vh - 36px);
       }
       .gallery-lightbox-dialog.is-portrait {
         grid-template-columns: 1fr;
+        grid-template-rows: minmax(0, 58vh) minmax(0, 1fr);
       }
       .gallery-lightbox-media {
-        max-height: 62vh;
+        max-height: none;
       }
       .gallery-lightbox-media img {
-        max-height: 62vh;
+        max-height: none;
       }
       .gallery-lightbox-copy {
-        padding: 24px 22px 24px;
+        padding: 24px 18px 24px 22px;
       }
       .gallery-date-badge {
         top: 10px;
         left: 10px;
         padding: 6px 10px;
         font-size: 0.66rem;
-      }
-      .gallery-item.portrait .gallery-img {
-        padding: 10px;
       }
       .steps-row { flex-direction: column; }
       .steps-row::before { display: none; }
@@ -1983,18 +2048,32 @@
       .shop-grid,
       .past-events-grid { grid-template-columns: 1fr; }
       .form-row { grid-template-columns: 1fr; }
-      .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 200px; }
-      .gallery-item:nth-child(1) { grid-column: span 1; }
+      .gallery-grid {
+        --gallery-unit: min(40vw, 172px);
+        grid-template-rows: repeat(2, var(--gallery-unit));
+      }
+      .gallery-item.tile-wide { grid-column: span 1; }
+      .gallery-item.tile-hero {
+        grid-column: span 1;
+        grid-row: span 2;
+      }
       .gallery-lightbox {
         padding: 12px;
       }
       .gallery-lightbox-dialog {
         border-radius: 22px;
         max-height: calc(100vh - 24px);
+        grid-template-rows: minmax(0, 46vh) minmax(0, 1fr);
+      }
+      .gallery-lightbox-dialog.is-portrait {
+        grid-template-rows: minmax(0, 50vh) minmax(0, 1fr);
       }
       .gallery-lightbox-media,
       .gallery-lightbox-media img {
-        max-height: 54vh;
+        max-height: none;
+      }
+      .gallery-lightbox-copy {
+        padding: 20px 14px 20px 20px;
       }
       .gallery-lightbox-copy p {
         font-size: 0.94rem;
@@ -2045,7 +2124,7 @@
   <div class="container">
     <div class="nav-inner">
       <a href="#home" class="nav-logo">
-        <img src="logo.png" alt="The Rare Archive Logo">
+        <img src="./logo.png" alt="The Rare Archive Logo">
         <span class="logo-text" data-i18n="brand_name">The <span>Rare</span> Archive</span>
       </a>
       <ul class="nav-links">
@@ -2651,51 +2730,81 @@
     <p class="section-sub fade-in fade-in-delay-2" data-i18n="gallery_sub">A glimpse into the art, the connection, and the stories that live inside The Rare Archive.</p>
 
     <div class="gallery-grid fade-in">
-      <div class="gallery-item portrait" data-event-key="2026-04-19" data-date-label="April 19, 2026">
-        <span class="gallery-date-badge">April 19, 2026</span>
-        <img class="gallery-img" src="workshop-photos/workshop-01.png" alt="Resident smiling and holding up her finished animal-themed painting.">
-        <div class="gallery-overlay"><span>Proud artist sharing her finished workshop canvas</span></div>
-      </div>
-      <div class="gallery-item" data-event-key="2026-04-19" data-date-label="April 19, 2026">
-        <span class="gallery-date-badge">April 19, 2026</span>
-        <img class="gallery-img" src="workshop-photos/workshop-02.png" alt="Workshop table with palettes, rinsing cups, and paintings in progress.">
-        <div class="gallery-overlay"><span>Brushes, palettes, and process shots from the animal workshop</span></div>
-      </div>
-      <div class="gallery-item" data-event-key="2026-04-19" data-date-label="April 19, 2026">
-        <span class="gallery-date-badge">April 19, 2026</span>
-        <img class="gallery-img" src="workshop-photos/workshop-12.png" alt="Paint station viewed from above during a group workshop.">
-        <div class="gallery-overlay"><span>The table set before each resident added their own idea to the page</span></div>
-      </div>
-      <div class="gallery-item" data-event-key="2026-04-19" data-date-label="April 19, 2026">
-        <span class="gallery-date-badge">April 19, 2026</span>
-        <img class="gallery-img" src="workshop-photos/workshop-13.png" alt="Student volunteer standing beside residents during a painting workshop.">
-        <div class="gallery-overlay"><span>Student volunteers guiding the session step by step</span></div>
-      </div>
-      <div class="gallery-item portrait" data-event-key="2026-04-19" data-date-label="April 19, 2026">
-        <span class="gallery-date-badge">April 19, 2026</span>
-        <img class="gallery-img" src="workshop-photos/workshop-03.png" alt="Two people smiling and holding a finished painting together.">
-        <div class="gallery-overlay"><span>A joyful post-workshop portrait with a finished animal painting</span></div>
-      </div>
-      <div class="gallery-item portrait" data-event-key="2026-04-18" data-date-label="April 18, 2026">
-        <span class="gallery-date-badge">April 18, 2026</span>
-        <img class="gallery-img" src="workshop-photos/workshop-04.png" alt="Canvas painting of sea turtles on a beach.">
-        <div class="gallery-overlay"><span>One resident's turtle-by-the-sea canvas from the beach-themed workshop</span></div>
-      </div>
-      <div class="gallery-item portrait" data-event-key="2026-04-11" data-date-label="April 11, 2026">
-        <span class="gallery-date-badge">April 11, 2026</span>
-        <img class="gallery-img" src="workshop-photos/workshop-08.png" alt="Canvas with ocean, beach, starfish, and figures painted by a resident.">
-        <div class="gallery-overlay"><span>A playful shoreline scene showing how personal each interpretation became</span></div>
-      </div>
-      <div class="gallery-item portrait" data-event-key="2026-04-11" data-date-label="April 11, 2026">
-        <span class="gallery-date-badge">April 11, 2026</span>
-        <img class="gallery-img" src="workshop-photos/workshop-09.png" alt="Canvas of a beach with three starfish and figures drawn in black.">
-        <div class="gallery-overlay"><span>Beach memories translated into bright color and simple storytelling</span></div>
-      </div>
-      <div class="gallery-item portrait" data-event-key="2026-04-19" data-date-label="April 19, 2026">
-        <span class="gallery-date-badge">April 19, 2026</span>
-        <img class="gallery-img" src="workshop-photos/workshop-15.png" alt="Finished animal-themed painting featuring a bear-like character and flower.">
-        <div class="gallery-overlay"><span>Another finished animal painting from the April 19, 2026 session</span></div>
-      </div>
+        <div class="gallery-item portrait tile-hero" data-event-key="2026-04-19" data-date-label="April 19, 2026">
+          <span class="gallery-date-badge">April 19, 2026</span>
+          <img class="gallery-img" src="./workshop-photos/workshop-01.png" alt="Resident smiling and holding up her finished animal-themed painting." loading="lazy">
+          <div class="gallery-overlay"><span>Resident sharing her finished animal-themed canvas from the April 19 Lansdowne Heights session</span></div>
+        </div>
+        <div class="gallery-item landscape tile-wide" data-event-key="2026-04-19" data-date-label="April 19, 2026">
+          <span class="gallery-date-badge">April 19, 2026</span>
+          <img class="gallery-img" src="./workshop-photos/workshop-13.png" alt="Student volunteer standing beside residents during a painting workshop." loading="lazy">
+          <div class="gallery-overlay"><span>Student volunteers guiding residents during the April 19 Lansdowne Heights workshop</span></div>
+        </div>
+        <div class="gallery-item portrait tile-tall" data-event-key="2026-04-11" data-date-label="April 11, 2026">
+          <span class="gallery-date-badge">April 11, 2026</span>
+          <img class="gallery-img" src="./workshop-photos/workshop-04.png" alt="Canvas painting of sea turtles on a beach." loading="lazy">
+          <div class="gallery-overlay"><span>Turtle-by-the-sea canvas from the April 11 Tribute @ One Loudoun session</span></div>
+        </div>
+        <div class="gallery-item portrait tile-square" data-event-key="2026-04-11" data-date-label="April 11, 2026">
+          <span class="gallery-date-badge">April 11, 2026</span>
+          <img class="gallery-img" src="./workshop-photos/workshop-05.png" alt="Canvas of a beach scene with waves, dunes, and grasses painted by a resident." loading="lazy">
+          <div class="gallery-overlay"><span>Beach-memory painting from the April 11 Tribute @ One Loudoun session</span></div>
+        </div>
+        <div class="gallery-item square tile-square" data-event-key="2026-04-19" data-date-label="April 19, 2026">
+          <span class="gallery-date-badge">April 19, 2026</span>
+          <img class="gallery-img" src="./workshop-photos/workshop-02.png" alt="Workshop table with palettes, rinsing cups, and paintings in progress." loading="lazy">
+          <div class="gallery-overlay"><span>Brushes, palettes, and paintings in progress during the April 19 animal workshop</span></div>
+        </div>
+        <div class="gallery-item portrait tile-hero" data-event-key="2026-04-19" data-date-label="April 19, 2026">
+          <span class="gallery-date-badge">April 19, 2026</span>
+          <img class="gallery-img" src="./workshop-photos/workshop-03.png" alt="Two people smiling and holding a finished painting together." loading="lazy">
+          <div class="gallery-overlay"><span>Joyful post-workshop portrait from the April 19 Lansdowne Heights session</span></div>
+        </div>
+        <div class="gallery-item portrait tile-tall" data-event-key="2026-04-18" data-date-label="April 18, 2026">
+          <span class="gallery-date-badge">April 18, 2026</span>
+          <img class="gallery-img" src="./workshop-photos/workshop-06.png" alt="Canvas showing a turtle moving along a sandy shoreline toward the water." loading="lazy">
+          <div class="gallery-overlay"><span>Another turtle shoreline painting from the April 18 Lansdowne Heights workshop</span></div>
+        </div>
+        <div class="gallery-item landscape tile-wide" data-event-key="2026-04-19" data-date-label="April 19, 2026">
+          <span class="gallery-date-badge">April 19, 2026</span>
+          <img class="gallery-img" src="./workshop-photos/workshop-12.png" alt="Paint station viewed from above during a group workshop." loading="lazy">
+          <div class="gallery-overlay"><span>Paint station viewed from above during the April 19 animal-themed session</span></div>
+        </div>
+        <div class="gallery-item portrait tile-square" data-event-key="2026-04-18" data-date-label="April 18, 2026">
+          <span class="gallery-date-badge">April 18, 2026</span>
+          <img class="gallery-img" src="./workshop-photos/workshop-08.png" alt="Canvas with ocean, beach, starfish, and figures painted by a resident." loading="lazy">
+          <div class="gallery-overlay"><span>Playful shoreline scene from the April 18 Lansdowne Heights workshop</span></div>
+        </div>
+        <div class="gallery-item landscape tile-wide" data-event-key="2026-04-19" data-date-label="April 19, 2026">
+          <span class="gallery-date-badge">April 19, 2026</span>
+          <img class="gallery-img" src="./workshop-photos/workshop-14.png" alt="Workshop table with several animal-themed paintings in progress." loading="lazy">
+          <div class="gallery-overlay"><span>Multiple animal paintings in progress across the April 19 workshop table</span></div>
+        </div>
+        <div class="gallery-item portrait tile-square" data-event-key="2026-04-19" data-date-label="April 19, 2026">
+          <span class="gallery-date-badge">April 19, 2026</span>
+          <img class="gallery-img" src="./workshop-photos/workshop-10.png" alt="Paint palette and brushes laid out across a workshop table." loading="lazy">
+          <div class="gallery-overlay"><span>Palette and brushes set out for the April 19 animal-themed workshop</span></div>
+        </div>
+        <div class="gallery-item portrait tile-tall" data-event-key="2026-04-18" data-date-label="April 18, 2026">
+          <span class="gallery-date-badge">April 18, 2026</span>
+          <img class="gallery-img" src="./workshop-photos/workshop-07.png" alt="Canvas featuring a turtle silhouette beside a bright blue shoreline." loading="lazy">
+          <div class="gallery-overlay"><span>Turtle silhouette and shoreline painting from the April 18 Lansdowne Heights session</span></div>
+        </div>
+        <div class="gallery-item portrait tile-tall" data-event-key="2026-04-18" data-date-label="April 18, 2026">
+          <span class="gallery-date-badge">April 18, 2026</span>
+          <img class="gallery-img" src="./workshop-photos/workshop-09.png" alt="Canvas of a beach with three starfish and figures drawn in black." loading="lazy">
+          <div class="gallery-overlay"><span>Beach memories from April 18 translated into bright color and simple storytelling</span></div>
+        </div>
+        <div class="gallery-item portrait tile-square" data-event-key="2026-04-19" data-date-label="April 19, 2026">
+          <span class="gallery-date-badge">April 19, 2026</span>
+          <img class="gallery-img" src="./workshop-photos/workshop-11.png" alt="Workshop table with brushes, palette, and an early sketch on canvas." loading="lazy">
+          <div class="gallery-overlay"><span>Early sketch materials prepared for the April 19 animal session at Lansdowne Heights</span></div>
+        </div>
+        <div class="gallery-item portrait tile-square" data-event-key="2026-04-19" data-date-label="April 19, 2026">
+          <span class="gallery-date-badge">April 19, 2026</span>
+          <img class="gallery-img" src="./workshop-photos/workshop-15.png" alt="Finished animal-themed painting featuring a bear-like character and flower." loading="lazy">
+          <div class="gallery-overlay"><span>Finished animal painting from the April 19 Lansdowne Heights workshop</span></div>
+        </div>
     </div>
   </div>
 </section>
@@ -2793,7 +2902,7 @@
   <div class="container">
     <div class="footer-content">
       <div class="footer-logo">
-        <img src="logo.png" alt="The Rare Archive Logo">
+        <img src="./logo.png" alt="The Rare Archive Logo">
         <div data-i18n="brand_name">The <span>Rare</span> Archive</div>
       </div>
       <p data-i18n="footer_tagline">Preserving stories. Bridging generations. One session at a time.</p>
@@ -2809,13 +2918,13 @@
         <span class="footer-social-label" data-i18n="footer_connect">Connect With Us</span>
         <div class="footer-social-icons">
           <a href="https://www.instagram.com/the_rare_archive?utm_source=ig_web_button_share_sheet&amp;igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Instagram">
-            <img src="insta.png" alt="Instagram">
+            <img src="./insta.png" alt="Instagram">
           </a>
           <a href="https://www.tiktok.com/@the.rare.archive?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="TikTok">
-            <img src="tiktok.png" alt="TikTok">
+            <img src="./tiktok.png" alt="TikTok">
           </a>
           <a href="https://x.com/therarearchive" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="X">
-            <img src="x.png" alt="X">
+            <img src="./x.png" alt="X">
           </a>
         </div>
       </div>
@@ -4012,7 +4121,7 @@ function openGalleryLightbox(item) {
   const imageTitle = caption ? caption.textContent.trim() : image.getAttribute('alt') || '';
 
   galleryActiveTrigger = item;
-  galleryLightboxImage.src = image.getAttribute('src') || '';
+  galleryLightboxImage.src = image.currentSrc || image.src || image.getAttribute('src') || '';
   galleryLightboxImage.alt = image.getAttribute('alt') || '';
   galleryLightboxDate.textContent = dateLabel;
   galleryLightboxTitle.textContent = imageTitle;
