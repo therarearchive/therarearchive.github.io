@@ -2600,11 +2600,11 @@
       <div class="events-segment-head">
         <div>
           <h3 data-i18n="events_upcoming_title">Upcoming Events</h3>
-          <p class="events-segment-note" data-i18n="events_upcoming_note">Our main recurring upcoming event is volunteer time at Lansdowne on the third Saturday of each coming month at 1:00 PM.</p>
+          <p class="events-segment-note" data-i18n="events_upcoming_note">Our recurring events include volunteer time at Lansdowne on the third Saturday of each month at 1:00 PM, and Poets Walk on the fourth Saturday of every month at 3:00 PM starting in June.</p>
         </div>
         <div class="events-mini-card">
           <h4 data-i18n="events_upcoming_card_title">How to use the calendar</h4>
-          <p data-i18n="events_upcoming_card_desc">Use this section to keep track of our recurring volunteer schedule. Right now, the standing upcoming event is our Lansdowne visit on the third Saturday of each coming month at 1:00 PM.</p>
+          <p data-i18n="events_upcoming_card_desc">Use this section to keep track of recurring events. Right now, our standing calendar entries include Lansdowne on the third Saturday at 1:00 PM and Poets Walk on the fourth Saturday at 3:00 PM starting in June.</p>
         </div>
       </div>
 
@@ -2620,24 +2620,9 @@
           <div class="calendar-grid" id="calendarGrid"></div>
         </div>
 
-        <div class="events-list">
+        <div class="events-list" id="eventsListContainer">
           <h4 data-i18n="events_tab_upcoming">Upcoming Events</h4>
-          <div class="events-list-item">
-            <span class="events-list-date">May 16, 2026 · 1:00 PM</span>
-            <p>Volunteering at Lansdowne Heights from 1:00 PM to 2:30 PM. Join us for this community outreach event focused on connecting with residents through meaningful activities.</p>
-          </div>
-          <div class="events-list-item">
-            <span class="events-list-date">May 16, 2026 · 4:00 PM</span>
-            <p>Creative workshop at Poets Walk from 4:00 PM to 5:30 PM. This session will bring together residents and volunteers for artistic expression and intergenerational connection.</p>
-          </div>
-          <div class="events-list-item">
-            <span class="events-list-date">June 19, 2026 · 3:00 PM</span>
-            <p>Community session at Hessler Heights from 3:00 PM onwards. Come join us for meaningful intergenerational connection and creative activities with our residents.</p>
-          </div>
-          <div class="events-list-item">
-            <span class="events-list-date" data-i18n="events_date_1">Third Saturday of every coming month · 1:00 PM</span>
-            <p data-i18n="events_desc_1">We volunteer at Lansdowne on the third Saturday of each coming month at 1:00 PM. This is the main upcoming event currently listed on our website.</p>
-          </div>
+          <div id="eventsListItems"></div>
         </div>
       </div>
     </div>
@@ -2661,28 +2646,7 @@
         </div>
       </div>
 
-      <div class="past-events-grid">
-        <div class="events-mini-card">
-          <span class="past-event-date">April 11, 2026 · Tribute @ One Loudoun</span>
-          <h4>Beach scenes and memory sharing</h4>
-          <p>From noon to 1:30 PM, residents painted beach-inspired scenes while talking about favorite vacations, family trips, and the calm they associated with the shore. The session helped spark memory, conversation, and a sense of ease across generations.</p>
-        </div>
-        <div class="events-mini-card">
-          <span class="past-event-date">April 12, 2026 · Tribute @ One Loudoun</span>
-          <h4>Tulips, roses, and intergenerational storytelling</h4>
-          <p>From 10:00 AM to 11:30 AM, we painted tulips and roses with residents as they shared stories tied to gardens, loved ones, and meaningful seasons of life. The activity encouraged both artistic expression and warm intergenerational conversation.</p>
-        </div>
-        <div class="events-mini-card">
-          <span class="past-event-date">April 18, 2026 · Lansdowne Heights</span>
-          <h4>Turtles by the sea</h4>
-          <p>From 1:00 PM to 2:30 PM, residents painted turtles by the sea and spoke about their own beach memories, favorite coastlines, and moments from earlier years. The artwork became a way for each person to weave a bit of their own story into the page.</p>
-        </div>
-        <div class="events-mini-card">
-          <span class="past-event-date">April 19, 2026 · Lansdowne Heights</span>
-          <h4>Animal-themed creative connection</h4>
-          <p>From 1:00 PM to 2:30 PM, we led a playful animal-themed workshop designed to help residents open up through imagination, conversation, and color. The session fostered closeness with seniors while keeping the atmosphere light, interactive, and joyful.</p>
-        </div>
-      </div>
+      <div class="past-events-grid" id="pastEventsGrid"></div>
     </div>
   </div>
 </section>
@@ -3984,6 +3948,7 @@ function setLanguage(lang) {
   }
 
   renderCalendar();
+  renderEventLists();
 }
 
 document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -4246,8 +4211,13 @@ const calendarGrid = document.getElementById('calendarGrid');
 const calendarPrevBtn = document.getElementById('calendarPrevBtn');
 const calendarNextBtn = document.getElementById('calendarNextBtn');
 
-const today = new Date();
-today.setHours(12, 0, 0, 0);
+function getToday() {
+  const now = new Date();
+  now.setHours(12, 0, 0, 0);
+  return now;
+}
+
+let today = getToday();
 
 const calendarState = {
   currentMonth: new Date(today.getFullYear(), today.getMonth(), 1, 12),
@@ -4279,6 +4249,11 @@ const calendarEvents = {
     label: 'Workshop',
     title: 'Volunteer Sessions at Lansdowne and Poets Walk',
     body: 'On May 16, 2026, we have two events: from 1:00 PM to 2:30 PM, we will be volunteering at Lansdowne Heights. Then from 4:00 PM to 5:30 PM, we will host a creative workshop at Poets Walk. Both sessions focus on connecting with residents through meaningful activities and artistic expression.'
+  },
+  '2026-05-30': {
+    label: 'Poets Walk',
+    title: 'Poets Walk at 3:00 PM',
+    body: 'On May 30, 2026, Poets Walk meets at 3:00 PM for an open creative walk and community storytelling session.'
   },
   '2026-06-19': {
     label: 'Workshop',
@@ -4327,6 +4302,61 @@ const calendarEvents = {
   }
 };
 
+function addRecurringMonthlyEvent({ weekday, weekOfMonth, monthsAhead = 12, label, title, body, time, startOffsetMonths = 0 }) {
+  const start = getToday();
+  const startMonth = start.getMonth();
+  const startYear = start.getFullYear();
+
+  for (let offset = 0; offset < monthsAhead; offset += 1) {
+    const monthIndex = startMonth + startOffsetMonths + offset;
+    const year = startYear + Math.floor(monthIndex / 12);
+    const month = monthIndex % 12;
+    const date = new Date(year, month, 1, 12);
+    let count = 0;
+
+    while (date.getMonth() === month) {
+      if (date.getDay() === weekday) {
+        count += 1;
+        if (count === weekOfMonth) break;
+      }
+      date.setDate(date.getDate() + 1);
+    }
+
+    if (date.getMonth() === month) {
+      const isoDate = formatCalendarISO(date);
+      if (!calendarEvents[isoDate]) {
+        calendarEvents[isoDate] = {
+          label,
+          title: typeof title === 'function' ? title(date) : title,
+          body: typeof body === 'function' ? body(date) : body,
+          time
+        };
+      }
+    }
+  }
+}
+
+addRecurringMonthlyEvent({
+  weekday: 6,
+  weekOfMonth: 3,
+  monthsAhead: 15,
+  label: 'Volunteer',
+  title: () => 'Monthly Volunteer Day at Lansdowne',
+  body: date => `On ${formatCalendarDate(date, { month: 'long', day: 'numeric', year: 'numeric' })}, from 1:00 PM to 2:30 PM, we will volunteer at Lansdowne Heights as part of our monthly community outreach and intergenerational connection efforts.`, 
+  time: '1:00 PM'
+});
+
+addRecurringMonthlyEvent({
+  weekday: 6,
+  weekOfMonth: 4,
+  monthsAhead: 15,
+  startOffsetMonths: 1,
+  label: 'Poets Walk',
+  title: date => `Poets Walk at 3:00 PM`,
+  body: date => `On ${formatCalendarDate(date, { month: 'long', day: 'numeric', year: 'numeric' })}, Poets Walk meets at 3:00 PM for an open creative walk and community storytelling session.`,
+  time: '3:00 PM'
+});
+
 function formatCalendarISO(date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -4347,6 +4377,80 @@ function isSameDate(a, b) {
 function formatCalendarDate(date, options = {}) {
   const locale = (languageMeta[currentLang] && languageMeta[currentLang].locale) || 'en';
   return new Intl.DateTimeFormat(locale, options).format(date);
+}
+
+function formatEventDateLabel(date, time) {
+  return `${formatCalendarDate(date, { month: 'long', day: 'numeric', year: 'numeric' })}${time ? ` · ${time}` : ''}`;
+}
+
+function getEventsArray() {
+  return Object.entries(calendarEvents)
+    .map(([iso, details]) => ({ iso, date: parseCalendarISO(iso), ...details }))
+    .sort((a, b) => a.date - b.date);
+}
+
+function renderEventLists() {
+  const events = getEventsArray();
+  const now = getToday();
+  const upcomingEvents = events.filter(event => event.date >= now).slice(0, 4);
+  const pastEvents = events.filter(event => event.date < now);
+  const recentPast = pastEvents.slice(-4).reverse();
+  const eventsListItems = document.getElementById('eventsListItems');
+  const pastEventsGrid = document.getElementById('pastEventsGrid');
+
+  if (eventsListItems) {
+    eventsListItems.innerHTML = upcomingEvents.length
+      ? upcomingEvents.map(event => `
+          <div class="events-list-item">
+            <span class="events-list-date">${formatEventDateLabel(event.date, event.time)}</span>
+            <p>${event.title}</p>
+          </div>
+        `).join('')
+      : `
+          <div class="events-list-item">
+            <p>No upcoming events are scheduled at this time.</p>
+          </div>
+        `;
+  }
+
+  if (pastEventsGrid) {
+    pastEventsGrid.innerHTML = recentPast.length
+      ? recentPast.map(event => `
+          <div class="events-mini-card">
+            <span class="past-event-date">${formatEventDateLabel(event.date, event.time)}</span>
+            <h4>${event.title}</h4>
+            <p>${event.body}</p>
+          </div>
+        `).join('')
+      : `
+          <div class="events-mini-card">
+            <p>No past events are available yet.</p>
+          </div>
+        `;
+  }
+}
+
+function refreshToday() {
+  const newToday = getToday();
+  if (!isSameDate(newToday, today)) {
+    today = newToday;
+    calendarState.currentMonth = new Date(today.getFullYear(), today.getMonth(), 1, 12);
+    calendarState.selectedDate = new Date(today);
+    renderCalendar();
+    renderEventLists();
+  }
+}
+
+function scheduleDailyRefresh() {
+  const now = new Date();
+  const nextMidnight = new Date(now);
+  nextMidnight.setDate(nextMidnight.getDate() + 1);
+  nextMidnight.setHours(0, 5, 0, 0);
+  const delay = nextMidnight - now;
+  window.setTimeout(() => {
+    refreshToday();
+    scheduleDailyRefresh();
+  }, delay);
 }
 
 function renderCalendar() {
@@ -4525,6 +4629,8 @@ if (calendarModal && calendarModalClose) {
 /* initial translate */
 setLanguage(currentLang);
 renderCalendar();
+renderEventLists();
+scheduleDailyRefresh();
 </script>
 </body>
 </html>
