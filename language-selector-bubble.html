@@ -312,6 +312,29 @@
     </div>
   </main>
 
+  <section style="max-width:420px;margin:18px auto 0;text-align:center;background:rgba(255,255,255,0.86);padding:14px;border-radius:12px;box-shadow:0 8px 24px rgba(87,54,79,0.06);">
+    <h4 id="demoEventTitle">Upcoming event</h4>
+    <p id="demoEventDesc">Starting June 13, every 2nd Saturday of each month at 2:00 PM we will visit Ashleigh at Lansdowne for painting sessions with seniors.</p>
+    <div style="display:flex;gap:12px;justify-content:center;margin-top:12px;">
+      <div style="text-align:center">
+        <div id="demoStat1" style="font-weight:700;font-size:1.1rem">5</div>
+        <div style="font-size:0.85rem;color:var(--text-soft)">Nursing homes</div>
+      </div>
+      <div style="text-align:center">
+        <div id="demoStat2" style="font-weight:700;font-size:1.1rem">112</div>
+        <div style="font-size:0.85rem;color:var(--text-soft)">Residents</div>
+      </div>
+      <div style="text-align:center">
+        <div id="demoStat3" style="font-weight:700;font-size:1.1rem">11.4K+</div>
+        <div style="font-size:0.85rem;color:var(--text-soft)">Social views</div>
+      </div>
+      <div style="text-align:center">
+        <div id="demoStat4" style="font-weight:700;font-size:1.1rem">753</div>
+        <div style="font-size:0.85rem;color:var(--text-soft)">Hours</div>
+      </div>
+    </div>
+  </section>
+
   <p class="hint">Hover to expand. Click a language to update the selected pill.</p>
 
   <script>
@@ -328,6 +351,43 @@
       pill.textContent = next.dataset.lang;
       pill.setAttribute('aria-expanded', 'false');
       bubble.classList.remove('is-open');
+
+      // update demo text/stats based on language selection
+      const lang = next.dataset.lang;
+      const eventTitle = document.getElementById('demoEventTitle');
+      const eventDesc = document.getElementById('demoEventDesc');
+      const s1 = document.getElementById('demoStat1');
+      const s2 = document.getElementById('demoStat2');
+      const s3 = document.getElementById('demoStat3');
+      const s4 = document.getElementById('demoStat4');
+
+      const translations = {
+        EN: {
+          eventTitle: 'Upcoming event',
+          eventDesc: 'Starting June 13, every 2nd Saturday of each month at 2:00 PM we will visit Ashleigh at Lansdowne for painting sessions with seniors.',
+          s1: '5', s2: '112', s3: '11.4K+', s4: '753'
+        },
+        '中文': {
+          eventTitle: '即将到来的活动',
+          eventDesc: '自6月13日起，我们将在每个月的第二个星期六下午2:00前往Lansdowne的Ashleigh开展与长者的绘画活动。',
+          s1: '5', s2: '112', s3: '11.4K+', s4: '753'
+        },
+        FR: {
+          eventTitle: 'Événement à venir',
+          eventDesc: "À partir du 13 juin, chaque 2e samedi de chaque mois à 14h, nous rendrons visite à Ashleigh à Lansdowne pour des séances de peinture avec les personnes âgées.",
+          s1: '5', s2: '112', s3: '11.4K+', s4: '753'
+        },
+        'हिंदी': {
+          eventTitle: 'आगामी इवेंट',
+          eventDesc: '13 जून से शुरू होकर, हर महीने के दूसरे शनिवार को दोपहर 2:00 बजे हम Lansdowne में Ashleigh से मिलकर वरिष्ठों के साथ पेंटिंग सत्र आयोजित करेंगे।',
+          s1: '5', s2: '112', s3: '11.4K+', s4: '753'
+        }
+      };
+
+      const t = translations[lang] || translations['EN'];
+      if (eventTitle) eventTitle.textContent = t.eventTitle;
+      if (eventDesc) eventDesc.textContent = t.eventDesc;
+      if (s1) s1.textContent = t.s1; if (s2) s2.textContent = t.s2; if (s3) s3.textContent = t.s3; if (s4) s4.textContent = t.s4;
     }
 
     options.forEach(option => {
