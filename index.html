@@ -863,7 +863,6 @@
       margin-top: 56px;
       align-items: start;
     }
-    .book-info { }
     .book-info p { font-size: 0.95rem; color: var(--text-light); line-height: 1.8; margin-bottom: 20px; }
     .book-info ul { list-style: none; }
     .book-info ul li {
@@ -1460,258 +1459,258 @@
     .involved-card p { font-size: 0.88rem; color: rgba(255, 255, 255, 0.8); line-height: 1.72; margin-bottom: 20px; }
 
     /* ============================================================
-       GALLERY
+       GALLERY PREVIEW
     ============================================================ */
-    #gallery { background: var(--white); overflow: hidden; }
-    .gallery-grid {
+    #gallery {
+      background: linear-gradient(135deg, #fcf4f8 0%, #f7ebf2 100%);
+      overflow: hidden;
+    }
+    .gallery-preview-intro {
       display: grid;
-      --gallery-unit: clamp(152px, 15vw, 212px);
-      grid-auto-flow: column dense;
-      grid-auto-columns: var(--gallery-unit);
-      grid-template-rows: repeat(3, var(--gallery-unit));
-      gap: 16px;
-      margin-top: 56px;
-      padding: 8px 8px 20px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      scroll-snap-type: x proximity;
-      scroll-padding-left: 8px;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(159, 109, 130, 0.42) rgba(159, 109, 130, 0.12);
+      grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.65fr);
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 24px;
     }
-    .gallery-grid::-webkit-scrollbar {
-      height: 12px;
-    }
-    .gallery-grid::-webkit-scrollbar-track {
-      background: rgba(159, 109, 130, 0.12);
-      border-radius: 999px;
-    }
-    .gallery-grid::-webkit-scrollbar-thumb {
-      background: rgba(159, 109, 130, 0.42);
-      border-radius: 999px;
-    }
-    .gallery-item {
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      position: relative;
-      cursor: pointer;
-      background: #ead7e0;
-      border: 1px solid rgba(184, 135, 152, 0.18);
-      box-shadow: 0 14px 34px rgba(80, 52, 67, 0.12);
-      scroll-snap-align: start;
-      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-    }
-    .gallery-item.tile-square {
-      grid-column: span 1;
-      grid-row: span 1;
-    }
-    .gallery-item.tile-wide {
-      grid-column: span 2;
-      grid-row: span 1;
-    }
-    .gallery-item.tile-tall {
-      grid-column: span 1;
-      grid-row: span 2;
-    }
-    .gallery-item.tile-hero {
-      grid-column: span 2;
-      grid-row: span 2;
-    }
-    .gallery-item:focus-visible {
-      outline: 3px solid rgba(159, 109, 130, 0.7);
-      outline-offset: 4px;
-    }
-    .gallery-item:hover {
-      transform: translateY(-8px);
-      border-color: rgba(159, 109, 130, 0.28);
-      box-shadow: 0 20px 40px rgba(80, 52, 67, 0.18);
-    }
-    .gallery-img {
-      width: 100%; height: 100%;
-      object-fit: contain;
-      object-position: center;
-      padding: 10px;
-      border-radius: calc(var(--radius-md) - 6px);
-      transform-origin: 50% 50%;
-      will-change: transform;
-      background:
-        radial-gradient(circle at top, rgba(255,255,255,0.5), transparent 50%),
-        linear-gradient(160deg, #f4e5ec, #e7d2dc);
-      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
-    }
-    .gallery-item:hover .gallery-img { transform: scale(1.03); }
-    .gallery-date-badge {
-      position: absolute;
-      top: 14px;
-      left: 14px;
-      z-index: 2;
-      display: inline-flex;
-      align-items: center;
-      padding: 7px 12px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.9);
-      color: var(--purple-deep);
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      box-shadow: 0 8px 18px rgba(80, 52, 67, 0.14);
-      backdrop-filter: blur(8px);
-    }
-    .gallery-overlay {
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(to top, rgba(55, 34, 44, 0.82), rgba(92,63,160,0.14) 56%, rgba(255,255,255,0.02));
-      opacity: 0;
-      transition: opacity var(--transition);
-      display: flex;
-      align-items: flex-end;
-      padding: 20px;
-    }
-    .gallery-item:hover .gallery-overlay { opacity: 1; }
-    .gallery-overlay span {
-      color: #fff;
-      font-size: 0.85rem;
-      font-weight: 500;
-      line-height: 1.55;
-    }
-    body.gallery-lightbox-open {
-      overflow: hidden;
-    }
-    .gallery-lightbox {
-      position: fixed;
-      inset: 0;
-      z-index: 1400;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 28px;
-      background: rgba(40, 24, 32, 0.7);
-      backdrop-filter: blur(12px);
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      overflow-y: auto;
-      transition: opacity var(--transition), visibility var(--transition);
-    }
-    .gallery-lightbox.open {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-    }
-    .gallery-lightbox-dialog {
-      position: relative;
-      width: min(1080px, 100%);
-      max-height: min(calc(100vh - 56px), 920px);
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
-      grid-template-rows: minmax(0, 1fr);
-      background: rgba(255, 252, 253, 0.96);
-      border: 1px solid rgba(184, 135, 152, 0.18);
-      border-radius: 28px;
-      overflow: hidden;
-      box-shadow: 0 24px 80px rgba(44, 25, 35, 0.3);
-      transform: translateY(18px) scale(0.985);
-      transition: transform var(--transition);
-    }
-    .gallery-lightbox.open .gallery-lightbox-dialog {
-      transform: translateY(0) scale(1);
-    }
-    .gallery-lightbox-dialog.is-portrait {
-      grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
-    }
-    .gallery-lightbox-media {
-      background:
-        radial-gradient(circle at top, rgba(255,255,255,0.55), transparent 48%),
-        linear-gradient(160deg, #f4e5ec, #ecd7e1);
-      min-height: 0;
-      display: flex;
-    }
-    .gallery-lightbox-media img {
-      width: 100%;
-      height: 100%;
-      max-height: none;
-      object-fit: contain;
-    }
-    .gallery-lightbox-dialog.is-portrait .gallery-lightbox-media {
-      padding: 18px 8px 18px 18px;
-    }
-    .gallery-lightbox-copy {
+    .gallery-preview-copy {
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
       gap: 16px;
-      min-height: 0;
-      overflow-y: auto;
-      overscroll-behavior: contain;
-      scrollbar-gutter: stable;
-      padding: 34px 26px 30px 30px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(248,231,238,0.96));
     }
-    .gallery-lightbox-copy::-webkit-scrollbar {
-      width: 10px;
+    .gallery-preview-copy p {
+      color: var(--text-mid);
+      max-width: 760px;
+      line-height: 1.8;
+      font-size: 1rem;
     }
-    .gallery-lightbox-copy::-webkit-scrollbar-track {
-      background: rgba(159, 109, 130, 0.08);
+    .gallery-preview-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .gallery-preview-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 18px;
+      border: 1px solid rgba(125, 79, 99, 0.18);
       border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--purple-deep);
+      font-size: 0.84rem;
+      font-weight: 600;
+      box-shadow: 0 6px 18px rgba(125, 79, 99, 0.09);
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
     }
-    .gallery-lightbox-copy::-webkit-scrollbar-thumb {
-      background: rgba(159, 109, 130, 0.32);
-      border-radius: 999px;
-      border: 2px solid rgba(255,255,255,0.84);
+    .gallery-preview-link:hover,
+    .gallery-preview-link:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(125, 79, 99, 0.16);
+      background: #fff;
+      outline: none;
     }
-    .gallery-lightbox-tag {
+    .gallery-preview-note {
       display: inline-flex;
       align-self: flex-start;
-      padding: 6px 12px;
+      padding: 8px 12px;
       border-radius: 999px;
-      background: rgba(159, 109, 130, 0.12);
+      background: rgba(159, 109, 130, 0.13);
       color: var(--purple-deep);
-      font-size: 0.72rem;
+      font-size: 0.75rem;
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
-    .gallery-lightbox-copy p {
-      font-size: 1rem;
-      line-height: 1.8;
-      color: var(--text-dark);
-      overflow-wrap: anywhere;
+    .gallery-cloud-shell {
+      position: relative;
+      padding: clamp(20px, 3.4vw, 34px) 0 10px;
     }
-    .gallery-lightbox-copy h4 {
-      font-size: clamp(1.4rem, 2.6vw, 2rem);
-      color: var(--text-dark);
-      line-height: 1.25;
-      overflow-wrap: anywhere;
+    .gallery-cloud-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 30px;
+      padding: 13px 22px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--purple-deep), var(--purple-mid));
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 700;
+      box-shadow: 0 16px 36px rgba(125, 79, 99, 0.18);
+      transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
     }
-    .gallery-lightbox-event {
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--text-mid);
-      letter-spacing: 0.02em;
-    }
-    .gallery-lightbox-close {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      z-index: 2;
-      width: 42px;
-      height: 42px;
-      border: none;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.88);
-      color: var(--purple-deep);
-      font-size: 1.7rem;
-      line-height: 1;
-      cursor: pointer;
-      box-shadow: 0 10px 24px rgba(80, 52, 67, 0.14);
-      transition: transform var(--transition), background var(--transition);
-    }
-    .gallery-lightbox-close:hover,
-    .gallery-lightbox-close:focus-visible {
-      transform: scale(1.06);
-      background: #fff;
+    .gallery-cloud-cta:hover,
+    .gallery-cloud-cta:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 42px rgba(125, 79, 99, 0.24);
+      filter: brightness(1.02);
       outline: none;
+    }
+    .gallery-cloud {
+      position: relative;
+      width: min(100%, 960px);
+      margin: 0 auto;
+      min-height: clamp(560px, 72vh, 740px);
+      border-radius: 44px;
+      padding: clamp(20px, 3vw, 34px);
+      background:
+        radial-gradient(circle at 18% 18%, rgba(255,255,255,0.95), transparent 26%),
+        radial-gradient(circle at 82% 14%, rgba(238, 216, 233, 0.72), transparent 24%),
+        linear-gradient(135deg, #fffaf9 0%, #f5eaf2 100%);
+      border: 1px solid rgba(125, 79, 99, 0.13);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 28px 80px rgba(80, 52, 67, 0.10);
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .gallery-cloud::before {
+      content: '';
+      position: absolute;
+      inset: -12% -8% auto;
+      height: 72%;
+      background:
+        radial-gradient(circle at 24% 28%, rgba(198, 170, 255, 0.24), transparent 30%),
+        radial-gradient(circle at 70% 24%, rgba(255, 214, 230, 0.2), transparent 28%),
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.44), transparent 44%);
+      filter: blur(24px);
+      opacity: 0.96;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .gallery-cloud::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+      opacity: 0.11;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .gallery-cloud-card {
+      position: absolute;
+      display: block;
+      padding: 0;
+      border: 1px solid rgba(255,255,255,0.96);
+      background: transparent;
+      width: var(--card-width, 160px);
+      height: var(--card-height, 220px);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 14px 34px rgba(83, 54, 68, 0.14);
+      cursor: pointer;
+      isolation: isolate;
+      opacity: calc(0.26 + var(--memory-depth, 0.16));
+      filter: saturate(calc(0.78 + var(--memory-saturation, 0.08))) blur(calc(0.8px + var(--memory-blur, 1.05px))) brightness(calc(0.94 + var(--memory-brightness, 0.04)));
+      transform: translate(-50%, -50%) rotate(var(--rotate, 0deg));
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease, z-index 0.35s ease;
+      will-change: transform, opacity, filter;
+      z-index: 2;
+    }
+    .gallery-cloud-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, rgba(255,255,255,0.22), rgba(185, 149, 255, 0.12));
+      mix-blend-mode: screen;
+      opacity: calc(0.14 + var(--memory-tint, 0.18));
+      pointer-events: none;
+      z-index: 1;
+      transition: opacity 0.35s ease;
+    }
+    .gallery-cloud-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform-origin: center;
+      transition: transform 0.35s ease, filter 0.35s ease;
+      position: relative;
+      z-index: 0;
+    }
+    .gallery-cloud-card:hover,
+    .gallery-cloud-card:focus-visible,
+    .gallery-cloud-card.is-active {
+      z-index: 24;
+      box-shadow: 0 28px 60px rgba(80, 52, 67, 0.24);
+      opacity: 1;
+      filter: saturate(1) blur(0px) brightness(1.03);
+    }
+    .gallery-cloud-card.is-neighbor {
+      z-index: 6;
+      opacity: 0.72;
+      filter: saturate(0.92) blur(0.2px) brightness(1);
+    }
+    .gallery-cloud-card.is-visible {
+      animation: galleryWallIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-delay: var(--entry-delay, 0s);
+    }
+    .gallery-cloud-card.is-visible img {
+      animation: galleryWallImageIn 0.45s ease both;
+      animation-delay: calc(var(--entry-delay, 0s) + 0.05s);
+    }
+    .gallery-cloud-status {
+      position: relative;
+      z-index: 1;
+      margin-top: 18px;
+      color: var(--text-mid);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      max-width: 720px;
+    }
+    @keyframes galleryWallIn {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) translateY(14px) scale(0.96) rotate(var(--rotate, 0deg));
+      }
+      100% {
+        opacity: calc(0.26 + var(--memory-depth, 0.16));
+        transform: translate(-50%, -50%) translateY(0) scale(1) rotate(var(--rotate, 0deg));
+      }
+    }
+    @keyframes galleryWallImageIn {
+      0% { transform: scale(1.03); filter: blur(1px); }
+      100% { transform: scale(1); filter: blur(0px); }
+    }
+    @media (max-width: 900px) {
+      .gallery-preview-intro {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+      .gallery-cloud {
+        min-height: 540px;
+      }
+      .gallery-cloud-card {
+        width: clamp(90px, 16vw, 124px);
+        height: clamp(120px, 22vw, 168px);
+      }
+    }
+    @media (max-width: 640px) {
+      .gallery-cloud {
+        min-height: 460px;
+        padding: 16px;
+        border-radius: 32px;
+      }
+      .gallery-cloud-card {
+        width: 84px;
+        height: 114px;
+        border-radius: 18px;
+      }
+      .gallery-preview-actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .gallery-cloud-card,
+      .gallery-cloud-card img,
+      .gallery-cloud-card::before,
+      .gallery-preview-link {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
     }
 
     /* ============================================================
@@ -2600,11 +2599,11 @@
       <div class="events-segment-head">
         <div>
           <h3 data-i18n="events_upcoming_title">Upcoming Events</h3>
-          <p class="events-segment-note" data-i18n="events_upcoming_note">Each month, our upcoming schedule is: 2nd Saturday at Ashleigh at 2:00 PM, 3rd Saturday at Lansdowne at 1:00 PM, and 4th Saturday at Poets Walk at 3:00 PM.</p>
+          <p class="events-segment-note" data-i18n="events_upcoming_note">Our recurring Saturday schedule now runs on the 2nd Saturday at Ashleigh Heights at 2:00 PM, the 3rd Saturday at Lansdowne Heights at 1:30 PM beginning in May 2026, and the 4th Saturday at Poet's Walk at 3:00 PM beginning in June 2026.</p>
         </div>
         <div class="events-mini-card">
           <h4 data-i18n="events_upcoming_card_title">How to use the calendar</h4>
-          <p data-i18n="events_upcoming_card_desc">Use this section to keep track of our monthly Saturday schedule. Second Saturday is Ashleigh, third Saturday is Lansdowne, and fourth Saturday is Poets Walk.</p>
+          <p data-i18n="events_upcoming_card_desc">Use this section to keep track of our recurring Saturday schedule. Ashleigh Heights is on the 2nd Saturday at 2:00 PM, Lansdowne Heights is on the 3rd Saturday at 1:30 PM from May 2026 onward, and Poet's Walk is on the 4th Saturday at 3:00 PM from June 2026 onward.</p>
         </div>
       </div>
 
@@ -2613,8 +2612,8 @@
           <div class="calendar-header">
             <h3 id="calendarMonthLabel" data-i18n="events_calendar_title">June 2026</h3>
             <div class="calendar-nav">
-              <button class="calendar-nav-btn" id="calendarPrevBtn" type="button" aria-label="Previous month">&#8249;</button>
-              <button class="calendar-nav-btn" id="calendarNextBtn" type="button" aria-label="Next month">&#8250;</button>
+              <button class="calendar-nav-btn" id="calendarPrevBtn" type="button" aria-label="Previous month" data-i18n-aria="calendar_prev_label">&#8249;</button>
+              <button class="calendar-nav-btn" id="calendarNextBtn" type="button" aria-label="Next month" data-i18n-aria="calendar_next_label">&#8250;</button>
             </div>
           </div>
           <div class="calendar-grid" id="calendarGrid"></div>
@@ -2622,30 +2621,7 @@
 
         <div class="events-list">
           <h4 data-i18n="events_tab_upcoming">Upcoming Events</h4>
-          <div class="events-list-item">
-            <span class="events-list-date">May 16, 2026 · 1:00 PM</span>
-            <p>Volunteering at Lansdowne Heights from 1:00 PM to 2:30 PM. Join us for this community outreach event focused on connecting with residents through meaningful activities.</p>
-          </div>
-          <div class="events-list-item">
-            <span class="events-list-date">May 16, 2026 · 4:00 PM</span>
-            <p>Creative workshop at Poets Walk from 4:00 PM to 5:30 PM. This session will bring together residents and volunteers for artistic expression and intergenerational connection.</p>
-          </div>
-          <div class="events-list-item">
-            <span class="events-list-date">June 13, 2026 · 2:00 PM</span>
-            <p>Art session at Ashleigh from 2:00 PM to 3:30 PM. Join us for creative connection with residents and volunteers.</p>
-          </div>
-          <div class="events-list-item">
-            <span class="events-list-date">June 20, 2026 · 1:00 PM</span>
-            <p>Volunteering at Lansdowne Heights from 1:00 PM to 2:30 PM. Join us for meaningful activities and community connection.</p>
-          </div>
-          <div class="events-list-item">
-            <span class="events-list-date">June 27, 2026 · 3:00 PM</span>
-            <p>Creative workshop at Poets Walk from 3:00 PM to 4:30 PM. This session brings residents and volunteers together for artistic sharing.</p>
-          </div>
-          <div class="events-list-item">
-            <span class="events-list-date" data-i18n="events_date_1">Rotating Saturday schedule: 2nd Ashleigh · 3rd Lansdowne · 4th Poets Walk</span>
-            <p data-i18n="events_desc_1">Our regular schedule runs on Saturdays: Ashleigh on the 2nd at 2:00 PM, Lansdowne on the 3rd at 1:00 PM, and Poets Walk on the 4th at 3:00 PM.</p>
-          </div>
+          <div id="upcomingEventsList"></div>
         </div>
       </div>
     </div>
@@ -2745,86 +2721,45 @@
 ============================================================ -->
 <section class="section" id="gallery">
   <div class="container">
-    <span class="section-tag fade-in" data-i18n="gallery_tag">Gallery</span>
-    <h2 class="section-title fade-in fade-in-delay-1" data-i18n="gallery_title">Moments from our sessions</h2>
-    <p class="section-sub fade-in fade-in-delay-2" data-i18n="gallery_sub">A glimpse into the art, the connection, and the stories that live inside The Rare Archive.</p>
+    <div class="gallery-preview-intro fade-in">
+      <div class="gallery-preview-copy">
+        <span class="section-tag" data-i18n="gallery_tag">Gallery</span>
+        <h2 class="section-title" data-i18n="gallery_title">A living archive of memory, art, and connection</h2>
+        <p data-i18n="gallery_sub">A curated collection of workshop photographs that captures the warmth of each visit, the care behind each painting, and the stories residents and volunteers share together.</p>
+        <div class="gallery-preview-actions">
+          <a class="gallery-preview-link" href="./gallery.html" target="_blank" rel="noopener noreferrer" data-i18n="gallery_preview_open">Open the full gallery →</a>
+          <a class="gallery-preview-link" href="#impact" data-i18n="gallery_preview_impact">See the impact</a>
+        </div>
+      </div>
+      <div class="gallery-preview-note" data-i18n="gallery_preview_note">Interactive preview · click any frame to explore</div>
+    </div>
 
-    <div class="gallery-grid fade-in">
-        <div class="gallery-item portrait tile-hero" data-event-key="2026-04-19" data-date-label="April 19, 2026">
-          <span class="gallery-date-badge">April 19, 2026</span>
-          <img class="gallery-img" src="./workshop-photos/workshop-01.png" alt="Resident smiling and holding up her finished animal-themed painting." loading="lazy">
-          <div class="gallery-overlay"><span>Resident sharing her finished animal-themed canvas from the April 19 Lansdowne Heights session</span></div>
+    <div class="gallery-cloud-shell fade-in">
+      <div class="gallery-cloud" id="homepageGalleryCloud" aria-label="Preview gallery of workshop photographs"></div>
+      <div class="gallery-wall-modal" id="galleryWallModal" aria-hidden="true">
+        <div class="gallery-wall-modal-card" id="galleryWallModalCard">
+          <button class="gallery-wall-modal-close" id="galleryWallModalClose" type="button" aria-label="Close preview" data-i18n-aria="gallery_modal_close_label">×</button>
+          <div class="gallery-wall-modal-media">
+            <img id="galleryWallModalImage" alt="" loading="lazy" decoding="async">
+          </div>
+          <div class="gallery-wall-modal-body">
+            <span class="gallery-wall-modal-label" data-i18n="gallery_modal_featured">Featured moment</span>
+            <h3 id="galleryWallModalTitle"></h3>
+            <div class="gallery-wall-modal-meta">
+              <p><strong data-i18n="gallery_modal_residence">Residence</strong><span id="galleryWallModalResidence"></span></p>
+              <p><strong data-i18n="gallery_modal_event">Event</strong><span id="galleryWallModalEvent"></span></p>
+              <p><strong data-i18n="gallery_modal_date">Date</strong><span id="galleryWallModalDate"></span></p>
+              <p><strong data-i18n="gallery_modal_time">Time</strong><span id="galleryWallModalTime"></span></p>
+            </div>
+            <p class="gallery-wall-modal-copy" id="galleryWallModalArtwork"></p>
+            <p class="gallery-wall-modal-copy" id="galleryWallModalVolunteer"></p>
+            <p class="gallery-wall-modal-copy" id="galleryWallModalMemory"></p>
+            <p class="gallery-wall-modal-caption" id="galleryWallModalCaption"></p>
+          </div>
         </div>
-        <div class="gallery-item landscape tile-wide" data-event-key="2026-04-19" data-date-label="April 19, 2026">
-          <span class="gallery-date-badge">April 19, 2026</span>
-          <img class="gallery-img" src="./workshop-photos/workshop-13.png" alt="Student volunteer standing beside residents during a painting workshop." loading="lazy">
-          <div class="gallery-overlay"><span>Student volunteers guiding residents during the April 19 Lansdowne Heights workshop</span></div>
-        </div>
-        <div class="gallery-item portrait tile-tall" data-event-key="2026-04-11" data-date-label="April 11, 2026">
-          <span class="gallery-date-badge">April 11, 2026</span>
-          <img class="gallery-img" src="./workshop-photos/workshop-04.png" alt="Canvas painting of sea turtles on a beach." loading="lazy">
-          <div class="gallery-overlay"><span>Turtle-by-the-sea canvas from the April 11 Tribute @ One Loudoun session</span></div>
-        </div>
-        <div class="gallery-item portrait tile-square" data-event-key="2026-04-11" data-date-label="April 11, 2026">
-          <span class="gallery-date-badge">April 11, 2026</span>
-          <img class="gallery-img" src="./workshop-photos/workshop-05.png" alt="Canvas of a beach scene with waves, dunes, and grasses painted by a resident." loading="lazy">
-          <div class="gallery-overlay"><span>Beach-memory painting from the April 11 Tribute @ One Loudoun session</span></div>
-        </div>
-        <div class="gallery-item square tile-square" data-event-key="2026-04-19" data-date-label="April 19, 2026">
-          <span class="gallery-date-badge">April 19, 2026</span>
-          <img class="gallery-img" src="./workshop-photos/workshop-02.png" alt="Workshop table with palettes, rinsing cups, and paintings in progress." loading="lazy">
-          <div class="gallery-overlay"><span>Brushes, palettes, and paintings in progress during the April 19 animal workshop</span></div>
-        </div>
-        <div class="gallery-item portrait tile-hero" data-event-key="2026-04-19" data-date-label="April 19, 2026">
-          <span class="gallery-date-badge">April 19, 2026</span>
-          <img class="gallery-img" src="./workshop-photos/workshop-03.png" alt="Two people smiling and holding a finished painting together." loading="lazy">
-          <div class="gallery-overlay"><span>Joyful post-workshop portrait from the April 19 Lansdowne Heights session</span></div>
-        </div>
-        <div class="gallery-item portrait tile-tall" data-event-key="2026-04-18" data-date-label="April 18, 2026">
-          <span class="gallery-date-badge">April 18, 2026</span>
-          <img class="gallery-img" src="./workshop-photos/workshop-06.png" alt="Canvas showing a turtle moving along a sandy shoreline toward the water." loading="lazy">
-          <div class="gallery-overlay"><span>Another turtle shoreline painting from the April 18 Lansdowne Heights workshop</span></div>
-        </div>
-        <div class="gallery-item landscape tile-wide" data-event-key="2026-04-19" data-date-label="April 19, 2026">
-          <span class="gallery-date-badge">April 19, 2026</span>
-          <img class="gallery-img" src="./workshop-photos/workshop-12.png" alt="Paint station viewed from above during a group workshop." loading="lazy">
-          <div class="gallery-overlay"><span>Paint station viewed from above during the April 19 animal-themed session</span></div>
-        </div>
-        <div class="gallery-item portrait tile-square" data-event-key="2026-04-18" data-date-label="April 18, 2026">
-          <span class="gallery-date-badge">April 18, 2026</span>
-          <img class="gallery-img" src="./workshop-photos/workshop-08.png" alt="Canvas with ocean, beach, starfish, and figures painted by a resident." loading="lazy">
-          <div class="gallery-overlay"><span>Playful shoreline scene from the April 18 Lansdowne Heights workshop</span></div>
-        </div>
-        <div class="gallery-item landscape tile-wide" data-event-key="2026-04-19" data-date-label="April 19, 2026">
-          <span class="gallery-date-badge">April 19, 2026</span>
-          <img class="gallery-img" src="./workshop-photos/workshop-14.png" alt="Workshop table with several animal-themed paintings in progress." loading="lazy">
-          <div class="gallery-overlay"><span>Multiple animal paintings in progress across the April 19 workshop table</span></div>
-        </div>
-        <div class="gallery-item portrait tile-square" data-event-key="2026-04-19" data-date-label="April 19, 2026">
-          <span class="gallery-date-badge">April 19, 2026</span>
-          <img class="gallery-img" src="./workshop-photos/workshop-10.png" alt="Paint palette and brushes laid out across a workshop table." loading="lazy">
-          <div class="gallery-overlay"><span>Palette and brushes set out for the April 19 animal-themed workshop</span></div>
-        </div>
-        <div class="gallery-item portrait tile-tall" data-event-key="2026-04-18" data-date-label="April 18, 2026">
-          <span class="gallery-date-badge">April 18, 2026</span>
-          <img class="gallery-img" src="./workshop-photos/workshop-07.png" alt="Canvas featuring a turtle silhouette beside a bright blue shoreline." loading="lazy">
-          <div class="gallery-overlay"><span>Turtle silhouette and shoreline painting from the April 18 Lansdowne Heights session</span></div>
-        </div>
-        <div class="gallery-item portrait tile-tall" data-event-key="2026-04-18" data-date-label="April 18, 2026">
-          <span class="gallery-date-badge">April 18, 2026</span>
-          <img class="gallery-img" src="./workshop-photos/workshop-09.png" alt="Canvas of a beach with three starfish and figures drawn in black." loading="lazy">
-          <div class="gallery-overlay"><span>Beach memories from April 18 translated into bright color and simple storytelling</span></div>
-        </div>
-        <div class="gallery-item portrait tile-square" data-event-key="2026-04-19" data-date-label="April 19, 2026">
-          <span class="gallery-date-badge">April 19, 2026</span>
-          <img class="gallery-img" src="./workshop-photos/workshop-11.png" alt="Workshop table with brushes, palette, and an early sketch on canvas." loading="lazy">
-          <div class="gallery-overlay"><span>Early sketch materials prepared for the April 19 animal session at Lansdowne Heights</span></div>
-        </div>
-        <div class="gallery-item portrait tile-square" data-event-key="2026-04-19" data-date-label="April 19, 2026">
-          <span class="gallery-date-badge">April 19, 2026</span>
-          <img class="gallery-img" src="./workshop-photos/workshop-15.png" alt="Finished animal-themed painting featuring a bear-like character and flower." loading="lazy">
-          <div class="gallery-overlay"><span>Finished animal painting from the April 19 Lansdowne Heights workshop</span></div>
-        </div>
+      </div>
+      <a class="gallery-cloud-cta" href="./gallery.html" target="_blank" rel="noopener noreferrer" data-i18n="gallery_preview_cta">Explore the Full Archive →</a>
+      <p class="gallery-cloud-status" data-i18n="gallery_preview_status">A curated preview of workshop moments, arranged like a thoughtful wall of memories waiting to be discovered.</p>
     </div>
   </div>
 </section>
@@ -2959,7 +2894,7 @@
 
 <div class="calendar-modal" id="calendarModal" aria-hidden="true">
   <div class="calendar-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="calendarModalTitle">
-    <button class="calendar-modal-close" id="calendarModalClose" type="button" aria-label="Close">×</button>
+    <button class="calendar-modal-close" id="calendarModalClose" type="button" aria-label="Close" data-i18n-aria="calendar_modal_close_label">×</button>
     <span class="calendar-modal-date" id="calendarModalDate"></span>
     <h4 id="calendarModalTitle"></h4>
     <p id="calendarModalBody"></p>
@@ -3069,8 +3004,24 @@ const translations = {
     events_title: "See what's coming up and what we've already shared",
     events_sub: "Browse our upcoming calendar, follow currrent fundraisers, and scroll further to look back at community moments that helped shape The Rare Archive.",
     events_tab_upcoming: "Upcoming Events", events_tab_fundraisers: "Current Fundraisers", events_tab_past: "Past Events",
-    events_upcoming_title: "Upcoming Events", events_upcoming_note: "Each month, our upcoming schedule is: 2nd Saturday at Ashleigh at 2:00 PM, 3rd Saturday at Lansdowne at 1:00 PM, and 4th Saturday at Poets Walk at 3:00 PM.",
-    events_upcoming_card_title: "How to use the calendar", events_upcoming_card_desc: "Use this section to keep track of our monthly Saturday schedule. Second Saturday is Ashleigh, third Saturday is Lansdowne, and fourth Saturday is Poets Walk.",
+    events_upcoming_title: "Upcoming Events", events_upcoming_note: "Our recurring Saturday schedule now runs on the 2nd Saturday at Ashleigh Heights at 2:00 PM, the 3rd Saturday at Lansdowne Heights at 1:30 PM beginning in May 2026, and the 4th Saturday at Poet's Walk at 3:00 PM beginning in June 2026.",
+    events_upcoming_card_title: "How to use the calendar", events_upcoming_card_desc: "Use this section to keep track of our recurring Saturday schedule. Ashleigh Heights is on the 2nd Saturday at 2:00 PM, Lansdowne Heights is on the 3rd Saturday at 1:30 PM from May 2026 onward, and Poet's Walk is on the 4th Saturday at 3:00 PM from June 2026 onward.",
+    event_label_workshop: "Workshop", event_label_volunteer: "Volunteer", event_label_ends: "Ends",
+    upcoming_events_empty_title: "No upcoming events scheduled", upcoming_events_empty_body: "New community visits will appear here as the calendar updates.",
+    event_2026_04_11_title: "Workshop at Tribute @ One Loudoun", event_2026_04_11_body: "Residents gathered for painting, conversation, and a warm, memory-focused afternoon together.",
+    event_2026_04_12_title: "Workshop at Tribute @ One Loudoun", event_2026_04_12_body: "A second session invited residents to create, reflect, and connect with volunteers.",
+    event_2026_04_18_title: "Volunteer visit at Lansdowne Heights", event_2026_04_18_body: "Volunteers shared art, conversation, and gentle encouragement with residents.",
+    event_2026_04_19_title: "Volunteer visit at Lansdowne Heights", event_2026_04_19_body: "A second visit gave residents space to create and share stories in a gentle setting.",
+    event_2026_05_16_lansdowne_title: "Volunteer visit at Lansdowne Heights", event_2026_05_16_lansdowne_body: "Volunteers encouraged residents to incorporate meaningful memories into their paintings.",
+    event_2026_05_16_poets_walk_title: "Workshop at Poet's Walk", event_2026_05_16_poets_walk_body: "Residents created together in a welcoming, memory-focused art session.",
+    event_2026_05_30_poets_walk_title: "Workshop at Poet's Walk", event_2026_05_30_poets_walk_body: "A guided art session helped residents reflect on memories and build connection.",
+    event_2026_06_07_title: "ThriftBooks fundraiser ends", event_2026_06_07_body: "The fundraiser closed after helping support future workshops, supplies, and outreach.",
+    event_2026_06_13_ashleigh_title: "Workshop at Ashleigh Heights", event_2026_06_13_ashleigh_body: "Residents painted, shared stories, and used art as a gentle way to connect.",
+    event_2026_06_25_lansdowne_title: "Volunteer visit at Lansdowne Heights", event_2026_06_25_lansdowne_body: "Volunteers encouraged residents to incorporate meaningful memories into their paintings.",
+    event_2026_06_26_poets_walk_title: "Workshop at Poet's Walk", event_2026_06_26_poets_walk_body: "Residents created artwork that honored memory, care, and connection.",
+    event_recurring_ashleigh_title: "Recurring workshop at Ashleigh Heights", event_recurring_ashleigh_body: "Residents gather for a warm, recurring art session focused on creativity and connection.",
+    event_recurring_lansdowne_title: "Recurring volunteer visit at Lansdowne Heights", event_recurring_lansdowne_body: "Volunteers encourage residents to create with memory, story, and comfort in mind.",
+    event_recurring_poets_walk_title: "Recurring workshop at Poet's Walk", event_recurring_poets_walk_body: "A recurring workshop invites residents to create and connect through gentle, accessible art.",
     events_calendar_title: "June 2026", events_calendar_pill: "Fundraiser End Date",
     cal_sun: "Sun", cal_mon: "Mon", cal_tue: "Tue", cal_wed: "Wed", cal_thu: "Thu", cal_fri: "Fri", cal_sat: "Sat",
     events_marker_1: "Ends", events_marker_2: "Launch", events_marker_3: "Pop-Up",
@@ -3102,6 +3053,20 @@ const translations = {
 
     gallery_tag: "Gallery", gallery_title: "Moments from our workshops",
     gallery_sub: "A glimpse into the creativity, calm, and connection we hope to build through The Rare Archive.",
+    gallery_preview_open: "Open the full gallery →",
+    gallery_preview_impact: "See the impact",
+    gallery_preview_note: "Interactive preview · click any frame to explore",
+    gallery_preview_cta: "Explore the Full Archive →",
+    gallery_preview_status: "A curated preview of workshop moments, arranged like a thoughtful wall of memories waiting to be discovered.",
+    gallery_modal_featured: "Featured moment",
+    gallery_modal_residence: "Residence",
+    gallery_modal_event: "Event",
+    gallery_modal_date: "Date",
+    gallery_modal_time: "Time",
+    gallery_modal_artwork: "Artwork theme",
+    gallery_modal_volunteer: "Volunteer activity",
+    gallery_modal_memory: "How memories shaped the work",
+    gallery_modal_close_label: "Close preview",
     gal1: "Watercolor workshop", gal2: "Resident-inspired artwork",
     gal3: "Sharing finished art with family", gal4: "Student volunteer at work",
     gal5: "Seasonal craft session", gal6: "Portrait and memory project", gal7: "Community art display",
@@ -3243,6 +3208,22 @@ const translations = {
     events_tab_upcoming: "Próximos Eventos", events_tab_fundraisers: "Recaudaciones Actuales", events_tab_past: "Eventos Pasados",
     events_upcoming_title: "Próximos Eventos", events_upcoming_note: "Nuestro principal evento próximo recurrente es el voluntariado en Lansdowne el tercer sábado de cada mes próximo a la 1:00 PM.",
     events_upcoming_card_title: "Cómo usar el calendario", events_upcoming_card_desc: "Usa esta sección para seguir nuestro calendario recurrente de voluntariado. Por ahora, el evento próximo fijo es nuestra visita a Lansdowne el tercer sábado de cada mes próximo a la 1:00 PM.",
+    event_label_workshop: "Taller", event_label_volunteer: "Voluntariado", event_label_ends: "Finaliza",
+    upcoming_events_empty_title: "No hay eventos próximos programados", upcoming_events_empty_body: "Las próximas visitas comunitarias aparecerán aquí a medida que se actualice el calendario.",
+    event_2026_04_11_title: "Taller en Tribute @ One Loudoun", event_2026_04_11_body: "Los residentes participaron en una tarde de pintura, conversación y conexión en un ambiente cálido y enfocado en la memoria.",
+    event_2026_04_12_title: "Taller en Tribute @ One Loudoun", event_2026_04_12_body: "Una segunda sesión invitó a los residentes a crear, reflexionar y conectar con los voluntarios.",
+    event_2026_04_18_title: "Visita voluntaria en Lansdowne Heights", event_2026_04_18_body: "Los voluntarios compartieron arte, conversación y aliento con los residentes.",
+    event_2026_04_19_title: "Visita voluntaria en Lansdowne Heights", event_2026_04_19_body: "Una segunda visita dio a los residentes espacio para crear y compartir historias en un entorno sereno.",
+    event_2026_05_16_lansdowne_title: "Visita voluntaria en Lansdowne Heights", event_2026_05_16_lansdowne_body: "Los voluntarios animaron a los residentes a incorporar recuerdos significativos en sus pinturas.",
+    event_2026_05_16_poets_walk_title: "Taller en Poet's Walk", event_2026_05_16_poets_walk_body: "Los residentes crearon juntos en una sesión de arte acogedora y enfocada en la memoria.",
+    event_2026_05_30_poets_walk_title: "Taller en Poet's Walk", event_2026_05_30_poets_walk_body: "Una sesión guiada de arte ayudó a los residentes a reflexionar sobre sus recuerdos y fortalecer la conexión.",
+    event_2026_06_07_title: "Termina la recaudación de ThriftBooks", event_2026_06_07_body: "La recaudación cerró después de apoyar futuros talleres, materiales y alcance comunitario.",
+    event_2026_06_13_ashleigh_title: "Taller en Ashleigh Heights", event_2026_06_13_ashleigh_body: "Los residentes pintaron, compartieron historias y usaron el arte como una forma serena de conectar.",
+    event_2026_06_25_lansdowne_title: "Visita voluntaria en Lansdowne Heights", event_2026_06_25_lansdowne_body: "Los voluntarios animaron a los residentes a incorporar recuerdos significativos en sus pinturas.",
+    event_2026_06_26_poets_walk_title: "Taller en Poet's Walk", event_2026_06_26_poets_walk_body: "Los residentes crearon arte que honró la memoria, el cuidado y la conexión.",
+    event_recurring_ashleigh_title: "Taller recurrente en Ashleigh Heights", event_recurring_ashleigh_body: "Los residentes se reúnen para una sesión de arte mensual, cálida y centrada en la creatividad y la conexión.",
+    event_recurring_lansdowne_title: "Visita voluntaria recurrente en Lansdowne Heights", event_recurring_lansdowne_body: "Los voluntarios animan a los residentes a crear con memoria, historia y comodidad en mente.",
+    event_recurring_poets_walk_title: "Taller recurrente en Poet's Walk", event_recurring_poets_walk_body: "Un taller recurrente invita a los residentes a crear y conectar a través de un arte suave y accesible.",
     events_calendar_title: "Junio 2026", events_calendar_pill: "Fin de la Recaudación",
     cal_sun: "Dom", cal_mon: "Lun", cal_tue: "Mar", cal_wed: "Mié", cal_thu: "Jue", cal_fri: "Vie", cal_sat: "Sáb",
     events_marker_1: "Cierre", events_marker_2: "Lanz.", events_marker_3: "Pop-Up",
@@ -3274,6 +3255,20 @@ const translations = {
 
     gallery_tag: "Galería", gallery_title: "Momentos de nuestros talleres",
     gallery_sub: "Un vistazo a la creatividad, la calma y la conexión que buscamos construir a través de The Rare Archive.",
+    gallery_preview_open: "Abrir la galería completa →",
+    gallery_preview_impact: "Ver el impacto",
+    gallery_preview_note: "Vista previa interactiva · haz clic en cualquier marco para explorar",
+    gallery_preview_cta: "Explorar el Archivo Completo →",
+    gallery_preview_status: "Una vista previa cuidada de los momentos del taller, organizada como una pared de recuerdos esperando a ser descubierta.",
+    gallery_modal_featured: "Momento destacado",
+    gallery_modal_residence: "Residencia",
+    gallery_modal_event: "Evento",
+    gallery_modal_date: "Fecha",
+    gallery_modal_time: "Hora",
+    gallery_modal_artwork: "Tema de la obra",
+    gallery_modal_volunteer: "Actividad del voluntario",
+    gallery_modal_memory: "Cómo los recuerdos dieron forma a la obra",
+    gallery_modal_close_label: "Cerrar vista previa",
     gal1: "Taller de acuarela", gal2: "Arte inspirado por residentes",
     gal3: "Compartiendo arte terminado con la familia", gal4: "Voluntario estudiante en acción",
     gal5: "Sesión de manualidades de temporada", gal6: "Proyecto de retrato y memoria", gal7: "Exhibición comunitaria de arte",
@@ -3459,6 +3454,23 @@ const translationOverrides = {
     events_upcoming_note: "我们当前主要的固定近期活动，是每个接下来月份的第三个星期六下午 1:00 在 Lansdowne 进行志愿服务。",
     events_upcoming_card_title: "如何使用日历",
     events_upcoming_card_desc: "使用这一部分来查看我们持续进行的志愿服务安排。目前，固定的近期活动是在每个接下来月份的第三个星期六下午 1:00 前往 Lansdowne。",
+    event_label_workshop: "工作坊", event_label_volunteer: "志愿者", event_label_ends: "结束",
+    upcoming_events_empty_title: "没有即将安排的活动", upcoming_events_empty_body: "随着日历更新，新的社区访问会出现在这里。",
+    event_2026_04_11_title: "在 Tribute @ One Loudoun 举办工作坊", event_2026_04_11_body: "居民们一起参加了绘画、对话和一个温暖、以记忆为中心的下午。",
+    event_2026_04_12_title: "在 Tribute @ One Loudoun 举办工作坊", event_2026_04_12_body: "第二场活动邀请居民创造、反思，并与志愿者建立联系。",
+    event_2026_04_18_title: "Lansdowne Heights 志愿访问", event_2026_04_18_body: "志愿者与居民一起分享艺术、对话和温柔的鼓励。",
+    event_2026_04_19_title: "Lansdowne Heights 志愿访问", event_2026_04_19_body: "第二次访问为居民提供了一个安静的空间，去创作并分享故事。",
+    event_2026_05_16_lansdowne_title: "Lansdowne Heights 志愿访问", event_2026_05_16_lansdowne_body: "志愿者鼓励居民把有意义的记忆融入他们的绘画中。",
+    event_2026_05_16_poets_walk_title: "Poet's Walk 工作坊", event_2026_05_16_poets_walk_body: "居民们在一个温暖、以记忆为中心的艺术时段中共同创造。",
+    event_2026_05_30_poets_walk_title: "Poet's Walk 工作坊", event_2026_05_30_poets_walk_body: "引导式艺术活动帮助居民反思记忆并建立联系。",
+    event_2026_06_07_title: "ThriftBooks 筹款结束", event_2026_06_07_body: "筹款结束后，这项支持将继续用于未来的工作坊、材料和外展。",
+    event_2026_06_13_ashleigh_title: "Ashleigh Heights 工作坊", event_2026_06_13_ashleigh_body: "居民们绘画、分享故事，并用艺术以柔和的方式建立联系。",
+    event_2026_06_25_lansdowne_title: "Lansdowne Heights 志愿访问", event_2026_06_25_lansdowne_body: "志愿者鼓励居民把有意义的记忆融入他们的绘画中。",
+    event_2026_06_26_poets_walk_title: "Poet's Walk 工作坊", event_2026_06_26_poets_walk_body: "居民们创作出尊重记忆、关怀与连接的艺术作品。",
+    event_recurring_ashleigh_title: "Ashleigh Heights 定期工作坊", event_recurring_ashleigh_body: "居民定期聚集参加一个温暖、以创造力和联系为中心的艺术时段。",
+    event_recurring_lansdowne_title: "Lansdowne Heights 定期志愿访问", event_recurring_lansdowne_body: "志愿者鼓励居民在创作中带上记忆、故事和安慰。",
+    event_recurring_poets_walk_title: "Poet's Walk 定期工作坊", event_recurring_poets_walk_body: "定期工作坊邀请居民通过温和、易参与的艺术创作与他人建立联系。",
+    calendar_prev_label: "上一个月", calendar_next_label: "下一个月", calendar_modal_close_label: "关闭",
     events_calendar_title: "2026 年 6 月",
     events_calendar_pill: "筹款结束",
     cal_sun: "日",
@@ -3519,6 +3531,20 @@ const translationOverrides = {
     gallery_tag: "画廊",
     gallery_title: "来自我们工作坊的片刻",
     gallery_sub: "一瞥 The Rare Archive 希望营造的创意、平静与连接。",
+    gallery_preview_open: "打开完整画廊 →",
+    gallery_preview_impact: "查看影响",
+    gallery_preview_note: "互动预览 · 点击任意画框即可探索",
+    gallery_preview_cta: "探索完整档案 →",
+    gallery_preview_status: "一组精心策划的工作坊瞬间，像一面静待被发现的记忆之墙。",
+    gallery_modal_featured: "特色时刻",
+    gallery_modal_residence: "场所",
+    gallery_modal_event: "活动",
+    gallery_modal_date: "日期",
+    gallery_modal_time: "时间",
+    gallery_modal_artwork: "作品主题",
+    gallery_modal_volunteer: "志愿者活动",
+    gallery_modal_memory: "记忆如何塑造作品",
+    gallery_modal_close_label: "关闭预览",
     gal1: "水彩工作坊",
     gal2: "受居民启发的作品",
     gal3: "与家人分享完成的艺术作品",
@@ -3683,6 +3709,22 @@ const translationOverrides = {
     events_tab_upcoming: "Événements à venir", events_tab_fundraisers: "Collectes en cours", events_tab_past: "Événements passés",
     events_upcoming_title: "Événements à venir", events_upcoming_note: "Notre principal rendez-vous à venir récurrent est le bénévolat à Lansdowne le troisième samedi de chaque mois à venir à 13 h.",
     events_upcoming_card_title: "Comment utiliser le calendrier", events_upcoming_card_desc: "Utilisez cette section pour suivre notre calendrier récurrent de bénévolat. Pour le moment, l'événement à venir fixe est notre visite à Lansdowne le troisième samedi de chaque mois à venir à 13 h.",
+    event_label_workshop: "Atelier", event_label_volunteer: "Bénévolat", event_label_ends: "Fin",
+    upcoming_events_empty_title: "Aucun événement à venir prévu", upcoming_events_empty_body: "De nouvelles visites communautaires apparaîtront ici au fur et à mesure de la mise à jour du calendrier.",
+    event_2026_04_11_title: "Atelier à Tribute @ One Loudoun", event_2026_04_11_body: "Les résidents ont partagé une après-midi de peinture, de conversation et de lien dans un cadre chaleureux et centré sur la mémoire.",
+    event_2026_04_12_title: "Atelier à Tribute @ One Loudoun", event_2026_04_12_body: "Une deuxième séance a invité les résidents à créer, à réfléchir et à tisser des liens avec les bénévoles.",
+    event_2026_04_18_title: "Visite bénévole à Lansdowne Heights", event_2026_04_18_body: "Les bénévoles ont partagé art, conversation et encouragement avec les résidents.",
+    event_2026_04_19_title: "Visite bénévole à Lansdowne Heights", event_2026_04_19_body: "Une deuxième visite a donné aux résidents un espace calme pour créer et partager leurs histoires.",
+    event_2026_05_16_lansdowne_title: "Visite bénévole à Lansdowne Heights", event_2026_05_16_lansdowne_body: "Les bénévoles ont encouragé les résidents à intégrer des souvenirs significatifs dans leurs peintures.",
+    event_2026_05_16_poets_walk_title: "Atelier à Poet's Walk", event_2026_05_16_poets_walk_body: "Les résidents ont créé ensemble lors d'une séance artistique accueillante et centrée sur la mémoire.",
+    event_2026_05_30_poets_walk_title: "Atelier à Poet's Walk", event_2026_05_30_poets_walk_body: "Une séance d'art guidée a aidé les résidents à réfléchir à leurs souvenirs et à renforcer les liens.",
+    event_2026_06_07_title: "Fin de la collecte ThriftBooks", event_2026_06_07_body: "La collecte s'est terminée après avoir soutenu de futurs ateliers, du matériel et du travail de terrain.",
+    event_2026_06_13_ashleigh_title: "Atelier à Ashleigh Heights", event_2026_06_13_ashleigh_body: "Les résidents ont peint, partagé des histoires et utilisé l'art comme un moyen doux de se connecter.",
+    event_2026_06_25_lansdowne_title: "Visite bénévole à Lansdowne Heights", event_2026_06_25_lansdowne_body: "Les bénévoles ont encouragé les résidents à intégrer des souvenirs significatifs dans leurs peintures.",
+    event_2026_06_26_poets_walk_title: "Atelier à Poet's Walk", event_2026_06_26_poets_walk_body: "Les résidents ont créé des œuvres qui honorent la mémoire, la douceur et le lien.",
+    event_recurring_ashleigh_title: "Atelier récurrent à Ashleigh Heights", event_recurring_ashleigh_body: "Les résidents se retrouvent pour une séance d'art récurrente, chaleureuse et centrée sur la créativité et le lien.",
+    event_recurring_lansdowne_title: "Visite bénévole récurrente à Lansdowne Heights", event_recurring_lansdowne_body: "Les bénévoles encouragent les résidents à créer avec la mémoire, les histoires et le confort en tête.",
+    event_recurring_poets_walk_title: "Atelier récurrent à Poet's Walk", event_recurring_poets_walk_body: "Un atelier récurrent invite les résidents à créer et à se reconnecter grâce à un art doux et accessible.",
     events_calendar_title: "Juin 2026", events_calendar_pill: "Fin de la collecte",
     cal_sun: "Dim", cal_mon: "Lun", cal_tue: "Mar", cal_wed: "Mer", cal_thu: "Jeu", cal_fri: "Ven", cal_sat: "Sam",
     events_marker_1: "Fin", events_marker_2: "Lanc.", events_marker_3: "Éph.",
@@ -3712,6 +3754,20 @@ const translationOverrides = {
     inv_c3_title: "Construire un soutien scolaire", inv_c3_desc: "Nous grandissons aussi grâce aux clubs scolaires, aux organisations étudiantes et aux groupes de service jeunesse qui souhaitent faire connaître la mission, financer du matériel et aider le programme à durer.", inv_c3_btn: "S'impliquer →",
     gallery_tag: "Galerie", gallery_title: "Moments de nos ateliers",
     gallery_sub: "Un aperçu de la créativité, du calme et du lien que nous voulons construire grâce à The Rare Archive.",
+    gallery_preview_open: "Ouvrir la galerie complète →",
+    gallery_preview_impact: "Voir l'impact",
+    gallery_preview_note: "Aperçu interactif · cliquez sur n'importe quel cadre pour explorer",
+    gallery_preview_cta: "Explorer l'archive complète →",
+    gallery_preview_status: "Un aperçu soigné des moments de nos ateliers, disposé comme un mur de souvenirs à découvrir.",
+    gallery_modal_featured: "Moment mis en avant",
+    gallery_modal_residence: "Résidence",
+    gallery_modal_event: "Événement",
+    gallery_modal_date: "Date",
+    gallery_modal_time: "Heure",
+    gallery_modal_artwork: "Thème de l'œuvre",
+    gallery_modal_volunteer: "Activité du bénévole",
+    gallery_modal_memory: "Comment les souvenirs ont façonné l'œuvre",
+    gallery_modal_close_label: "Fermer l'aperçu",
     gal1: "Atelier d'aquarelle", gal2: "Œuvre inspirée par une résidente",
     gal3: "Partager l'œuvre terminée avec la famille", gal4: "Bénévole étudiant en action",
     gal5: "Séance de bricolage saisonnier", gal6: "Projet portrait et mémoire", gal7: "Présentation artistique communautaire",
@@ -3857,6 +3913,22 @@ const translationOverrides = {
     events_tab_upcoming: "आने वाले इवेंट्स", events_tab_fundraisers: "वर्तमान फंडरेज़र", events_tab_past: "पिछले इवेंट्स",
     events_upcoming_title: "आने वाले इवेंट्स", events_upcoming_note: "हमारा मुख्य नियमित आगामी इवेंट Lansdowne में हर आने वाले महीने के तीसरे शनिवार को 1:00 PM पर स्वयंसेवा करना है।",
     events_upcoming_card_title: "कैलेंडर का उपयोग कैसे करें", events_upcoming_card_desc: "इस भाग का उपयोग हमारे नियमित स्वयंसेवी कार्यक्रम को ट्रैक करने के लिए करें। फिलहाल निश्चित आगामी इवेंट Lansdowne की हमारी यात्रा है, जो हर आने वाले महीने के तीसरे शनिवार को 1:00 PM पर होती है।",
+    event_label_workshop: "वर्कशॉप", event_label_volunteer: "स्वयंसेवा", event_label_ends: "समाप्त",
+    upcoming_events_empty_title: "कोई आगामी इवेंट निर्धारित नहीं", upcoming_events_empty_body: "कैलेंडर अपडेट होने पर नई सामुदायिक यात्राएँ यहाँ दिखाई देंगी।",
+    event_2026_04_11_title: "Tribute @ One Loudoun में वर्कशॉप", event_2026_04_11_body: "निवासियों ने पेंटिंग, बातचीत और स्मृति-केन्द्रित गर्म下午 का हिस्सा बने।",
+    event_2026_04_12_title: "Tribute @ One Loudoun में वर्कशॉप", event_2026_04_12_body: "दूसरे सत्र में निवासियों को रचना, चिंतन और स्वयंसेवकों के साथ जुड़ाव का आमंत्रण मिला।",
+    event_2026_04_18_title: "Lansdowne Heights में स्वयंसेवी यात्रा", event_2026_04_18_body: "स्वयंसेवकों ने निवासियों के साथ कला, बातचीत और कोमल उत्साह साझा किया।",
+    event_2026_04_19_title: "Lansdowne Heights में स्वयंसेवी यात्रा", event_2026_04_19_body: "दूसरी यात्रा ने निवासियों को शांत वातावरण में रचना और कहानियाँ साझा करने का मौका दिया।",
+    event_2026_05_16_lansdowne_title: "Lansdowne Heights में स्वयंसेवी यात्रा", event_2026_05_16_lansdowne_body: "स्वयंसेवकों ने निवासियों को अपनी पेंटिंग में अर्थपूर्ण यादें शामिल करने के लिए प्रोत्साहित किया।",
+    event_2026_05_16_poets_walk_title: "Poet's Walk में वर्कशॉप", event_2026_05_16_poets_walk_body: "निवासियों ने एक स्वागतपूर्ण, स्मृति-केन्द्रित कला सत्र में साथ मिलकर रचना की।",
+    event_2026_05_30_poets_walk_title: "Poet's Walk में वर्कशॉप", event_2026_05_30_poets_walk_body: "निर्देशित कला सत्र ने निवासियों को अपनी यादों पर विचार करने और जुड़ाव बढ़ाने में मदद की।",
+    event_2026_06_07_title: "थ्रिफ्टबुक्स फंडरेज़र समाप्त", event_2026_06_07_body: "भविष्य की वर्कशॉप, सामग्री और आउटरीच को सहायता देने के बाद फंडरेज़र बंद हुआ।",
+    event_2026_06_13_ashleigh_title: "Ashleigh Heights में वर्कशॉप", event_2026_06_13_ashleigh_body: "निवासियों ने पेंटिंग की, कहानियाँ साझा कीं और कला के जरिए कोमल तरीके से जुड़ने की कोशिश की।",
+    event_2026_06_25_lansdowne_title: "Lansdowne Heights में स्वयंसेवी यात्रा", event_2026_06_25_lansdowne_body: "स्वयंसेवकों ने निवासियों को अपनी पेंटिंग में अर्थपूर्ण यादें शामिल करने के लिए प्रोत्साहित किया।",
+    event_2026_06_26_poets_walk_title: "Poet's Walk में वर्कशॉप", event_2026_06_26_poets_walk_body: "निवासियों ने ऐसी कलाकृति बनाई जो स्मृति, देखभाल और जुड़ाव का सम्मान करती है।",
+    event_recurring_ashleigh_title: "Ashleigh Heights में आवर्ती वर्कशॉप", event_recurring_ashleigh_body: "निवासी रचनात्मकता और जुड़ाव पर केंद्रित एक गर्म, आवर्ती कला सत्र में एकत्र होते हैं।",
+    event_recurring_lansdowne_title: "Lansdowne Heights में आवर्ती स्वयंसेवी यात्रा", event_recurring_lansdowne_body: "स्वयंसेवक निवासियों को स्मृति, कहानी और आराम को ध्यान में रखकर रचना करने के लिए प्रोत्साहित करते हैं।",
+    event_recurring_poets_walk_title: "Poet's Walk में आवर्ती वर्कशॉप", event_recurring_poets_walk_body: "एक आवर्ती वर्कशॉप निवासियों को कोमल, सुलभ कला के माध्यम से रचना और जुड़ाव करने के लिए आमंत्रित करती है।",
     events_calendar_title: "जून 2026", events_calendar_pill: "फंडरेज़र समाप्ति",
     cal_sun: "रवि", cal_mon: "सोम", cal_tue: "मंगल", cal_wed: "बुध", cal_thu: "गुरु", cal_fri: "शुक्र", cal_sat: "शनि",
     events_marker_1: "समाप्ति", events_marker_2: "शुरुआत", events_marker_3: "पॉप-अप",
@@ -3886,6 +3958,20 @@ const translationOverrides = {
     inv_c3_title: "स्कूल समर्थन बनाएं", inv_c3_desc: "हम स्कूल क्लबों, छात्र संगठनों और युवा सेवा समूहों के जरिए भी आगे बढ़ रहे हैं, जो इस मिशन के बारे में जागरूकता फैलाना, सामग्री के लिए धन जुटाना और कार्यक्रम को टिकाऊ बनाना चाहते हैं।", inv_c3_btn: "जुड़ें →",
     gallery_tag: "गैलरी", gallery_title: "हमारी वर्कशॉप के पल",
     gallery_sub: "The Rare Archive के जरिए हम जो रचनात्मकता, शांति और जुड़ाव बनाना चाहते हैं, उसकी एक झलक।",
+    gallery_preview_open: "पूरी गैलरी खोलें →",
+    gallery_preview_impact: "प्रभाव देखें",
+    gallery_preview_note: "इंटरैक्टिव पूर्वावलोकन · अन्वेषण के लिए किसी भी फ्रेम पर क्लिक करें",
+    gallery_preview_cta: "पूरी आर्काइव देखें →",
+    gallery_preview_status: "वर्कशॉप के क्षणों का एक सावधानीपूर्वक चुना हुआ पूर्वावलोकन, जैसे यादों की एक दीवार जो découverte का इंतजार कर रही हो।",
+    gallery_modal_featured: "विशेष क्षण",
+    gallery_modal_residence: "निवास",
+    gallery_modal_event: "इवेंट",
+    gallery_modal_date: "तारीख",
+    gallery_modal_time: "समय",
+    gallery_modal_artwork: "कला थीम",
+    gallery_modal_volunteer: "स्वयंसेवक गतिविधि",
+    gallery_modal_memory: "यादें किस तरह काम को आकार दे रही थीं",
+    gallery_modal_close_label: "पूर्वावलोकन बंद करें",
     gal1: "वॉटरकलर वर्कशॉप", gal2: "निवासी से प्रेरित कलाकृति",
     gal3: "परिवार के साथ पूरी हुई कला साझा करना", gal4: "काम करते हुए छात्र स्वयंसेवक",
     gal5: "मौसमी क्राफ्ट सत्र", gal6: "पोर्ट्रेट और स्मृति परियोजना", gal7: "सामुदायिक कला प्रदर्शन",
@@ -3938,6 +4024,20 @@ Object.entries(translationOverrides).forEach(([lang, override]) => {
 const savedLanguage = window.localStorage.getItem('rareArchiveLanguage');
 let currentLang = translations[savedLanguage] ? savedLanguage : 'en';
 
+function updateGalleryLinks() {
+  document.querySelectorAll('a[href*="gallery.html"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href) return;
+    const url = new URL(href, window.location.href);
+    if (currentLang && currentLang !== 'en') {
+      url.searchParams.set('lang', currentLang);
+    } else {
+      url.searchParams.delete('lang');
+    }
+    link.href = `${url.pathname}${url.search}`;
+  });
+}
+
 function applyTranslations(lang) {
   const t = translations[lang];
   if (!t) return;
@@ -3962,6 +4062,14 @@ function applyTranslations(lang) {
     if (t[key] === undefined) return;
     el.placeholder = t[key];
   });
+
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+    const key = el.getAttribute('data-i18n-aria');
+    if (t[key] === undefined) return;
+    el.setAttribute('aria-label', t[key]);
+  });
+
+  updateGalleryLinks();
 }
 
 function setLanguage(lang) {
@@ -3992,6 +4100,7 @@ function setLanguage(lang) {
   }
 
   renderCalendar();
+  renderUpcomingEvents();
 }
 
 document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -4101,102 +4210,387 @@ const observer = new IntersectionObserver((entries) => {
 faders.forEach(f => observer.observe(f));
 
 /* ============================================================
-   GALLERY LIGHTBOX
+   HOMEPAGE GALLERY PREVIEW
 ============================================================ */
-const galleryLightbox = document.getElementById('galleryLightbox');
-const galleryLightboxImage = document.getElementById('galleryLightboxImage');
-const galleryLightboxDate = document.getElementById('galleryLightboxDate');
-const galleryLightboxTitle = document.getElementById('galleryLightboxTitle');
-const galleryLightboxEvent = document.getElementById('galleryLightboxEvent');
-const galleryLightboxCaption = document.getElementById('galleryLightboxCaption');
-const galleryLightboxClose = document.getElementById('galleryLightboxClose');
-const galleryLightboxDialog = document.querySelector('.gallery-lightbox-dialog');
-const galleryItems = document.querySelectorAll('#gallery .gallery-item');
-let galleryActiveTrigger = null;
-
-function openGalleryLightbox(item) {
-  if (!galleryLightbox || !galleryLightboxImage || !galleryLightboxCaption || !galleryLightboxTitle || !galleryLightboxDate || !galleryLightboxEvent) return;
-
-  const image = item.querySelector('.gallery-img');
-  const caption = item.querySelector('.gallery-overlay span');
-  if (!image) return;
-
-  const eventKey = item.getAttribute('data-event-key');
-  const dateLabel = item.getAttribute('data-date-label') || 'Workshop Gallery';
-  const eventDetails = eventKey && typeof calendarEvents !== 'undefined' ? calendarEvents[eventKey] : null;
-  const imageTitle = caption ? caption.textContent.trim() : image.getAttribute('alt') || '';
-
-  galleryActiveTrigger = item;
-  galleryLightboxImage.src = image.currentSrc || image.src || image.getAttribute('src') || '';
-  galleryLightboxImage.alt = image.getAttribute('alt') || '';
-  galleryLightboxDate.textContent = dateLabel;
-  galleryLightboxTitle.textContent = imageTitle;
-  galleryLightboxEvent.textContent = eventDetails ? eventDetails.title : '';
-  galleryLightboxEvent.style.display = eventDetails ? 'inline' : 'none';
-  galleryLightboxCaption.textContent = eventDetails ? eventDetails.body : imageTitle;
-  if (galleryLightboxDialog) {
-    galleryLightboxDialog.classList.toggle('is-portrait', item.classList.contains('portrait'));
+const homepageGalleryCloud = document.getElementById('homepageGalleryCloud');
+const galleryWallModal = document.getElementById('galleryWallModal');
+const galleryWallModalCard = document.getElementById('galleryWallModalCard');
+const galleryWallModalClose = document.getElementById('galleryWallModalClose');
+const galleryWallModalImage = document.getElementById('galleryWallModalImage');
+const galleryWallModalTitle = document.getElementById('galleryWallModalTitle');
+const galleryWallModalResidence = document.getElementById('galleryWallModalResidence');
+const galleryWallModalEvent = document.getElementById('galleryWallModalEvent');
+const galleryWallModalDate = document.getElementById('galleryWallModalDate');
+const galleryWallModalTime = document.getElementById('galleryWallModalTime');
+const galleryWallModalArtwork = document.getElementById('galleryWallModalArtwork');
+const galleryWallModalVolunteer = document.getElementById('galleryWallModalVolunteer');
+const galleryWallModalMemory = document.getElementById('galleryWallModalMemory');
+const galleryWallModalCaption = document.getElementById('galleryWallModalCaption');
+const memoryPhotoPool = [
+  {
+    src: './workshop-photos/workshop-01.png',
+    alt: 'Resident smiling and holding up a finished animal-themed painting at Lansdowne Heights.',
+    caption: 'Lansdowne Heights · April 19, 2026',
+    residence: 'Lansdowne Heights',
+    eventSlug: '2026-04-19',
+    eventTitle: 'Painting with Purpose',
+    eventDate: 'April 19, 2026',
+    eventTime: '10:30 AM',
+    artworkTheme: 'Animal companions and memory-filled color',
+    volunteerActivity: 'Student volunteers guided residents through layered acrylic painting and gentle conversation.',
+    memoryDescription: 'Residents wove personal memories of pets, gardens, and family stories into the work.',
+    detailCaption: 'A moment of laughter and shared color as the workshop wrapped with a resident proudly holding their finished painting.'
+  },
+  {
+    src: './workshop-photos/workshop-03.png',
+    alt: 'Two people smiling and holding a finished painting together.',
+    caption: 'Lansdowne Heights · April 19, 2026',
+    residence: 'Lansdowne Heights',
+    eventSlug: '2026-04-19',
+    eventTitle: 'Painting with Purpose',
+    eventDate: 'April 19, 2026',
+    eventTime: '10:30 AM',
+    artworkTheme: 'Warm portraits and hand-painted stories',
+    volunteerActivity: 'Students helped residents shape each composition with steady encouragement and attentive listening.',
+    memoryDescription: 'The final pieces reflected familiar faces, cherished routines, and the comfort of being seen.',
+    detailCaption: 'A bright shared moment as two participants celebrated the completed artwork together.'
+  },
+  {
+    src: './workshop-photos/workshop-04.png',
+    alt: 'Canvas painting of sea turtles on a beach from Tribute @ One Loudoun.',
+    caption: 'Tribute @ One Loudoun · April 11, 2026',
+    residence: 'Tribute @ One Loudoun',
+    eventSlug: '2026-04-11',
+    eventTitle: 'Coastal Memory Workshop',
+    eventDate: 'April 11, 2026',
+    eventTime: '2:00 PM',
+    artworkTheme: 'Sea turtles, shorelines, and calm movement',
+    volunteerActivity: 'Volunteers helped residents translate personal memories of travel and shoreline walks into paint.',
+    memoryDescription: 'Each turtle became a marker of resilience, comfort, and the places residents loved most.',
+    detailCaption: 'A coastal landscape painted with quiet reflection and bright, hopeful color.'
+  },
+  {
+    src: './workshop-photos/workshop-05.png',
+    alt: 'Resident-painted beach scene with waves, dunes, and grasses.',
+    caption: 'Tribute @ One Loudoun · April 11, 2026',
+    residence: 'Tribute @ One Loudoun',
+    eventSlug: '2026-04-11',
+    eventTitle: 'Coastal Memory Workshop',
+    eventDate: 'April 11, 2026',
+    eventTime: '2:00 PM',
+    artworkTheme: 'Beach memories and gentle horizons',
+    volunteerActivity: 'Volunteers sat beside residents to support each brushstroke and personal memory.',
+    memoryDescription: 'The dunes and grasses carried the feeling of familiar walks, summer evenings, and family stories.',
+    detailCaption: 'A layered beach scene that balances calm, movement, and memory.'
+  },
+  {
+    src: './workshop-photos/workshop-06.png',
+    alt: 'Canvas showing a turtle moving along a sandy shoreline toward the water.',
+    caption: 'Lansdowne Heights · April 18, 2026',
+    residence: 'Lansdowne Heights',
+    eventSlug: '2026-04-18',
+    eventTitle: 'Shoreline Story Circle',
+    eventDate: 'April 18, 2026',
+    eventTime: '1:15 PM',
+    artworkTheme: 'Movement, migration, and the shoreline',
+    volunteerActivity: 'Volunteers encouraged residents to narrate stories while color and line emerged across the page.',
+    memoryDescription: 'The turtle became a symbol of a journey home, carrying personal meanings gently across the work.',
+    detailCaption: 'A thoughtful shoreline painting made from stories of travel and quiet reflection.'
+  },
+  {
+    src: './workshop-photos/workshop-07.png',
+    alt: 'A shoreline painting with layered color and gentle brushwork.',
+    caption: 'Lansdowne Heights · April 18, 2026',
+    residence: 'Lansdowne Heights',
+    eventSlug: '2026-04-18',
+    eventTitle: 'Shoreline Story Circle',
+    eventDate: 'April 18, 2026',
+    eventTime: '1:15 PM',
+    artworkTheme: 'Layered shoreline color and emotional texture',
+    volunteerActivity: 'Students helped residents build color gently, encouraging pauses and reflection during the session.',
+    memoryDescription: 'Residents drew from summers by the water, family trips, and the feeling of breath and light.',
+    detailCaption: 'A softly layered painting that feels like a memory brought into view.'
+  },
+  {
+    src: './workshop-photos/workshop-08.png',
+    alt: 'A colorful beach scene with starfish and figures painted by a resident.',
+    caption: 'Lansdowne Heights · April 18, 2026',
+    residence: 'Lansdowne Heights',
+    eventSlug: '2026-04-18',
+    eventTitle: 'Shoreline Story Circle',
+    eventDate: 'April 18, 2026',
+    eventTime: '1:15 PM',
+    artworkTheme: 'Shared joy and coastal color',
+    volunteerActivity: 'Volunteers helped residents compose playful scenes filled with texture, movement, and memory.',
+    memoryDescription: 'Figures and sea life were arranged to echo cherished family visits and joyful coastal afternoons.',
+    detailCaption: 'A vivid composition that balances humor, warmth, and personal symbolism.'
+  },
+  {
+    src: './workshop-photos/workshop-13.png',
+    alt: 'Student volunteer standing beside residents during a painting workshop.',
+    caption: 'Lansdowne Heights · April 19, 2026',
+    residence: 'Lansdowne Heights',
+    eventSlug: '2026-04-19',
+    eventTitle: 'Painting with Purpose',
+    eventDate: 'April 19, 2026',
+    eventTime: '10:30 AM',
+    artworkTheme: 'Shared creative energy and companionship',
+    volunteerActivity: 'Students and residents sat together, exchanging stories while painting side by side.',
+    memoryDescription: 'The finished pieces carried both individual memory and the warmth of shared company.',
+    detailCaption: 'A moment of partnership and creativity captured during a resident-centered workshop.'
+  },
+  {
+    src: './workshop-photos/workshop-15.png',
+    alt: 'A finished painting that carries personal symbolism and warmth.',
+    caption: 'Lansdowne Heights · April 19, 2026',
+    residence: 'Lansdowne Heights',
+    eventSlug: '2026-04-19',
+    eventTitle: 'Painting with Purpose',
+    eventDate: 'April 19, 2026',
+    eventTime: '10:30 AM',
+    artworkTheme: 'Personal symbolism and heartfelt color',
+    volunteerActivity: 'Volunteers helped residents finish each piece with care, patience, and gentle reflection.',
+    memoryDescription: 'The final artwork held the shape of a memory, a story, and a quiet sense of belonging.',
+    detailCaption: 'A completed piece that feels intimate, luminous, and deeply personal.'
   }
+];
 
-  galleryLightbox.classList.add('open');
-  galleryLightbox.setAttribute('aria-hidden', 'false');
-  document.body.classList.add('gallery-lightbox-open');
+const galleryWallLayouts = {
+  desktop: [
+    { left: '20%', top: '28%', width: '20%', height: '30%', rotate: -6, opacity: '0.62', saturation: '0.74', blur: '0.8px', brightness: '0.95', tint: '0.2' },
+    { left: '39%', top: '18%', width: '24%', height: '24%', rotate: 4, opacity: '0.68', saturation: '0.76', blur: '0.78px', brightness: '0.96', tint: '0.18' },
+    { left: '63%', top: '22%', width: '16%', height: '28%', rotate: 6, opacity: '0.64', saturation: '0.74', blur: '0.82px', brightness: '0.95', tint: '0.2' },
+    { left: '16%', top: '56%', width: '18%', height: '34%', rotate: -4, opacity: '0.64', saturation: '0.74', blur: '0.82px', brightness: '0.95', tint: '0.2' },
+    { left: '37%', top: '51%', width: '22%', height: '22%', rotate: -2, opacity: '0.66', saturation: '0.75', blur: '0.8px', brightness: '0.96', tint: '0.18' },
+    { left: '60%', top: '54%', width: '21%', height: '24%', rotate: 2, opacity: '0.66', saturation: '0.75', blur: '0.8px', brightness: '0.96', tint: '0.18' },
+    { left: '78%', top: '50%', width: '16%', height: '26%', rotate: 4, opacity: '0.62', saturation: '0.74', blur: '0.84px', brightness: '0.95', tint: '0.2' },
+    { left: '46%', top: '74%', width: '24%', height: '20%', rotate: -3, opacity: '0.64', saturation: '0.74', blur: '0.82px', brightness: '0.95', tint: '0.2' }
+  ],
+  tablet: [
+    { left: '20%', top: '38%', width: '24%', height: '28%', rotate: -5, opacity: '0.66', saturation: '0.76', blur: '0.8px', brightness: '0.96', tint: '0.19' },
+    { left: '44%', top: '20%', width: '28%', height: '30%', rotate: 4, opacity: '0.68', saturation: '0.76', blur: '0.78px', brightness: '0.96', tint: '0.18' },
+    { left: '72%', top: '26%', width: '18%', height: '24%', rotate: 5, opacity: '0.64', saturation: '0.74', blur: '0.82px', brightness: '0.95', tint: '0.2' },
+    { left: '12%', top: '68%', width: '20%', height: '24%', rotate: -3, opacity: '0.64', saturation: '0.74', blur: '0.82px', brightness: '0.95', tint: '0.2' },
+    { left: '34%', top: '66%', width: '24%', height: '20%', rotate: -2, opacity: '0.66', saturation: '0.75', blur: '0.8px', brightness: '0.96', tint: '0.18' },
+    { left: '58%', top: '58%', width: '24%', height: '22%', rotate: 2, opacity: '0.66', saturation: '0.75', blur: '0.8px', brightness: '0.96', tint: '0.18' },
+    { left: '80%', top: '68%', width: '16%', height: '26%', rotate: 4, opacity: '0.62', saturation: '0.74', blur: '0.84px', brightness: '0.95', tint: '0.2' },
+    { left: '50%', top: '84%', width: '24%', height: '18%', rotate: -3, opacity: '0.64', saturation: '0.74', blur: '0.82px', brightness: '0.95', tint: '0.2' }
+  ],
+  mobile: [
+    { left: '24%', top: '26%', width: '34%', height: '22%', rotate: -4, opacity: '0.64', saturation: '0.74', blur: '0.82px', brightness: '0.95', tint: '0.2' },
+    { left: '62%', top: '22%', width: '30%', height: '24%', rotate: 4, opacity: '0.66', saturation: '0.75', blur: '0.8px', brightness: '0.96', tint: '0.18' },
+    { left: '16%', top: '50%', width: '38%', height: '24%', rotate: -3, opacity: '0.66', saturation: '0.75', blur: '0.8px', brightness: '0.96', tint: '0.18' },
+    { left: '58%', top: '50%', width: '28%', height: '22%', rotate: 3, opacity: '0.64', saturation: '0.74', blur: '0.82px', brightness: '0.95', tint: '0.2' },
+    { left: '24%', top: '76%', width: '34%', height: '18%', rotate: -2, opacity: '0.64', saturation: '0.74', blur: '0.82px', brightness: '0.95', tint: '0.2' },
+    { left: '62%', top: '76%', width: '28%', height: '20%', rotate: 2, opacity: '0.66', saturation: '0.75', blur: '0.8px', brightness: '0.96', tint: '0.18' },
+    { left: '20%', top: '96%', width: '24%', height: '16%', rotate: -2, opacity: '0.62', saturation: '0.74', blur: '0.84px', brightness: '0.95', tint: '0.2' },
+    { left: '50%', top: '96%', width: '36%', height: '16%', rotate: 1, opacity: '0.62', saturation: '0.74', blur: '0.84px', brightness: '0.95', tint: '0.2' }
+  ]
+};
 
-  if (galleryLightboxClose) {
-    galleryLightboxClose.focus();
-  }
-}
+const homepageGalleryData = memoryPhotoPool.slice(0, 8).map((photo, index) => ({
+  ...photo,
+  entryDelay: `${Math.min(0.8, 0.06 + index * 0.07)}s`
+}));
 
-function closeGalleryLightbox() {
-  if (!galleryLightbox) return;
+const setModalContent = (item) => {
+  const t = translations[currentLang] || translations.en || {};
+  galleryWallModalImage.src = item.src;
+  galleryWallModalImage.alt = item.alt;
+  galleryWallModalTitle.textContent = item.eventTitle;
+  galleryWallModalResidence.textContent = item.residence;
+  galleryWallModalEvent.textContent = item.eventTitle;
+  galleryWallModalDate.textContent = item.eventDate;
+  galleryWallModalTime.textContent = item.eventTime;
+  galleryWallModalArtwork.textContent = `${t.gallery_modal_artwork || 'Artwork theme'}: ${item.artworkTheme}`;
+  galleryWallModalVolunteer.textContent = `${t.gallery_modal_volunteer || 'Volunteer activity'}: ${item.volunteerActivity}`;
+  galleryWallModalMemory.textContent = `${t.gallery_modal_memory || 'How memories shaped the work'}: ${item.memoryDescription}`;
+  galleryWallModalCaption.textContent = item.detailCaption;
+};
 
-  galleryLightbox.classList.remove('open');
-  galleryLightbox.setAttribute('aria-hidden', 'true');
-  document.body.classList.remove('gallery-lightbox-open');
-  if (galleryLightboxDialog) {
-    galleryLightboxDialog.classList.remove('is-portrait');
-  }
+const getCurrentLayout = () => {
+  if (window.innerWidth <= 640) return galleryWallLayouts.mobile;
+  if (window.innerWidth <= 900) return galleryWallLayouts.tablet;
+  return galleryWallLayouts.desktop;
+};
 
-  if (galleryActiveTrigger) {
-    galleryActiveTrigger.focus();
-  }
-}
+const applyGalleryLayout = () => {
+  const layout = getCurrentLayout();
+  cards.forEach((card, index) => {
+    const item = layout[index];
+    if (!item) return;
+    card.style.left = item.left;
+    card.style.top = item.top;
+    card.style.width = item.width;
+    card.style.height = item.height;
+    card.style.setProperty('--rotate', `${item.rotate}deg`);
+    card.style.setProperty('--memory-opacity', item.opacity);
+    card.style.setProperty('--memory-saturation', item.saturation);
+    card.style.setProperty('--memory-blur', item.blur);
+    card.style.setProperty('--memory-brightness', item.brightness);
+    card.style.setProperty('--memory-tint', item.tint);
+  });
+};
 
-galleryItems.forEach(item => {
-  const image = item.querySelector('.gallery-img');
-  const caption = item.querySelector('.gallery-overlay span');
-  const baseLabel = caption ? caption.textContent.trim() : (image ? image.getAttribute('alt') : 'Open image');
-  const dateLabel = item.getAttribute('data-date-label');
-  const accessibleLabel = dateLabel ? `${baseLabel}, ${dateLabel}` : baseLabel;
+const openModal = (item, originRect) => {
+  setModalContent(item);
+  galleryWallModal.classList.add('is-open');
+  galleryWallModal.setAttribute('aria-hidden', 'false');
+  galleryWallModalCard.style.setProperty('--origin-x', `${originRect.left + originRect.width / 2}px`);
+  galleryWallModalCard.style.setProperty('--origin-y', `${originRect.top + originRect.height / 2}px`);
+  document.body.style.overflow = 'hidden';
+};
 
-  item.setAttribute('tabindex', '0');
-  item.setAttribute('role', 'button');
-  item.setAttribute('aria-haspopup', 'dialog');
-  item.setAttribute('aria-label', accessibleLabel || 'Open image');
+const closeModal = () => {
+  if (!galleryWallModal.classList.contains('is-open')) return;
+  galleryWallModal.classList.remove('is-open');
+  galleryWallModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+};
 
-  item.addEventListener('click', () => openGalleryLightbox(item));
-  item.addEventListener('keydown', event => {
-    if (event.key === 'Enter' || event.key === ' ') {
+if (homepageGalleryCloud) {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cards = [];
+
+  homepageGalleryData.forEach((item, index) => {
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'gallery-cloud-card';
+    card.setAttribute('aria-label', `${item.caption}. Open the story behind this memory.`);
+    card.dataset.eventSlug = item.eventSlug;
+    card.dataset.index = String(index);
+    card.style.setProperty('--entry-delay', item.entryDelay);
+    card.classList.add('is-visible');
+
+    const img = document.createElement('img');
+    img.src = item.src;
+    img.alt = item.alt;
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.addEventListener('error', () => {
+      img.src = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800"><rect width="600" height="800" rx="40" fill="#f4e4eb"/><path d="M140 640c38-120 120-204 214-204 98 0 0 92 206 204" fill="#d8b3c2"/><circle cx="300" cy="280" r="104" fill="#ffffff" opacity="0.9"/></svg>');
+      img.alt = 'Gallery artwork placeholder';
+    });
+
+    card.appendChild(img);
+    homepageGalleryCloud.appendChild(card);
+    cards.push(card);
+  });
+
+  applyGalleryLayout();
+
+  const resetCards = () => {
+    cards.forEach(card => {
+      card.classList.remove('is-neighbor', 'is-active', 'is-hovered');
+      card.style.transform = `translate(-50%, -50%) rotate(${card.style.getPropertyValue('--rotate') || '0deg'}) scale(1)`;
+    });
+  };
+
+  const applyPointerMotion = (event) => {
+    if (prefersReducedMotion) return;
+    const rect = homepageGalleryCloud.getBoundingClientRect();
+    const pointerX = (event.clientX - rect.left) / rect.width;
+    const pointerY = (event.clientY - rect.top) / rect.height;
+    const cardInfluence = [];
+
+    cards.forEach((card, index) => {
+      const item = getCurrentLayout()[index];
+      if (!item) return;
+      const leftRatio = parseFloat(item.left) / 100;
+      const topRatio = parseFloat(item.top) / 100;
+      const dx = pointerX - leftRatio;
+      const dy = pointerY - topRatio;
+      const distance = Math.hypot(dx, dy);
+      const influence = Math.max(0, Math.min(1, 1 - distance / 0.42));
+      cardInfluence.push(influence);
+
+      if (influence > 0.14) {
+        card.style.setProperty('--memory-opacity', '1');
+        card.style.setProperty('--memory-saturation', '1');
+        card.style.setProperty('--memory-blur', '0px');
+        card.style.setProperty('--memory-brightness', '1.02');
+        card.style.setProperty('--memory-tint', '0');
+        card.style.transform = `translate(-50%, -50%) rotate(${card.style.getPropertyValue('--rotate') || '0deg'}) scale(${1 + influence * 0.01})`;
+      } else if (influence > 0.06) {
+        card.classList.add('is-neighbor');
+        card.style.setProperty('--memory-opacity', '0.84');
+        card.style.setProperty('--memory-saturation', '0.92');
+        card.style.setProperty('--memory-blur', '0.2px');
+        card.style.setProperty('--memory-brightness', '0.98');
+        card.style.setProperty('--memory-tint', '0.08');
+        card.style.transform = `translate(-50%, -50%) rotate(${card.style.getPropertyValue('--rotate') || '0deg'}) scale(1)`;
+      } else {
+        card.classList.remove('is-neighbor', 'is-hovered');
+        card.style.setProperty('--memory-opacity', item.opacity);
+        card.style.setProperty('--memory-saturation', item.saturation);
+        card.style.setProperty('--memory-blur', item.blur);
+        card.style.setProperty('--memory-brightness', item.brightness);
+        card.style.setProperty('--memory-tint', item.tint);
+        card.style.transform = `translate(-50%, -50%) rotate(${card.style.getPropertyValue('--rotate') || '0deg'}) scale(1)`;
+      }
+    });
+
+    const activeIndex = cardInfluence.reduce((bestIndex, influence, index, array) => {
+      if (influence > array[bestIndex]) {
+        return index;
+      }
+      return bestIndex;
+    }, 0);
+
+    cards.forEach((card, index) => {
+      card.classList.remove('is-neighbor', 'is-active', 'is-hovered');
+      const influence = cardInfluence[index];
+      if (index === activeIndex && influence > 0.18) {
+        card.classList.add('is-active', 'is-hovered');
+        card.style.setProperty('--memory-opacity', '1');
+        card.style.setProperty('--memory-saturation', '1');
+        card.style.setProperty('--memory-blur', '0px');
+        card.style.setProperty('--memory-brightness', '1.02');
+        card.style.setProperty('--memory-tint', '0');
+        card.style.transform = 'translate(-50%, -50%) rotate(0deg) scale(1.05)';
+      } else if (influence > 0.06) {
+        card.classList.add('is-neighbor');
+      }
+    });
+  };
+
+  homepageGalleryCloud.addEventListener('pointermove', applyPointerMotion);
+  homepageGalleryCloud.addEventListener('pointerleave', () => {
+    resetCards();
+  });
+  window.addEventListener('resize', () => {
+    applyGalleryLayout();
+    resetCards();
+  });
+
+  cards.forEach(card => {
+    card.addEventListener('click', (event) => {
       event.preventDefault();
-      openGalleryLightbox(item);
-    }
-  });
-});
-
-if (galleryLightbox && galleryLightboxClose) {
-  galleryLightboxClose.addEventListener('click', closeGalleryLightbox);
-  galleryLightbox.addEventListener('click', event => {
-    if (!event.target.closest('.gallery-lightbox-dialog')) {
-      closeGalleryLightbox();
-    }
-  });
-
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && galleryLightbox.classList.contains('open')) {
-      closeGalleryLightbox();
-    }
+      const index = Number(card.dataset.index || 0);
+      const item = homepageGalleryData[index];
+      const rect = card.getBoundingClientRect();
+      openModal(item, rect);
+    });
+    card.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        card.click();
+      }
+    });
   });
 }
+
+galleryWallModalClose.addEventListener('click', closeModal);
+galleryWallModal.addEventListener('click', (event) => {
+  if (event.target === galleryWallModal) {
+    closeModal();
+  }
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    closeModal();
+  }
+});
 
 /* ============================================================
    SUPPORT TABS
@@ -4253,8 +4647,9 @@ const calendarMonthLabel = document.getElementById('calendarMonthLabel');
 const calendarGrid = document.getElementById('calendarGrid');
 const calendarPrevBtn = document.getElementById('calendarPrevBtn');
 const calendarNextBtn = document.getElementById('calendarNextBtn');
+const upcomingEventsList = document.getElementById('upcomingEventsList');
 
-const today = new Date();
+let today = new Date();
 today.setHours(12, 0, 0, 0);
 
 const calendarState = {
@@ -4262,122 +4657,264 @@ const calendarState = {
   selectedDate: new Date(today)
 };
 
-const calendarEvents = {
-  '2026-04-11': {
-    label: 'Workshop',
-    title: 'Beach Memories at Tribute @ One Loudoun',
-    body: 'On April 11, 2026, from 12:00 PM to 1:30 PM, residents and student volunteers painted beach scenes together at Tribute @ One Loudoun. The activity invited seniors to reflect on favorite shorelines, family vacations, and peaceful moments by the water while building warm intergenerational conversation through art.'
-  },
-  '2026-04-12': {
-    label: 'Workshop',
-    title: 'Floral Storytelling at Tribute @ One Loudoun',
-    body: 'On April 12, 2026, from 10:00 AM to 11:30 AM, residents painted tulips and roses while talking with volunteers about gardens, family traditions, and meaningful stories from different chapters of life. The workshop was designed to foster intergenerational connection through calm creativity and shared conversation.'
-  },
-  '2026-04-18': {
-    label: 'Workshop',
-    title: 'Turtles by the Sea at Lansdowne Heights',
-    body: 'On April 18, 2026, from 1:00 PM to 2:30 PM, residents at Lansdowne Heights created turtle-by-the-sea paintings while sharing personal beach memories and moments of joy connected to the coast. The session encouraged each participant to incorporate pieces of their own story into the artwork.'
-  },
-  '2026-04-19': {
-    label: 'Workshop',
-    title: 'Animal-Themed Connection at Lansdowne Heights',
-    body: 'On April 19, 2026, from 1:00 PM to 2:30 PM, we hosted a playful animal-themed workshop at Lansdowne Heights. The activity was designed to help seniors connect more easily with student volunteers through imagination, storytelling, laughter, and colorful art-making.'
-  },
-  '2026-05-16': {
-    label: 'Workshop',
-    title: 'Volunteer Sessions at Lansdowne and Poets Walk',
-    body: 'On May 16, 2026, we have two events: from 1:00 PM to 2:30 PM, we will be volunteering at Lansdowne Heights. Then from 4:00 PM to 5:30 PM, we will host a creative workshop at Poets Walk. Both sessions focus on connecting with residents through meaningful activities and artistic expression.'
-  },
-  '2026-06-13': {
-    label: 'Workshop',
-    title: 'Art Session at Ashleigh',
-    body: 'On June 13, 2026, from 2:00 PM to 3:30 PM, we will meet at Ashleigh for an art session with residents and volunteers focused on creative connection and storytelling.'
-  },
-  '2026-06-20': {
-    label: 'Volunteer',
-    title: 'Volunteer Day at Lansdowne',
-    body: 'On June 20, 2026, from 1:00 PM to 2:30 PM, we will volunteer at Lansdowne Heights. This event focuses on building community connection through activities with residents.'
-  },
-  '2026-06-27': {
-    label: 'Workshop',
-    title: 'Creative Workshop at Poets Walk',
-    body: 'On June 27, 2026, from 3:00 PM to 4:30 PM, we will host a creative workshop at Poets Walk. This session brings residents and volunteers together for shared art and conversation.'
-  },
-  '2026-07-19': {
-    label: 'Volunteer',
-    title: 'Monthly Volunteer Day at Lansdowne',
-    body: 'On July 19, 2026, from 1:00 PM to 2:30 PM, we will volunteer at Lansdowne Heights as part of our monthly commitment to community outreach and connection with elderly residents.'
-  },
-  '2026-08-16': {
-    label: 'Volunteer',
-    title: 'Monthly Volunteer Day at Lansdowne',
-    body: 'On August 16, 2026, from 1:00 PM to 2:30 PM, we will volunteer at Lansdowne Heights as part of our monthly commitment to community outreach and connection with elderly residents.'
-  },
-  '2026-09-20': {
-    label: 'Volunteer',
-    title: 'Monthly Volunteer Day at Lansdowne',
-    body: 'On September 20, 2026, from 1:00 PM to 2:30 PM, we will volunteer at Lansdowne Heights as part of our monthly commitment to community outreach and connection with elderly residents.'
-  },
-  '2026-10-18': {
-    label: 'Volunteer',
-    title: 'Monthly Volunteer Day at Lansdowne',
-    body: 'On October 18, 2026, from 1:00 PM to 2:30 PM, we will volunteer at Lansdowne Heights as part of our monthly commitment to community outreach and connection with elderly residents.'
-  },
-  '2026-11-15': {
-    label: 'Volunteer',
-    title: 'Monthly Volunteer Day at Lansdowne',
-    body: 'On November 15, 2026, from 1:00 PM to 2:30 PM, we will volunteer at Lansdowne Heights as part of our monthly commitment to community outreach and connection with elderly residents.'
-  },
-  '2026-12-20': {
-    label: 'Volunteer',
-    title: 'Monthly Volunteer Day at Lansdowne',
-    body: 'On December 20, 2026, from 1:00 PM to 2:30 PM, we will volunteer at Lansdowne Heights as part of our monthly commitment to community outreach and connection with elderly residents.'
-  },
-  '2026-06-07': {
-    label: 'Ends',
-    title: 'ThriftBooks Fundraiser Ends',
-    body: 'June 7, 2026 is the final day of our ThriftBooks fundraiser. Our goal is to raise $2,000 by selling 50 bundles at $40 each to support mini art workshops, supplies, and future expansion for elderly residents in Ashburn-area retirement and assisted living communities.'
-  }
+const specificEventsByDate = {
+  '2026-04-11': [{
+    labelKey: 'event_label_workshop',
+    titleKey: 'event_2026_04_11_title',
+    bodyKey: 'event_2026_04_11_body',
+    location: 'Tribute @ One Loudoun',
+    timeLabel: '12:00 PM – 1:30 PM',
+    startHour: 12,
+    startMinute: 0
+  }],
+  '2026-04-12': [{
+    labelKey: 'event_label_workshop',
+    titleKey: 'event_2026_04_12_title',
+    bodyKey: 'event_2026_04_12_body',
+    location: 'Tribute @ One Loudoun',
+    timeLabel: '10:00 AM – 11:30 AM',
+    startHour: 10,
+    startMinute: 0
+  }],
+  '2026-04-18': [{
+    labelKey: 'event_label_workshop',
+    titleKey: 'event_2026_04_18_title',
+    bodyKey: 'event_2026_04_18_body',
+    location: 'Lansdowne Heights',
+    timeLabel: '1:00 PM – 2:30 PM',
+    startHour: 13,
+    startMinute: 0
+  }],
+  '2026-04-19': [{
+    labelKey: 'event_label_workshop',
+    titleKey: 'event_2026_04_19_title',
+    bodyKey: 'event_2026_04_19_body',
+    location: 'Lansdowne Heights',
+    timeLabel: '1:00 PM – 2:30 PM',
+    startHour: 13,
+    startMinute: 0
+  }],
+  '2026-05-16': [{
+    labelKey: 'event_label_volunteer',
+    titleKey: 'event_2026_05_16_lansdowne_title',
+    bodyKey: 'event_2026_05_16_lansdowne_body',
+    location: 'Lansdowne Heights',
+    timeLabel: '1:00 PM – 3:00 PM',
+    startHour: 13,
+    startMinute: 0
+  }, {
+    labelKey: 'event_label_workshop',
+    titleKey: 'event_2026_05_16_poets_walk_title',
+    bodyKey: 'event_2026_05_16_poets_walk_body',
+    location: 'Poet\'s Walk',
+    timeLabel: '4:00 PM – 6:00 PM',
+    startHour: 16,
+    startMinute: 0
+  }],
+  '2026-05-30': [{
+    labelKey: 'event_label_workshop',
+    titleKey: 'event_2026_05_30_poets_walk_title',
+    bodyKey: 'event_2026_05_30_poets_walk_body',
+    location: 'Poet\'s Walk',
+    timeLabel: '2:30 PM – 4:30 PM',
+    startHour: 14,
+    startMinute: 30
+  }],
+  '2026-06-13': [{
+    labelKey: 'event_label_workshop',
+    titleKey: 'event_2026_06_13_ashleigh_title',
+    bodyKey: 'event_2026_06_13_ashleigh_body',
+    location: 'Ashleigh Heights',
+    timeLabel: '2:00 PM – 4:00 PM',
+    startHour: 14,
+    startMinute: 0
+  }],
+  '2026-06-25': [{
+    labelKey: 'event_label_volunteer',
+    titleKey: 'event_2026_06_25_lansdowne_title',
+    bodyKey: 'event_2026_06_25_lansdowne_body',
+    location: 'Lansdowne Heights',
+    timeLabel: '1:00 PM – 2:30 PM',
+    startHour: 13,
+    startMinute: 0
+  }],
+  '2026-06-26': [{
+    labelKey: 'event_label_workshop',
+    titleKey: 'event_2026_06_26_poets_walk_title',
+    bodyKey: 'event_2026_06_26_poets_walk_body',
+    location: 'Poet\'s Walk',
+    timeLabel: '3:00 PM – 5:00 PM',
+    startHour: 15,
+    startMinute: 0
+  }],
+  '2026-06-07': [{
+    labelKey: 'event_label_ends',
+    titleKey: 'event_2026_06_07_title',
+    bodyKey: 'event_2026_06_07_body',
+    location: 'Fundraiser',
+    timeLabel: 'All day',
+    startHour: 0,
+    startMinute: 0
+  }]
 };
 
+function getEventsForDate(isoDate) {
+  const date = parseCalendarISO(isoDate);
+  const specificEvents = [...(specificEventsByDate[isoDate] || [])];
+  if (specificEvents.length) {
+    return specificEvents;
+  }
+  return getRecurringScheduleEvent(date);
+}
+
+function getLocalizedEventCopy(event, lang = currentLang) {
+  if (!event) return null;
+  const t = translations[lang] || translations.en || {};
+  return {
+    ...event,
+    label: event.labelKey ? (t[event.labelKey] || event.labelKey) : event.label,
+    title: event.titleKey ? (t[event.titleKey] || event.title) : event.title,
+    body: event.bodyKey ? (t[event.bodyKey] || event.body) : event.body,
+    timeLabel: getLocalizedTimeLabel(event.timeLabel, lang)
+  };
+}
+
+function getLocalizedTimeLabel(timeLabel, lang = currentLang) {
+  if (!timeLabel || timeLabel === 'All day') return timeLabel;
+  const locale = (languageMeta[lang] && languageMeta[lang].locale) || 'en';
+  const matches = Array.from(timeLabel.matchAll(/(\d{1,2}):(\d{2})\s*(AM|PM)/gi));
+  if (matches.length < 2) {
+    const single = matches[0];
+    if (!single) return timeLabel;
+    const hour = parseInt(single[1], 10);
+    const minute = parseInt(single[2], 10);
+    const suffix = single[3].toUpperCase();
+    const hour24 = suffix === 'PM' && hour !== 12 ? hour + 12 : suffix === 'AM' && hour === 12 ? 0 : hour;
+    const date = new Date(2020, 0, 1, hour24, minute);
+    return new Intl.DateTimeFormat(locale, { hour: 'numeric', minute: '2-digit' }).format(date);
+  }
+
+  const formatTime = (match) => {
+    const hour = parseInt(match[1], 10);
+    const minute = parseInt(match[2], 10);
+    const suffix = match[3].toUpperCase();
+    const hour24 = suffix === 'PM' && hour !== 12 ? hour + 12 : suffix === 'AM' && hour === 12 ? 0 : hour;
+    const date = new Date(2020, 0, 1, hour24, minute);
+    return new Intl.DateTimeFormat(locale, { hour: 'numeric', minute: '2-digit' }).format(date);
+  };
+
+  return `${formatTime(matches[0])} – ${formatTime(matches[1])}`;
+}
+
 function getRecurringScheduleEvent(date) {
-  if (date.getDay() !== 6) return null;
+  if (date.getDay() !== 6) return [];
   const dayOfMonth = date.getDate();
   const weekOfMonth = Math.floor((dayOfMonth - 1) / 7) + 1;
+  const lansdowneStart = new Date(2026, 4, 16, 12, 0, 0, 0);
+  const ashleighStart = new Date(2026, 5, 13, 12, 0, 0, 0);
+  const poetsWalkStart = new Date(2026, 5, 27, 12, 0, 0, 0);
 
-  if (weekOfMonth === 2) {
-    return {
-      label: 'Workshop',
-      title: 'Art Session at Ashleigh',
-      body: 'Every month on the 2nd Saturday at 2:00 PM, we meet at Ashleigh for an art session with residents and volunteers focused on creative connection and storytelling.'
-    };
+  if (formatCalendarISO(date) === '2026-06-20') return [];
+
+  if (weekOfMonth === 2 && date >= ashleighStart) {
+    return [{
+      labelKey: 'event_label_workshop',
+      titleKey: 'event_recurring_ashleigh_title',
+      bodyKey: 'event_recurring_ashleigh_body',
+      location: 'Ashleigh Heights',
+      timeLabel: '2:00 PM – 4:00 PM',
+      startHour: 14,
+      startMinute: 0
+    }];
   }
 
-  if (weekOfMonth === 3) {
-    return {
-      label: 'Volunteer',
-      title: 'Volunteer Day at Lansdowne',
-      body: 'Every month on the 3rd Saturday at 1:00 PM, we volunteer at Lansdowne Heights with residents for community activities and connection.'
-    };
+  if (weekOfMonth === 3 && date >= lansdowneStart) {
+    return [{
+      labelKey: 'event_label_volunteer',
+      titleKey: 'event_recurring_lansdowne_title',
+      bodyKey: 'event_recurring_lansdowne_body',
+      location: 'Lansdowne Heights',
+      timeLabel: '1:30 PM – 3:30 PM',
+      startHour: 13,
+      startMinute: 30
+    }];
   }
 
-  if (weekOfMonth === 4) {
-    return {
-      label: 'Workshop',
-      title: 'Creative Workshop at Poets Walk',
-      body: 'Every month on the 4th Saturday at 3:00 PM, we host a creative workshop at Poets Walk for residents and volunteers to make art together.'
-    };
+  if (weekOfMonth === 4 && date >= poetsWalkStart) {
+    return [{
+      labelKey: 'event_label_workshop',
+      titleKey: 'event_recurring_poets_walk_title',
+      bodyKey: 'event_recurring_poets_walk_body',
+      location: 'Poet\'s Walk',
+      timeLabel: '3:00 PM – 5:00 PM',
+      startHour: 15,
+      startMinute: 0
+    }];
   }
 
-  return null;
+  return [];
 }
 
 function getCalendarEvent(isoDate) {
-  const staticEvent = calendarEvents[isoDate];
-  if (staticEvent) return staticEvent;
-  const date = parseCalendarISO(isoDate);
-  return getRecurringScheduleEvent(date);
+  const events = getEventsForDate(isoDate);
+  return events[0] ? getLocalizedEventCopy(events[0]) : null;
 }
+
+function getUpcomingEvents(referenceDate = today) {
+  const start = new Date(referenceDate);
+  start.setHours(0, 0, 0, 0);
+  const upcoming = [];
+
+  for (let offset = 0; offset < 365; offset += 1) {
+    const candidateDate = new Date(start);
+    candidateDate.setDate(start.getDate() + offset);
+    const isoDate = formatCalendarISO(candidateDate);
+    const events = getEventsForDate(isoDate);
+
+    events.forEach(event => {
+      const eventStart = new Date(candidateDate.getFullYear(), candidateDate.getMonth(), candidateDate.getDate(), event.startHour, event.startMinute);
+      if (eventStart >= start) {
+        upcoming.push({ ...event, isoDate, eventDate: candidateDate, eventStart });
+      }
+    });
+  }
+
+  upcoming.sort((a, b) => a.eventStart - b.eventStart);
+  return upcoming.slice(0, 4);
+}
+
+function renderUpcomingEvents() {
+  if (!upcomingEventsList) return;
+
+  const upcomingEvents = getUpcomingEvents();
+  const t = translations[currentLang] || translations.en || {};
+  if (!upcomingEvents.length) {
+    upcomingEventsList.innerHTML = `<div class="events-list-item"><span class="events-list-date">${t.upcoming_events_empty_title || 'No upcoming events scheduled'}</span><p>${t.upcoming_events_empty_body || 'New community visits will appear here as the calendar updates.'}</p></div>`;
+    return;
+  }
+
+  upcomingEventsList.innerHTML = upcomingEvents.map(event => {
+    const eventCopy = getLocalizedEventCopy(event);
+    return `
+      <div class="events-list-item">
+        <span class="events-list-date">${formatCalendarDate(event.eventDate, { month: 'long', day: 'numeric', year: 'numeric' })} · ${eventCopy.timeLabel}</span>
+        <p><strong>${eventCopy.title}</strong> · ${eventCopy.body}</p>
+      </div>
+    `;
+  }).join('');
+}
+
+function refreshCalendarForToday() {
+  const newToday = new Date();
+  newToday.setHours(12, 0, 0, 0);
+  if (!isSameDate(today, newToday)) {
+    today = newToday;
+    renderCalendar();
+    renderUpcomingEvents();
+  }
+}
+
+window.setInterval(refreshCalendarForToday, 60000);
 
 function formatCalendarISO(date) {
   const year = date.getFullYear();
@@ -4446,6 +4983,7 @@ function renderCalendar() {
   }
 
   calendarGrid.innerHTML = `${dayNames.join('')}${dayButtons.join('')}`;
+  renderUpcomingEvents();
 
   if (calendarModal && calendarModal.classList.contains('open')) {
     const activeButton = getCalendarButton(formatCalendarISO(calendarState.selectedDate));
@@ -4577,6 +5115,7 @@ if (calendarModal && calendarModalClose) {
 /* initial translate */
 setLanguage(currentLang);
 renderCalendar();
+renderUpcomingEvents();
 </script>
 </body>
 </html>
